@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class MarkOrder extends StatefulWidget {
+class MakeOrder extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageState();
 }
 
-class PageState extends State<MarkOrder> {
+class PageState extends State<MakeOrder> {
   @override
   Widget build(BuildContext context) {
     return Center(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/pages/find_helper.dart';
-import 'package:flutter_app/pages/mark_order.dart';
+import 'package:flutter_app/pages/make_order.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter/services.dart';
 
@@ -78,6 +78,6 @@ class PageState extends State<MainPage> {
             },
           ),
         ),
-        body: currentIndex == FIND_HELPER ? FindHelper() : MarkOrder());
+        body: currentIndex == FIND_HELPER ? FindHelper() : MakeOrder());
   }
 }
