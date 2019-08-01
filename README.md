@@ -1,16 +1,19 @@
-# flutter_app
+# 掌上教务
+   
+### 帮跑腿 flutter端
 
-A new Flutter application.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 业务说明
+  
+  >该项目为纯flutter端项目，采用aar方式寄生在原生APP中，作为掌上教务中的一个独立模块
+  在业务逻辑上做到与原生APP完全隔离，Flutter端开发者，可完全不用关注原生端的业务模块
+  两端开发彼此业务隔离，缩小了对开发人员的业务能力要求，同时也可以上flutter端开发者
+  快速上手到开发中去
+  
+  
+## Flutter端业务更新日志
+ 
+### 版本号`1.0`
+- 初步完成原生宿主app与flutter的深度对接
+- flutter端可独立开发隔离原生的业务逻辑代码
+- 引入fat-aar进项目，解决不能把三方依赖打进aar导致原生调用flutter端闪退问题
+ 

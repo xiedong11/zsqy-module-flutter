@@ -24,6 +24,8 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
+//apply plugin: 'com.kezong.fat-aar'
+
 android {
     compileSdkVersion 28
 
@@ -43,6 +45,9 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.debug
+//            ndk {
+//                abiFilters "armeabi"
+//            }
         }
     }
 
@@ -60,4 +65,18 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //TODO 添加fat-aar处理flutter打包成aar中三方依赖问题(在library中生成aar需解开该注释，flutter端开发不用关注此) mark by: xiedong
+//    def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
+//    def plugins = new Properties()
+//    def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
+//    if (pluginsFile.exists()) {
+//        pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
+//    }
+//    plugins.each { name, _ ->
+//        println name
+//        embed project(path: ":$name", configuration: 'default')
+//    }
+
+
 }
