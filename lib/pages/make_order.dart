@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 
+int type = 0;
+
 class MakeOrder extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageState();
 }
 
 class PageState extends State<MakeOrder> {
+  TextEditingController _editingController = TextEditingController();
+  static List<TypeItemEntity> _typeList = [
+    TypeItemEntity("取快递", 0),
+    TypeItemEntity("取快递", 1),
+    TypeItemEntity("代买饭", 2),
+    TypeItemEntity("取快递", 3),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -19,6 +29,7 @@ class PageState extends State<MakeOrder> {
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
+                  controller: _editingController,
                   keyboardType: TextInputType.number,
                   decoration: new InputDecoration(
                       contentPadding: const EdgeInsets.all(10.0),
@@ -29,59 +40,7 @@ class PageState extends State<MakeOrder> {
                   onChanged: (String str) {},
                 ),
               ),
-              Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
-                direction: Axis.horizontal,
-                alignment: WrapAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 80.0,
-                    height: 60.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.black12),
-                    child: GestureDetector(
-                      child: Text("取快递"),
-                    ),
-                  ),
-                  Container(
-                    width: 80.0,
-                    height: 60.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.black12),
-                    child: GestureDetector(
-                      child: Text("取快递"),
-                    ),
-                  ),
-                  Container(
-                    width: 80.0,
-                    height: 60.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.black12),
-                    child: GestureDetector(
-                      child: Text("取快递"),
-                    ),
-                  ),
-                  Container(
-                    width: 80.0,
-                    height: 60.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.black12),
-                    child: GestureDetector(
-                      child: Text("取快递"),
-                    ),
-                  ),
-                  Container(
-                    width: 80.0,
-                    height: 60.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(color: Colors.black12),
-                    child: GestureDetector(
-                      child: Text("取快递"),
-                    ),
-                  ),
-                ],
-              ),
+              _typeWidgetContainer,
               SizedBox(height: 20.0)
             ],
           ),
@@ -89,13 +48,82 @@ class PageState extends State<MakeOrder> {
         SizedBox(height: 20),
         RaisedButton(
           color: Colors.orangeAccent,
-          onPressed: () {},
+          onPressed: () {
+            print(_editingController.text.toString() + '--------------');
+          },
           child: Text(
             "去下单",
             style: TextStyle(color: Colors.white),
           ),
         )
       ],
+    );
+  }
+
+  Widget _typeWidgetContainer = GridView.builder(
+    shrinkWrap: true,
+    padding: EdgeInsets.all(10.0),
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 3,
+      mainAxisSpacing: 10.0,
+      crossAxisSpacing: 10.0,
+    ),
+    itemBuilder: (BuildContext context, int index) {
+      return TypeItemWidget(_typeList[index]);
+    },
+    itemCount: _typeList.length,
+  );
+}
+
+class TypeItemEntity {
+  String title;
+  int index;
+
+  TypeItemEntity(this.title, this.index);
+}
+
+class TypeItemWidget extends StatefulWidget {
+  TypeItemEntity _typeItemEntity;
+
+  TypeItemWidget(this._typeItemEntity);
+
+  @override
+  State<StatefulWidget> createState() {
+    return TypeItemWidgetState();
+  }
+}
+
+class TypeItemWidgetState extends State<TypeItemWidget> {
+  var _selectedStyle = BoxDecoration(color: Colors.orangeAccent);
+  var _normalStyle = BoxDecoration(color: Colors.black12);
+  var _currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentIndex = type;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      child: Container(
+        width: 60.0,
+        height: 40.0,
+        alignment: Alignment.center,
+        decoration: widget._typeItemEntity.index == _currentIndex
+            ? _selectedStyle
+            : _normalStyle,
+        child: GestureDetector(
+          child: Text(widget._typeItemEntity.title),
+        ),
+      ),
+      onTap: () {
+        this.setState(() {
+          _currentIndex = widget._typeItemEntity.index;
+          print(type.toString() + "----------------------"+widget._typeItemEntity.index.toString());
+        });
+      },
     );
   }
 }
