@@ -28,7 +28,7 @@ class PageState extends State<MainPage> {
   var titleStyleNormal = TextStyle(
       color: Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
 
-  var currentIndex = FIND_HELPER;
+  var currentIndex = MARK_ORDER;
 
   @override
   Widget build(BuildContext context) {

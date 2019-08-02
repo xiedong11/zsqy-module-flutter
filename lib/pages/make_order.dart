@@ -40,7 +40,7 @@ class PageState extends State<MakeOrder> {
                   onChanged: (String str) {},
                 ),
               ),
-              _typeWidgetContainer,
+              TypeItemWidget(_typeList),
               SizedBox(height: 20.0)
             ],
           ),
@@ -49,7 +49,9 @@ class PageState extends State<MakeOrder> {
         RaisedButton(
           color: Colors.orangeAccent,
           onPressed: () {
-            print(_editingController.text.toString() + '--------------');
+            print(_editingController.text.toString() +
+                '--------------' +
+                type.toString());
           },
           child: Text(
             "去下单",
@@ -59,20 +61,6 @@ class PageState extends State<MakeOrder> {
       ],
     );
   }
-
-  Widget _typeWidgetContainer = GridView.builder(
-    shrinkWrap: true,
-    padding: EdgeInsets.all(10.0),
-    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 3,
-      mainAxisSpacing: 10.0,
-      crossAxisSpacing: 10.0,
-    ),
-    itemBuilder: (BuildContext context, int index) {
-      return TypeItemWidget(_typeList[index]);
-    },
-    itemCount: _typeList.length,
-  );
 }
 
 class TypeItemEntity {
@@ -83,7 +71,7 @@ class TypeItemEntity {
 }
 
 class TypeItemWidget extends StatefulWidget {
-  TypeItemEntity _typeItemEntity;
+  List<TypeItemEntity> _typeItemEntity;
 
   TypeItemWidget(this._typeItemEntity);
 
@@ -99,31 +87,37 @@ class TypeItemWidgetState extends State<TypeItemWidget> {
   var _currentIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-    _currentIndex = type;
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        width: 60.0,
-        height: 40.0,
-        alignment: Alignment.center,
-        decoration: widget._typeItemEntity.index == _currentIndex
-            ? _selectedStyle
-            : _normalStyle,
-        child: GestureDetector(
-          child: Text(widget._typeItemEntity.title),
-        ),
+    return GridView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.all(10.0),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 10.0,
+        childAspectRatio: 1.5,
+        crossAxisSpacing: 10.0,
       ),
-      onTap: () {
-        this.setState(() {
-          _currentIndex = widget._typeItemEntity.index;
-          print(type.toString() + "----------------------"+widget._typeItemEntity.index.toString());
-        });
+      itemBuilder: (BuildContext context, int index) {
+        return GestureDetector(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: widget._typeItemEntity[index].index == _currentIndex
+                ? _selectedStyle
+                : _normalStyle,
+            child: GestureDetector(
+              child: Text(widget._typeItemEntity[index].title),
+            ),
+          ),
+          onTap: () {
+            this.setState(() {
+              _currentIndex = widget._typeItemEntity[index].index;
+              type = widget._typeItemEntity[index].index;
+            });
+          },
+        );
+        ;
       },
+      itemCount: widget._typeItemEntity.length,
     );
   }
 }
