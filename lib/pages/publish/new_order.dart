@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 int type = 0;
 
-class MakeOrder extends StatefulWidget {
+class NewOrder extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageState();
 }
 
-class PageState extends State<MakeOrder> {
+class PageState extends State<NewOrder> {
   TextEditingController _editingController = TextEditingController();
   static List<TypeItemEntity> _typeList = [
     TypeItemEntity("取快递", 0),
