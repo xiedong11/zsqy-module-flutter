@@ -3,6 +3,7 @@ import 'package:flutter_app/pages/find_helper.dart';
 import 'package:flutter_app/pages/make_order.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter/services.dart';
+import 'package:data_plugin/bmob/bmob.dart';
 
 void main() async {
   runApp(MaterialApp(
@@ -11,6 +12,8 @@ void main() async {
     debugShowCheckedModeBanner: false,
   ));
   FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+  Bmob.initMasterKey("94e8ff45d51ab0b2656846473fe7c5fb",
+      "5970018c7fd8bef874258398a1f44e03", null);
 }
 
 class MainPage extends StatefulWidget {

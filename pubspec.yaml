@@ -25,6 +25,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   flutter_statusbarcolor: any
   data_plugin: ^0.0.9
+  build_runner: ^1.0.0
+  json_serializable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
