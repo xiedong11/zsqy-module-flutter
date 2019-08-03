@@ -1,10 +1,10 @@
 import 'package:data_plugin/bmob/table/bmob_user.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'UserEntity.g.dart';
+part 'user_entity.g.dart';
 
 @JsonSerializable()
-class UserEntity extends BmobUser {
+class User extends BmobUser {
   String realName;
   String idNumber;
   String major;
@@ -12,10 +12,10 @@ class UserEntity extends BmobUser {
   String nickName;
   String gender;
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory User.fromJson(Map<String, dynamic> json) =>
+      _$UserFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 
-  UserEntity();
+  User();
 }

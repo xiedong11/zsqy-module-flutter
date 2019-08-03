@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 //此处与类名一致，由指令自动生成代码
 //flutter packages pub run build_runner build
-part 'OrderEntity.g.dart';
+part 'order_entity.g.dart';
 
 @JsonSerializable()
 class OrderEntity extends BmobObject {
@@ -14,7 +14,7 @@ class OrderEntity extends BmobObject {
 
   @override
   Map getParams() {
-    return null;
+    return toJson();
   }
 
   //此处与类名一致，由指令自动生成代码
