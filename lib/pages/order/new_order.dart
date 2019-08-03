@@ -21,49 +21,57 @@ class PageState extends State<NewOrder> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      children: <Widget>[
-        Card(
-          elevation: 5.0,
-          margin: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(10.0),
-                child: TextField(
-                  controller: _editingController,
-                  keyboardType: TextInputType.text,
-                  decoration: new InputDecoration(
-                      contentPadding: const EdgeInsets.all(10.0),
-                      icon: new Icon(Icons.directions_bike,
-                          color: Colors.redAccent),
-                      labelText: "请输入要帮跑的任务",
-                      helperText: "输入你要让帮手帮你完成的任务"),
-                  onChanged: (String str) {},
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("发布新单"),
+        centerTitle: true,
+      ),
+      body: ListView(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        children: <Widget>[
+          Card(
+            elevation: 5.0,
+            margin: EdgeInsets.all(10.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: TextField(
+                    controller: _editingController,
+                    keyboardType: TextInputType.text,
+                    decoration: new InputDecoration(
+                        contentPadding: const EdgeInsets.all(10.0),
+                        icon: new Icon(Icons.directions_bike,
+                            color: Colors.redAccent),
+                        labelText: "请输入要帮跑的任务",
+                        helperText: "输入你要让帮手帮你完成的任务"),
+                    onChanged: (String str) {},
+                  ),
                 ),
+                TypeItemWidget(_typeList),
+                SizedBox(height: 20.0)
+              ],
+            ),
+          ),
+          SizedBox(height: 20),
+          Builder(builder: (BuildContext context){
+            return RaisedButton(
+              color: Colors.orangeAccent,
+              onPressed: () {
+                _addNewOrder(context);
+              },
+              child: Text(
+                "去下单",
+                style: TextStyle(color: Colors.white),
               ),
-              TypeItemWidget(_typeList),
-              SizedBox(height: 20.0)
-            ],
-          ),
-        ),
-        SizedBox(height: 20),
-        RaisedButton(
-          color: Colors.orangeAccent,
-          onPressed: () {
-            _addNewOrder();
-          },
-          child: Text(
-            "去下单",
-            style: TextStyle(color: Colors.white),
-          ),
-        )
-      ],
+            );
+          })
+        ],
+      ),
     );
   }
 
-  void _addNewOrder() {
+  void _addNewOrder(BuildContext context) {
     OrderEntity orderEntity = OrderEntity();
     if (UserCache.user != null) {
       orderEntity.user = UserCache.user;
@@ -90,7 +98,8 @@ class PageState extends State<NewOrder> {
         orderEntity.type = _typeList[type].title;
         orderEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
-            _editingController.text = "";
+            print(data.toString()+"-------------------------");
+            Navigator.of(context).pop();
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),
             ));
