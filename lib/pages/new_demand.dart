@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'publish/new_helper.dart';
-import 'publish/new_order.dart';
+import 'package:flutter_app/pages/helper/new_helper.dart';
+import 'package:flutter_app/pages/order/new_order.dart';
 
 class NewDemandPage extends StatefulWidget {
-  final Map arguments;
-  NewDemandPage({Key key, this.arguments}) : super(key: key);
-
-  _NewDemandPageState createState() =>
-      _NewDemandPageState(arguments: this.arguments);
+  _NewDemandPageState createState() => _NewDemandPageState();
 }
 
 class _NewDemandPageState extends State<NewDemandPage> {
-  Map arguments;
-  _NewDemandPageState({this.arguments});
-
-  static int MARK_ORDER = 1,FIND_HELPER = 2;
+  static int MARK_ORDER = 1, FIND_HELPER = 2;
 
   var titleStyleSelected =
       TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold);
@@ -27,8 +20,6 @@ class _NewDemandPageState extends State<NewDemandPage> {
 
   @override
   Widget build(BuildContext context) {
-    //FIXME-->现在点击切换不了页面了，不晓得为啥子>_</////////////////////////////////////////////////////////////////////
-    currentIndex = arguments['index'];
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,

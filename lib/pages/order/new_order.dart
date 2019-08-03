@@ -1,4 +1,7 @@
+import 'package:data_plugin/bmob/response/bmob_saved.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/entity/order_entity.dart';
+import 'package:flutter_app/utils/user_cache.dart';
 
 int type = 0;
 
@@ -11,9 +14,9 @@ class PageState extends State<NewOrder> {
   TextEditingController _editingController = TextEditingController();
   static List<TypeItemEntity> _typeList = [
     TypeItemEntity("取快递", 0),
-    TypeItemEntity("取快递", 1),
+    TypeItemEntity("买零食", 1),
     TypeItemEntity("代买饭", 2),
-    TypeItemEntity("取快递", 3),
+    TypeItemEntity("买药品", 3),
   ];
 
   @override
@@ -30,7 +33,7 @@ class PageState extends State<NewOrder> {
                 padding: EdgeInsets.all(10.0),
                 child: TextField(
                   controller: _editingController,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   decoration: new InputDecoration(
                       contentPadding: const EdgeInsets.all(10.0),
                       icon: new Icon(Icons.directions_bike,
@@ -49,9 +52,7 @@ class PageState extends State<NewOrder> {
         RaisedButton(
           color: Colors.orangeAccent,
           onPressed: () {
-            print(_editingController.text.toString() +
-                '--------------' +
-                type.toString());
+            _addNewOrder();
           },
           child: Text(
             "去下单",
@@ -60,6 +61,50 @@ class PageState extends State<NewOrder> {
         )
       ],
     );
+  }
+
+  void _addNewOrder() {
+    OrderEntity orderEntity = OrderEntity();
+    if (UserCache.user != null) {
+      orderEntity.user = UserCache.user;
+      String _orderType = _editingController.value.text.toString();
+      if (_orderType.length <= 0) {
+        showDialog(
+            context: context,
+            child: new AlertDialog(
+              title: Text(
+                "信息不完善",
+                style: TextStyle(color: Colors.red),
+              ),
+              content: Text("请输入要下单的内容..."),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("确定")),
+              ],
+            ));
+      } else {
+        orderEntity.title = _editingController.value.text.toString();
+        orderEntity.type = _typeList[type].title;
+        orderEntity.save().then((BmobSaved data) {
+          if (data.objectId != null) {
+            _editingController.text = "";
+            Scaffold.of(context).showSnackBar(new SnackBar(
+              content: new Text("发布成功... "),
+            ));
+          }
+        }).catchError((error) {});
+      }
+    } else {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(
+          "获取用户信息失败，请重新登录",
+          style: TextStyle(color: Colors.redAccent),
+        ),
+      ));
+    }
   }
 }
 

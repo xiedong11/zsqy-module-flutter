@@ -1,4 +1,5 @@
 import 'package:data_plugin/bmob/table/bmob_object.dart';
+import 'package:flutter_app/entity/user_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 //此处与类名一致，由指令自动生成代码
@@ -8,7 +9,8 @@ part 'order_entity.g.dart';
 @JsonSerializable()
 class OrderEntity extends BmobObject {
   String title;
-  int type;
+  String type;
+  User user;
 
   OrderEntity();
 

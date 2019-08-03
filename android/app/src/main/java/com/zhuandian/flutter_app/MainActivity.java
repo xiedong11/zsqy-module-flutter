@@ -24,7 +24,7 @@ public class MainActivity extends FlutterActivity {
         GeneratedPluginRegistrant.registerWith(this);
 
 //        userObjectId = getIntent().getStringExtra("userObjectId");
-        userObjectId ="2f9c77de59";
+        userObjectId ="NXPhgdOZ";
 
         initMessageChannl();
     }
