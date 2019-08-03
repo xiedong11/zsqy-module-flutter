@@ -21,14 +21,14 @@ packages:
       name: async
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "2.3.0"
+    version: "2.2.0"
   boolean_selector:
     dependency: transitive
     description:
       name: boolean_selector
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.4"
   build:
     dependency: transitive
     description:
@@ -58,7 +58,7 @@ packages:
     source: hosted
     version: "1.0.6"
   build_runner:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: build_runner
       url: "https://pub.flutter-io.cn"
@@ -264,14 +264,14 @@ packages:
     source: hosted
     version: "0.6.1+1"
   json_annotation:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: json_annotation
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.3.0"
   json_serializable:
-    dependency: "direct main"
+    dependency: "direct dev"
     description:
       name: json_serializable
       url: "https://pub.flutter-io.cn"
@@ -304,7 +304,7 @@ packages:
       name: meta
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.1.7"
+    version: "1.1.6"
   mime:
     dependency: transitive
     description:
@@ -339,7 +339,7 @@ packages:
       name: pedantic
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "1.8.0+1"
+    version: "1.7.0"
   pool:
     dependency: transitive
     description:
