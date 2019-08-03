@@ -2,6 +2,7 @@ import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
 import 'package:flutter_app/pages/order/new_order.dart';
+import 'package:flutter_app/pages/order/order_item_detail.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 
 class OrderList extends StatefulWidget {
@@ -67,61 +68,67 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+        child: Container(
+          child: Stack(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(left: 20, top: 10),
-                child: Row(
-                  children: <Widget>[
-                    ClipOval(
-                        child: Image.network(
-                      _orderEntity.user.headImgUrl,
-                      width: 50,
-                      height: 50,
-                    )),
-                    SizedBox(width: 10),
-                    Text(_orderEntity.user.nickName == null
-                        ? _orderEntity.user.realName
-                        : _orderEntity.user.nickName)
-                  ],
-                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, top: 10),
+                    child: Row(
+                      children: <Widget>[
+                        ClipOval(
+                            child: Image.network(
+                          _orderEntity.user.headImgUrl,
+                          width: 50,
+                          height: 50,
+                        )),
+                        SizedBox(width: 10),
+                        Text(_orderEntity.user.nickName == null
+                            ? _orderEntity.user.realName
+                            : _orderEntity.user.nickName)
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 70),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(_orderEntity.type,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 18)),
+                        Text(_orderEntity.title,
+                            style:
+                                TextStyle(color: Colors.black54, fontSize: 15)),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 70),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(_orderEntity.type,
-                        style: TextStyle(color: Colors.black, fontSize: 18)),
-                    Text(_orderEntity.title,
-                        style: TextStyle(color: Colors.black54, fontSize: 15)),
-                  ],
-                ),
+              Positioned(
+                child: Text(_orderEntity.createdAt),
+                right: 10,
+                top: 10,
               ),
+              Positioned(
+                child: Text('#${_orderEntity.type}#'),
+                right: 10,
+                bottom: 10,
+              )
             ],
           ),
-          Positioned(
-            child: Text(_orderEntity.createdAt),
-            right: 10,
-            top: 10,
-          ),
-          Positioned(
-            child: Text('#${_orderEntity.type}#'),
-            right: 10,
-            bottom: 10,
-          )
-        ],
-      ),
-      width: double.infinity,
-      height: 160,
-      padding: EdgeInsets.only(bottom: 5, top: 5),
-      decoration: BoxDecoration(color: Colors.white),
-    );
-    ;
+          width: double.infinity,
+          height: 160,
+          padding: EdgeInsets.only(bottom: 5, top: 5),
+          decoration: BoxDecoration(color: Colors.white),
+        ),
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
+        });
   }
 }
