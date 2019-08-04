@@ -64,13 +64,6 @@ class InfoCard extends StatelessWidget {
                     ),
                   ),
                   Padding(padding: EdgeInsets.only(top: 2)),
-                  Text(
-                    _orderEntity.title, //TODO _orderEntity.content
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF999999),
-                    ),
-                  ),
                 ],
               ),
             ],
@@ -86,14 +79,20 @@ class InfoCard extends StatelessWidget {
                 ),
               ),
               Padding(padding: EdgeInsets.only(top: 2)),
-              Text(
-                '￥ 15', //TODO _orderEntity.price
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.red,
-                ),
-              ),
+              Row(
+                children: <Widget>[
+                  ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
+                  SizedBox(width:10),
+                  Text(
+                    '￥ 15', //TODO _orderEntity.price
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ],
@@ -117,7 +116,6 @@ class InfoCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 14),
-          ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
         ],
       ),
     );
