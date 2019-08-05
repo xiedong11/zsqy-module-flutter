@@ -17,5 +17,10 @@ public class Constant {
 
     //msg key
     public static final String KEY_RELREASE_USER_ID = "releaseUserId";
+    public static final String NATIVE_PAGE_TYPE = "pageType";
+
+    //native page type
+    public static final int CHAT_PAGE = 1;
+    public static final int USER_INFO_DETAIL = 2;
 
 }

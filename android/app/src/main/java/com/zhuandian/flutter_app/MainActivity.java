@@ -1,5 +1,6 @@
 package com.zhuandian.flutter_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -35,27 +36,41 @@ public class MainActivity extends FlutterActivity {
         new MethodChannel(getFlutterView(), MESSAGE_CHANNEL).setMethodCallHandler(new MethodChannel.MethodCallHandler() {
             @Override
             public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
-                if (Constant.GET_APP_CONFIG.equals(methodCall.method)) {
-                    List<String> configs = new ArrayList<>();
-                    configs.add(Constant.APPID);
-                    configs.add(Constant.API_KEY);
-                    result.success(configs);
-                } else if (Constant.GET_USER_OBJECT_ID.equals(methodCall.method)) {
-                    if (!TextUtils.isEmpty(userObjectId)) {
-                        result.success(userObjectId);
-                    }
-                } else if (Constant.OPEN_CHAT.equals(methodCall.method)) {
-                    if (methodCall.hasArgument(Constant.KEY_RELREASE_USER_ID) && !TextUtils.isEmpty(methodCall.argument(Constant.KEY_RELREASE_USER_ID))) {
-                        String releaseUserId = methodCall.argument(Constant.KEY_RELREASE_USER_ID);
-                        Toast.makeText(MainActivity.this, "唤起原生聊天成功" + releaseUserId, Toast.LENGTH_SHORT).show();
-                    }
-                } else if (Constant.VIEW_USER_INFO.equals(methodCall.method)) {
-                    if (methodCall.hasArgument(Constant.KEY_RELREASE_USER_ID) && !TextUtils.isEmpty(methodCall.argument(Constant.KEY_RELREASE_USER_ID))) {
-                        String releaseUserId = methodCall.argument(Constant.KEY_RELREASE_USER_ID);
-                        Toast.makeText(MainActivity.this, "唤起原生查看资料成功" + releaseUserId, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    result.notImplemented();
+
+                switch (methodCall.method) {
+                    case Constant.GET_APP_CONFIG:
+                        List<String> configs = new ArrayList<>();
+                        configs.add(Constant.APPID);
+                        configs.add(Constant.API_KEY);
+                        result.success(configs);
+                        break;
+                    case Constant.GET_USER_OBJECT_ID:
+                        if (!TextUtils.isEmpty(userObjectId)) {
+                            result.success(userObjectId);
+                        }
+                        break;
+                    case Constant.OPEN_CHAT:
+                        if (methodCall.hasArgument(Constant.KEY_RELREASE_USER_ID) && !TextUtils.isEmpty(methodCall.argument(Constant.KEY_RELREASE_USER_ID))) {
+                            String releaseUserId = methodCall.argument(Constant.KEY_RELREASE_USER_ID);
+                            Intent intent = new Intent();
+                            intent.setAction("com.zhuandian.flutterbridge");
+                            intent.putExtra(Constant.NATIVE_PAGE_TYPE, Constant.CHAT_PAGE);
+                            intent.putExtra(Constant.KEY_RELREASE_USER_ID, releaseUserId);
+                            startActivity(intent);
+                        }
+                        break;
+                    case Constant.VIEW_USER_INFO:
+                        if (methodCall.hasArgument(Constant.KEY_RELREASE_USER_ID) && !TextUtils.isEmpty(methodCall.argument(Constant.KEY_RELREASE_USER_ID))) {
+                            String releaseUserId = methodCall.argument(Constant.KEY_RELREASE_USER_ID);
+                            Intent intent = new Intent();
+                            intent.setAction("com.zhuandian.flutterbridge");
+                            intent.putExtra(Constant.NATIVE_PAGE_TYPE, Constant.USER_INFO_DETAIL);
+                            intent.putExtra(Constant.KEY_RELREASE_USER_ID, releaseUserId);
+                            startActivity(intent);
+                        }
+                        break;
+                    default:
+                        result.notImplemented();
                 }
             }
         });
