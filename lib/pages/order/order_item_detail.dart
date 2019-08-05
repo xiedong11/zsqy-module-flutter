@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
-import 'package:flutter_app/widgets/mywidgets.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
+import 'package:flutter_app/widgets/color_label.dart';
 
 class OrderItemDetail extends StatefulWidget {
   OrderEntity orderEntity;
@@ -13,6 +14,7 @@ class OrderItemDetail extends StatefulWidget {
 
 class PageState extends State<OrderItemDetail> {
   OrderEntity _orderEntity;
+
   PageState(this._orderEntity);
 
   @override
@@ -23,134 +25,84 @@ class PageState extends State<OrderItemDetail> {
           centerTitle: true,
         ),
         body: Container(
-          child: ListView(
-            children: <Widget>[InfoCard(this._orderEntity)],
-          ),
-        ),
-        bottomNavigationBar: _BottomToolBar());
-  }
-}
-
-class InfoCard extends StatelessWidget {
-  OrderEntity _orderEntity;
-  String name;
-  InfoCard(this._orderEntity);
-
-  Widget renderUserInfo() {
-    return Container(
-      margin: EdgeInsets.only(top: 16),
-      padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Row(
+          child: Stack(
             children: <Widget>[
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: Color(0xFFCCCCCC),
-                backgroundImage: NetworkImage(_orderEntity.user.headImgUrl),
-              ),
-              Padding(padding: EdgeInsets.only(left: 8)),
               Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF333333),
+                  Padding(
+                    padding: EdgeInsets.only(left: 20, top: 10),
+                    child: Row(
+                      children: <Widget>[
+                        ClipOval(
+                            child: Image.network(
+                          _orderEntity.user.headImgUrl,
+                          width: 50,
+                          height: 50,
+                        )),
+                        SizedBox(width: 10),
+                        Text(_orderEntity.user.nickName == null
+                            ? _orderEntity.user.realName
+                            : _orderEntity.user.nickName)
+                      ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(top: 2)),
+                  Padding(
+                    padding: EdgeInsets.only(left: 70),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(_orderEntity.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 16)),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                _orderEntity.createdAt,
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Color(0xFF999999),
+              Positioned(
+                child: Text(_orderEntity.createdAt),
+                right: 10,
+                top: 10,
+              ),
+              Positioned(
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      '￥ 15',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
+                    SizedBox(width: 10),
+                  ],
                 ),
-              ),
-              Padding(padding: EdgeInsets.only(top: 2)),
-              Row(
-                children: <Widget>[
-                  ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
-                  SizedBox(width:10),
-                  Text(
-                    '￥ 15', //TODO _orderEntity.price
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
+                right: 10,
+                bottom: 0,
               )
             ],
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget renderPublishContent() {
-    return Container(
-      margin: EdgeInsets.only(top: 16),
-      padding: EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _orderEntity.title, //TODO _orderEntity.content
-            style: TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF333333),
-            ),
-          ),
-          SizedBox(height: 14),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    name = _orderEntity.user.nickName == null
-        ? _orderEntity.user.realName
-        : _orderEntity.user.nickName;
-    return Container(
-      margin: EdgeInsets.fromLTRB(16, 16, 16, 0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 6,
-            spreadRadius: 4,
-            color: Color.fromARGB(20, 0, 0, 0),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          this.renderUserInfo(),
-          this.renderPublishContent(),
-        ],
-      ),
-    );
+          width: double.infinity,
+          height: 140,
+          padding: EdgeInsets.only(bottom: 5, top: 5),
+          decoration: BoxDecoration(color: Colors.white),
+        ),
+        bottomNavigationBar: _BottomToolBar(_orderEntity));
   }
 }
 
 class _BottomToolBar extends StatelessWidget {
+  OrderEntity _orderEntity;
+
+  _BottomToolBar(this._orderEntity);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -161,12 +113,15 @@ class _BottomToolBar extends StatelessWidget {
           flex: 2,
           child: GestureDetector(
             onTap: () {
-              // TODO 跳转到原生个人主页
+              PlatFormUtil.callNativeAppWithParams(
+                  PlatFormUtil.VIEW_USER_INFO, {
+                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+              });
             },
             child: Center(
               child: Text(
                 '看TA资料',
-                style: TextStyle(fontSize: 16, color: Colors.blue),
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ),
@@ -174,12 +129,14 @@ class _BottomToolBar extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              // TODO 跳转到原生消息聊天页
+              PlatFormUtil.callNativeAppWithParams(PlatFormUtil.OPEN_CHAT, {
+                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+              });
             },
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.orangeAccent,
               ),
               child: Center(
                 child: Text(
