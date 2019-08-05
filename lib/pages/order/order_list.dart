@@ -4,6 +4,7 @@ import 'package:flutter_app/entity/order_entity.dart';
 import 'package:flutter_app/pages/order/new_order.dart';
 import 'package:flutter_app/pages/order/order_item_detail.dart';
 import 'package:flutter_app/utils/user_cache.dart';
+import 'package:flutter_app/widgets/color_label.dart';
 
 class OrderList extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class PageState extends State<OrderList> {
                 },
                 itemCount: dataList.length,
               ),
-              decoration: BoxDecoration(color: Colors.black26),
+              decoration: BoxDecoration(color: Colors.white12),
             )
           : Center(
               child: Text('数据加载中...'),
@@ -69,66 +70,108 @@ class ItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        child: Container(
-          child: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left: 20, top: 10),
-                    child: Row(
-                      children: <Widget>[
-                        ClipOval(
-                            child: Image.network(
-                          _orderEntity.user.headImgUrl,
-                          width: 50,
-                          height: 50,
-                        )),
-                        SizedBox(width: 10),
-                        Text(_orderEntity.user.nickName == null
-                            ? _orderEntity.user.realName
-                            : _orderEntity.user.nickName)
-                      ],
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 4,left: 3,right: 3),
+          child: Container(
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 20, top: 10),
+                      child: Row(
+                        children: <Widget>[
+                          ClipOval(
+                              child: Image.network(
+                            _orderEntity.user.headImgUrl,
+                            width: 50,
+                            height: 50,
+                          )),
+                          SizedBox(width: 10),
+                          Text(_orderEntity.user.nickName == null
+                              ? _orderEntity.user.realName
+                              : _orderEntity.user.nickName)
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 70),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(_orderEntity.type,
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 18)),
-                        Text(_orderEntity.title,
-                            style:
-                                TextStyle(color: Colors.black54, fontSize: 15)),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.only(left: 70),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(_orderEntity.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16)),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                Positioned(
+                  child: Text(_orderEntity.createdAt),
+                  right: 10,
+                  top: 10,
+                ),
+                Positioned(
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        '￥ 15',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      _SwitchColor(_orderEntity.type),
+                      SizedBox(width: 10),
+                    ],
                   ),
-                ],
-              ),
-              Positioned(
-                child: Text(_orderEntity.createdAt),
-                right: 10,
-                top: 10,
-              ),
-              Positioned(
-                child: Text('#${_orderEntity.type}#'),
-                right: 10,
-                bottom: 10,
-              )
-            ],
+                  right: 10,
+                  bottom: 0,
+                )
+              ],
+            ),
+            width: double.infinity,
+            height: 140,
+            padding: EdgeInsets.only(bottom: 5, top: 5),
+            decoration: BoxDecoration(color: Colors.white),
           ),
-          width: double.infinity,
-          height: 160,
-          padding: EdgeInsets.only(bottom: 5, top: 5),
-          decoration: BoxDecoration(color: Colors.white),
         ),
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
         });
+  }
+}
+
+class _SwitchColor extends StatelessWidget {
+  String type;
+
+  _SwitchColor(this.type);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (type) {
+      case '取快递':
+        return ColorLabel('# ${type}', Color(0xFFFFC600));
+      case '送礼物':
+        return ColorLabel('# ${type}', Colors.pink);
+      case '陪聊天':
+        return ColorLabel('# ${type}', Colors.yellow);
+      case '求解答':
+        return ColorLabel('# ${type}', Colors.lightBlue);
+      case '帮买饭':
+        return ColorLabel('# ${type}', Colors.orange);
+      case '其他':
+        return ColorLabel('# ${type}', Color(0xFFFFC600));
+      default:
+        return ColorLabel('# ${type}', Colors.green);
+    }
   }
 }
