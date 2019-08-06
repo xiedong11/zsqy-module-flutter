@@ -18,7 +18,7 @@ class PageState extends State<NewOrder> {
   TextEditingController _fromEditingController = TextEditingController();
   TextEditingController _destinationEditingController = TextEditingController();
 
-  String _price = '0';
+  String _price='0';
 
   static List<TypeItemEntity> _typeList = [
     TypeItemEntity("取快递", 0),
@@ -348,8 +348,8 @@ class PageState extends State<NewOrder> {
               ],
             ));
       } else {
+        orderEntity.price = _price;
         orderEntity.title = _titleEditingController.value.text.toString();
-        orderEntity.price = _priceEditingController.value.text.toString();
         orderEntity.from = _fromEditingController.value.text.toString();
         orderEntity.detail = _detailEditingController.value.text.toString();
         orderEntity.destination =

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/helper/new_helper.dart';
+import 'package:flutter_app/pages/helper/helper_list.dart';
 import 'package:flutter_app/pages/order/order_list.dart';
 
 class Home extends StatefulWidget {
@@ -73,6 +73,6 @@ class PageState extends State<Home> {
             },
           ),
         ),
-        body: currentIndex == FIND_HELPER ? NewHelper() : OrderList());
+        body: currentIndex == FIND_HELPER ? HelperList() : OrderList());
   }
 }
