@@ -99,7 +99,7 @@ class PageState extends State<NewOrder> {
         orderEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
             print(data.toString()+"-------------------------");
-            Navigator.of(context).pop();
+            Navigator.of(context).pop("success");
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),
             ));

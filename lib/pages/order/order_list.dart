@@ -1,8 +1,10 @@
 import 'package:data_plugin/bmob/bmob_query.dart';
+import 'package:data_plugin/bmob/response/bmob_handled.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
 import 'package:flutter_app/pages/order/new_order.dart';
 import 'package:flutter_app/pages/order/order_item_detail.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 import 'package:flutter_app/widgets/color_label.dart';
 
@@ -13,11 +15,21 @@ class OrderList extends StatefulWidget {
 
 class PageState extends State<OrderList> {
   List<OrderEntity> dataList;
+  var _loadItemCount = 6;
+  var _itemTotalSize = 0;
+  ScrollController _scrollController = ScrollController();
+  bool _isLoadData = false;
 
   @override
   void initState() {
     super.initState();
     initData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadMoreData();
+      }
+    });
   }
 
   initData() async {
@@ -27,6 +39,7 @@ class PageState extends State<OrderList> {
     BmobQuery<OrderEntity> query = BmobQuery();
     query.setInclude("user");
     query.setOrder("-createdAt");
+    query.setLimit(_loadItemCount);
     query.queryObjects().then((List<dynamic> data) {
       this.setState(() {
         dataList = data.map((i) => OrderEntity.fromJson(i)).toList();
@@ -34,17 +47,49 @@ class PageState extends State<OrderList> {
     });
   }
 
+  Future<Null> _handleRefreshEvent() async {
+    setState(() {
+      dataList.clear();
+    });
+    _itemTotalSize = 0;
+    initData();
+  }
+
+  Future<Null> _loadMoreData() async {
+    if (!_isLoadData) {
+      _isLoadData = true;
+      _itemTotalSize += _loadItemCount;
+      BmobQuery<OrderEntity> query = BmobQuery();
+      query.setInclude("user");
+      query.setOrder("-createdAt");
+      query.setSkip(_itemTotalSize);
+      query.setLimit(_loadItemCount);
+      query.queryObjects().then((List<dynamic> data) {
+        _isLoadData = false;
+        var newList = data.map((i) => OrderEntity.fromJson(i)).toList();
+        this.setState(() {
+          dataList.addAll(newList);
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: this.dataList != null
           ? Container(
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return ItemWidget(dataList[index]);
-                },
-                itemCount: dataList.length,
-              ),
+              child: RefreshIndicator(
+                  displacement: 45,
+                  color: Colors.orange,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ItemWidget(dataList[index], this);
+                    },
+                    itemCount: dataList.length,
+                  ),
+                  onRefresh: _handleRefreshEvent),
               decoration: BoxDecoration(color: Colors.white12),
             )
           : Center(
@@ -52,8 +97,12 @@ class PageState extends State<OrderList> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => NewOrder()));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => NewOrder()))
+              .then((value) {
+            if (value == "success") {
+              _handleRefreshEvent();
+            }
+          });
         },
         child: Icon(Icons.directions_run),
         backgroundColor: Colors.orangeAccent,
@@ -64,14 +113,15 @@ class PageState extends State<OrderList> {
 
 class ItemWidget extends StatelessWidget {
   OrderEntity _orderEntity;
+  PageState _pageState;
 
-  ItemWidget(this._orderEntity);
+  ItemWidget(this._orderEntity, this._pageState);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Padding(
-          padding: EdgeInsets.only(bottom: 4,left: 3,right: 3),
+          padding: EdgeInsets.only(bottom: 4, left: 3, right: 3),
           child: Container(
             child: Stack(
               children: <Widget>[
@@ -143,10 +193,41 @@ class ItemWidget extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.white),
           ),
         ),
+        onLongPress: () {
+          _onDelItemEvent(context, _orderEntity);
+        },
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
         });
+  }
+
+  void _onDelItemEvent(BuildContext context, OrderEntity orderEntity) async {
+    var currentUserId = UserCache.user.objectId;
+
+    if (currentUserId == null) {
+      currentUserId =
+          await PlatFormUtil.callNativeApp(PlatFormUtil.GET_USER_OBJECT_ID);
+    }
+
+    if (orderEntity.user.objectId == currentUserId) {
+      orderEntity.delete().then((BmobHandled bmobHandled) {
+        _pageState._handleRefreshEvent();
+        Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text(
+            "删除成功",
+            style: TextStyle(color: Colors.yellowAccent),
+          ),
+        ));
+      });
+    } else {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(
+          "无权删除其他用户的订单...",
+          style: TextStyle(color: Colors.redAccent),
+        ),
+      ));
+    }
   }
 }
 
