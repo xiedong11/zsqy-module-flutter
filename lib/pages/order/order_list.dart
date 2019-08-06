@@ -95,8 +95,12 @@ class PageState extends State<OrderList> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => NewOrder()));
+          Navigator.push(context, MaterialPageRoute(builder: (_) => NewOrder()))
+              .then((value) {
+            if (value == "success") {
+              _handleRefreshEvent();
+            }
+          });
         },
         child: Icon(Icons.directions_run),
         backgroundColor: Colors.orangeAccent,
