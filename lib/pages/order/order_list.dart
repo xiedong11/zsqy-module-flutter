@@ -13,11 +13,21 @@ class OrderList extends StatefulWidget {
 
 class PageState extends State<OrderList> {
   List<OrderEntity> dataList;
+  var _loadItemCount = 6;
+  var _itemTotalSize = 0;
+  ScrollController _scrollController = ScrollController();
+  bool _isLoadData = false;
 
   @override
   void initState() {
     super.initState();
     initData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadMoreData();
+      }
+    });
   }
 
   initData() async {
@@ -27,6 +37,7 @@ class PageState extends State<OrderList> {
     BmobQuery<OrderEntity> query = BmobQuery();
     query.setInclude("user");
     query.setOrder("-createdAt");
+    query.setLimit(_loadItemCount);
     query.queryObjects().then((List<dynamic> data) {
       this.setState(() {
         dataList = data.map((i) => OrderEntity.fromJson(i)).toList();
@@ -34,17 +45,49 @@ class PageState extends State<OrderList> {
     });
   }
 
+  Future<Null> _handleRefreshEvent() async {
+    setState(() {
+      dataList.clear();
+    });
+    _itemTotalSize = 0;
+    initData();
+  }
+
+  Future<Null> _loadMoreData() async {
+    if (!_isLoadData) {
+      _isLoadData = true;
+      _itemTotalSize += _loadItemCount;
+      BmobQuery<OrderEntity> query = BmobQuery();
+      query.setInclude("user");
+      query.setOrder("-createdAt");
+      query.setSkip(_itemTotalSize);
+      query.setLimit(_loadItemCount);
+      query.queryObjects().then((List<dynamic> data) {
+        _isLoadData = false;
+        var newList = data.map((i) => OrderEntity.fromJson(i)).toList();
+        this.setState(() {
+          dataList.addAll(newList);
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: this.dataList != null
           ? Container(
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return ItemWidget(dataList[index]);
-                },
-                itemCount: dataList.length,
-              ),
+              child: RefreshIndicator(
+                  displacement: 45,
+                  color: Colors.orange,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ItemWidget(dataList[index]);
+                    },
+                    itemCount: dataList.length,
+                  ),
+                  onRefresh: _handleRefreshEvent),
               decoration: BoxDecoration(color: Colors.white12),
             )
           : Center(
@@ -71,7 +114,7 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Padding(
-          padding: EdgeInsets.only(bottom: 4,left: 3,right: 3),
+          padding: EdgeInsets.only(bottom: 4, left: 3, right: 3),
           child: Container(
             child: Stack(
               children: <Widget>[
