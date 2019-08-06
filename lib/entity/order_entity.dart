@@ -9,7 +9,12 @@ part 'order_entity.g.dart';
 @JsonSerializable()
 class OrderEntity extends BmobObject {
   String title;
+  String detail;
+  String price;
   String type;
+  String from;
+  String destination;
+  String phoneNumber;
   User user;
 
   OrderEntity();

@@ -55,7 +55,7 @@ class PageState extends State<OrderList> {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => NewOrder()));
         },
-        child: Icon(Icons.directions_run),
+        child: Icon(Icons.add,size: 36,),
         backgroundColor: Colors.orangeAccent,
       ),
     );
@@ -90,9 +90,16 @@ class ItemWidget extends StatelessWidget {
                             height: 50,
                           )),
                           SizedBox(width: 10),
-                          Text(_orderEntity.user.nickName == null
-                              ? _orderEntity.user.realName
-                              : _orderEntity.user.nickName)
+                          Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(_orderEntity.user.nickName == null
+                                ? _orderEntity.user.realName
+                                : _orderEntity.user.nickName),
+                            Text(_orderEntity.user.major,style:TextStyle(color: Colors.black54, fontSize: 12)),    
+                          ],
+                        ),
                         ],
                       ),
                     ),
@@ -120,7 +127,7 @@ class ItemWidget extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        '￥ 15',
+                        '￥ ${_orderEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -159,19 +166,19 @@ class _SwitchColor extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (type) {
       case '取快递':
-        return ColorLabel('# ${type}', Color(0xFFFFC600));
+        return ColorLabel('# ${type}', Colors.green);
       case '送礼物':
         return ColorLabel('# ${type}', Colors.pink);
       case '陪聊天':
-        return ColorLabel('# ${type}', Colors.yellow);
-      case '求解答':
+        return ColorLabel('# ${type}', Colors.yellow[600]);
+      case '替上课':
         return ColorLabel('# ${type}', Colors.lightBlue);
       case '帮买饭':
         return ColorLabel('# ${type}', Colors.orange);
       case '其他':
         return ColorLabel('# ${type}', Color(0xFFFFC600));
       default:
-        return ColorLabel('# ${type}', Colors.green);
+        return ColorLabel('# ${type}', Colors.black);
     }
   }
 }

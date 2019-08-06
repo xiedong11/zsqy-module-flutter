@@ -14,6 +14,11 @@ OrderEntity _$OrderEntityFromJson(Map<String, dynamic> json) {
     ..ACL = json['ACL'] as Map<String, dynamic>
     ..title = json['title'] as String
     ..type = json['type'] as String
+    ..detail = json['detail'] as String
+    ..price = json['price'] as String
+    ..from = json['from'] as String
+    ..destination = json['destination'] as String
+    ..phoneNumber = json['phoneNumber'] as String
     ..user = json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>);
@@ -27,5 +32,10 @@ Map<String, dynamic> _$OrderEntityToJson(OrderEntity instance) =>
       'ACL': instance.ACL,
       'title': instance.title,
       'type': instance.type,
+      'detail': instance.detail,
+      'price': instance.price,
+      'from': instance.from,
+      'destination': instance.destination,
+      'phoneNumber': instance.phoneNumber,
       'user': instance.user
     };
