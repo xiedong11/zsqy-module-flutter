@@ -1,8 +1,10 @@
 import 'package:data_plugin/bmob/bmob_query.dart';
+import 'package:data_plugin/bmob/response/bmob_handled.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
 import 'package:flutter_app/pages/order/new_order.dart';
 import 'package:flutter_app/pages/order/order_item_detail.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 import 'package:flutter_app/widgets/color_label.dart';
 
@@ -83,7 +85,7 @@ class PageState extends State<OrderList> {
                   child: ListView.builder(
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemWidget(dataList[index]);
+                      return ItemWidget(dataList[index], this);
                     },
                     itemCount: dataList.length,
                   ),
@@ -111,8 +113,9 @@ class PageState extends State<OrderList> {
 
 class ItemWidget extends StatelessWidget {
   OrderEntity _orderEntity;
+  PageState _pageState;
 
-  ItemWidget(this._orderEntity);
+  ItemWidget(this._orderEntity, this._pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -190,10 +193,41 @@ class ItemWidget extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.white),
           ),
         ),
+        onLongPress: () {
+          _onDelItemEvent(context, _orderEntity);
+        },
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
         });
+  }
+
+  void _onDelItemEvent(BuildContext context, OrderEntity orderEntity) async {
+    var currentUserId = UserCache.user.objectId;
+
+    if (currentUserId == null) {
+      currentUserId =
+          await PlatFormUtil.callNativeApp(PlatFormUtil.GET_USER_OBJECT_ID);
+    }
+
+    if (orderEntity.user.objectId == currentUserId) {
+      orderEntity.delete().then((BmobHandled bmobHandled) {
+        _pageState._handleRefreshEvent();
+        Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text(
+            "删除成功",
+            style: TextStyle(color: Colors.yellowAccent),
+          ),
+        ));
+      });
+    } else {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(
+          "无权删除其他用户的订单...",
+          style: TextStyle(color: Colors.redAccent),
+        ),
+      ));
+    }
   }
 }
 
