@@ -359,8 +359,8 @@ class PageState extends State<NewOrder> {
         orderEntity.type = _typeList[type].title;
         orderEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
-            print(data.toString() + "-------------------------");
-            Navigator.of(context).pop();
+            print(data.toString()+"-------------------------");
+            Navigator.of(context).pop("success");
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),
             ));
@@ -410,7 +410,6 @@ class TypeItemWidgetState extends State<TypeItemWidget> {
     return GridView.builder(
       shrinkWrap: true,
       padding: EdgeInsets.all(20.0),
-      // padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 10.0,
