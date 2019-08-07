@@ -12,10 +12,11 @@ class ColorLabel extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: this.color,
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(8),
-          bottomLeft: Radius.circular(8),
-          bottomRight: Radius.circular(8),
+        borderRadius: BorderRadius.all(
+          Radius.circular(10)
+          // topRight: Radius.circular(8),
+          // bottomLeft: Radius.circular(8),
+          // bottomRight: Radius.circular(8),
         ),
       ),
       child: Text(

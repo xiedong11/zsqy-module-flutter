@@ -186,29 +186,61 @@ class ItemWidget extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  child: Text(_helperEntity.createdAt),
+                  child: Column(
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(_helperEntity.createdAt),
+                      SizedBox(height: 5),
+                      Row(
+                        children: <Widget>[
+                          ColorLabel(
+                              _helperEntity.start == ''
+                                  ? '未填写'
+                                  : _helperEntity.start,
+                              Colors.black12),
+                          Text(
+                            '-',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black12,
+                            ),
+                          ),
+                          ColorLabel(
+                              _helperEntity.end == ''
+                                  ? '未填写'
+                                  : _helperEntity.end,
+                              Colors.black12),
+                          // Text((_helperEntity.start==''?'未填写':_helperEntity.start)+'-'+(_helperEntity.end==''?'未填写':_helperEntity.end)),
+                        ],
+                      ),
+                    ],
+                  ),
                   right: 10,
                   top: 10,
                 ),
                 Positioned(
                   child: Row(
                     children: <Widget>[
-                      Text(
-                        '￥ ${_helperEntity.price == null ? '0' : _helperEntity.price}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.red,
-                        ),
-                      ),
-                      SizedBox(width: 10),
+                      SizedBox(width: 30),
                       _SwitchColor(_helperEntity.where),
                       SizedBox(width: 10),
                     ],
                   ),
+                  bottom: 0,
+                ),
+                Positioned(
+                  child: Text(
+                    '￥ ${_helperEntity.price == null ? '0' : _helperEntity.price}',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
                   right: 10,
                   bottom: 0,
-                )
+                ),
               ],
             ),
             width: double.infinity,
@@ -303,7 +335,9 @@ class _SwitchColor extends StatelessWidget {
       //   return ColorLabel('# ${where}', Color(0xFFFFC600));
       default:
         return ColorLabel(
-            where.length > 6 ? '${where.substring(0, 6)}...' : '${where}',
+            where.length > 10
+                ? '#当前位置：${where.substring(0, 10)}...'
+                : '#当前位置：${where}',
             Colors.lightBlue);
     }
   }
