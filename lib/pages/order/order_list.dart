@@ -7,6 +7,8 @@ import 'package:flutter_app/pages/order/order_item_detail.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 import 'package:flutter_app/widgets/color_label.dart';
+import 'package:flutter_app/widgets/load_more_widget.dart';
+import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
 class OrderList extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class PageState extends State<OrderList> {
   var _itemTotalSize = 0;
   ScrollController _scrollController = ScrollController();
   bool _isLoadData = false;
+  bool _hasMoreData = true;
 
   @override
   void initState() {
@@ -50,6 +53,7 @@ class PageState extends State<OrderList> {
   Future<Null> _handleRefreshEvent() async {
     setState(() {
       dataList.clear();
+      _hasMoreData = true;
     });
     _itemTotalSize = 0;
     initData();
@@ -68,6 +72,7 @@ class PageState extends State<OrderList> {
         _isLoadData = false;
         var newList = data.map((i) => OrderEntity.fromJson(i)).toList();
         this.setState(() {
+          _hasMoreData = newList.length > 0 ? true : false;
           dataList.addAll(newList);
         });
       });
@@ -85,9 +90,15 @@ class PageState extends State<OrderList> {
                   child: ListView.builder(
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemWidget(dataList[index], this);
+                      if (index == dataList.length) {
+                        return _hasMoreData
+                            ? LoadMoreWidget()
+                            : NoMoreDataWidget();
+                      } else {
+                        return ItemWidget(dataList[index], this);
+                      }
                     },
-                    itemCount: dataList.length,
+                    itemCount: dataList.length + 1,
                   ),
                   onRefresh: _handleRefreshEvent),
               decoration: BoxDecoration(color: Colors.white12),
@@ -104,7 +115,10 @@ class PageState extends State<OrderList> {
             }
           });
         },
-        child: Icon(Icons.add,size: 36,),
+        child: Icon(
+          Icons.add,
+          size: 36,
+        ),
         backgroundColor: Colors.orangeAccent,
       ),
     );
@@ -141,20 +155,22 @@ class ItemWidget extends StatelessWidget {
                           )),
                           SizedBox(width: 10),
                           Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(_orderEntity.user.nickName == null
-                                ? _orderEntity.user.realName
-                                : _orderEntity.user.nickName),
-                            Text(_orderEntity.user.major,style:TextStyle(color: Colors.black54, fontSize: 12)),    
-                          ],
-                        ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(_orderEntity.user.nickName == null
+                                  ? _orderEntity.user.realName
+                                  : _orderEntity.user.nickName),
+                              Text(_orderEntity.user.major,
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 12)),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 70,right:10),
+                      padding: EdgeInsets.only(left: 70, right: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -177,7 +193,7 @@ class ItemWidget extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        '￥ ${_orderEntity.price}',
+                        '￥ ${_orderEntity.price == null ? '0' : _orderEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -210,7 +226,7 @@ class ItemWidget extends StatelessWidget {
         });
   }
 
-void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
+  void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
     showDialog(
         context: context,
         child: new AlertDialog(

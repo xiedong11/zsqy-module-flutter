@@ -87,7 +87,7 @@ class PageState extends State<OrderItemDetail> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        '￥ ${_orderEntity.price}',
+                        '￥ ${_orderEntity.price == null ? '0' : _orderEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -109,134 +109,146 @@ class PageState extends State<OrderItemDetail> {
             padding: EdgeInsets.only(bottom: 10, top: 5),
             decoration: BoxDecoration(color: Colors.white),
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           //body具体信息
           Container(
-            width: double.infinity,
-            // height: 140,
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(color: Colors.white),
+              width: double.infinity,
+              // height: 140,
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(color: Colors.white),
               child: Column(
-            children: <Widget>[
-              //联系地址
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(width: 2.0),
-                    Icon(
-                      Icons.label,
-                      color: Colors.orangeAccent,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text("联系地址",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orangeAccent)),
-                  ]),
-              SizedBox(height: 20,),
-              //出发地址
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Row(children: <Widget>[
-                  Icon(
-                    Icons.fiber_manual_record,
-                    color: Colors.lightBlue,
-                    size: 20.0,
+                children: <Widget>[
+                  //联系地址
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 2.0),
+                        Icon(
+                          Icons.label,
+                          color: Colors.orangeAccent,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text("联系地址",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orangeAccent)),
+                      ]),
+                  SizedBox(
+                    height: 20,
                   ),
-                  SizedBox(width: 20),
-                  Container(
-                    width: 260.0,
-                    child: Text(_orderEntity.from ==''
-                                      ? '无'
-                                      : '起：'+_orderEntity.from,
-                        style: TextStyle(fontSize: 16)),
-                  )
-                ]),
-              ),
-              SizedBox(height: 10,),
-              //到达地址
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Row(children: <Widget>[
-                  Icon(
-                    Icons.fiber_manual_record,
-                    color: Colors.redAccent,
-                    size: 20.0,
-                  ),
-                  SizedBox(width: 20),
-                  Container(
-                    width: 260.0,
-                    child: Text(_orderEntity.destination ==''
-                                      ? '无'
-                                      : '止：'+_orderEntity.destination,
-                        style: TextStyle(fontSize: 16)),
-                  )
-                ]),
-              ),
-              SizedBox(height: 20.0),
-              //联系方式
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(width: 2.0),
-                    Icon(
-                      Icons.label,
-                      color: Colors.orangeAccent,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 10.0),
-                    Text("联系方式",
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orangeAccent)),
-                  ]),
-              SizedBox(height: 20,),
-              //联系方式
-              Padding(
-                padding: EdgeInsets.all(2.0),
-                child: Row(children: <Widget>[
-                  Icon(
-                    Icons.call,
-                    color: Colors.blue,
-                    size: 20.0,
-                  ),
-                  SizedBox(width: 20),
-                  Container(
-                    width: 260.0,
-                    child: Text(_orderEntity.phoneNumber ==''
-                                      ? '无'
-                                      : _orderEntity.phoneNumber,
-                        style: TextStyle(fontSize: 16)),
-                  )
-                ]),
-              ),
-              SizedBox(height: 10.0),
-              //备注
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, left: 2.0),
-                child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                  //出发地址
+                  Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: Row(children: <Widget>[
                       Icon(
-                        Icons.details,
-                        color: Colors.green,
+                        Icons.fiber_manual_record,
+                        color: Colors.lightBlue,
                         size: 20.0,
                       ),
                       SizedBox(width: 20),
                       Container(
                         width: 260.0,
-                        child: Text(_orderEntity.detail ==''
-                                      ? '无'
-                                      : _orderEntity.detail,
-                        style: TextStyle(fontSize: 16)),
+                        child: Text(
+                            _orderEntity.from == ''
+                                ? '无'
+                                : '起：' + _orderEntity.from,
+                            style: TextStyle(fontSize: 16)),
                       )
                     ]),
-              ),
-            ],
-          ))
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //到达地址
+                  Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: Row(children: <Widget>[
+                      Icon(
+                        Icons.fiber_manual_record,
+                        color: Colors.redAccent,
+                        size: 20.0,
+                      ),
+                      SizedBox(width: 20),
+                      Container(
+                        width: 260.0,
+                        child: Text(
+                            _orderEntity.destination == ''
+                                ? '无'
+                                : '止：' + _orderEntity.destination,
+                            style: TextStyle(fontSize: 16)),
+                      )
+                    ]),
+                  ),
+                  SizedBox(height: 20.0),
+                  //联系方式
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        SizedBox(width: 2.0),
+                        Icon(
+                          Icons.label,
+                          color: Colors.orangeAccent,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text("联系方式",
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orangeAccent)),
+                      ]),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  //联系方式
+                  Padding(
+                    padding: EdgeInsets.all(2.0),
+                    child: Row(children: <Widget>[
+                      Icon(
+                        Icons.call,
+                        color: Colors.blue,
+                        size: 20.0,
+                      ),
+                      SizedBox(width: 20),
+                      Container(
+                        width: 260.0,
+                        child: Text(
+                            _orderEntity.phoneNumber == ''
+                                ? '无'
+                                : _orderEntity.phoneNumber,
+                            style: TextStyle(fontSize: 16)),
+                      )
+                    ]),
+                  ),
+                  SizedBox(height: 10.0),
+                  //备注
+                  Padding(
+                    padding: EdgeInsets.only(top: 10.0, left: 2.0),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.details,
+                            color: Colors.green,
+                            size: 20.0,
+                          ),
+                          SizedBox(width: 20),
+                          Container(
+                            width: 260.0,
+                            child: Text(
+                                _orderEntity.detail == ''
+                                    ? '无'
+                                    : _orderEntity.detail,
+                                style: TextStyle(fontSize: 16)),
+                          )
+                        ]),
+                  ),
+                ],
+              ))
         ]),
         bottomNavigationBar: _BottomToolBar(_orderEntity));
   }

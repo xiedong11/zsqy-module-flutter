@@ -89,7 +89,7 @@ class PageState extends State<HelperItemDetail> {
                       ColorLabel('# ${_helperEntity.where}', Color(0xFFFFC600)),
                       SizedBox(width: 10),
                       Text(
-                        '￥ ${_helperEntity.price}',
+                        '￥ ${_helperEntity.price == null ? '0' : _helperEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

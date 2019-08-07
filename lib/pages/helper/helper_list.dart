@@ -7,6 +7,8 @@ import 'package:flutter_app/pages/helper/helper_item_detail.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 import 'package:flutter_app/widgets/color_label.dart';
+import 'package:flutter_app/widgets/load_more_widget.dart';
+import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
 class HelperList extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class PageState extends State<HelperList> {
   var _itemTotalSize = 0;
   ScrollController _scrollController = ScrollController();
   bool _isLoadData = false;
+  bool _hasMoreData = true;
 
   @override
   void initState() {
@@ -32,7 +35,7 @@ class PageState extends State<HelperList> {
     });
   }
 
-    initData() async {
+  initData() async {
     if (UserCache.user == null) {
       await UserCache.initAppConfigId();
     }
@@ -50,6 +53,7 @@ class PageState extends State<HelperList> {
   Future<Null> _handleRefreshEvent() async {
     setState(() {
       dataList.clear();
+      _hasMoreData = true;
     });
     _itemTotalSize = 0;
     initData();
@@ -68,6 +72,7 @@ class PageState extends State<HelperList> {
         _isLoadData = false;
         var newList = data.map((i) => HelperEntity.fromJson(i)).toList();
         this.setState(() {
+          _hasMoreData = newList.length > 0 ? true : false;
           dataList.addAll(newList);
         });
       });
@@ -85,7 +90,13 @@ class PageState extends State<HelperList> {
                   child: ListView.builder(
                     controller: _scrollController,
                     itemBuilder: (BuildContext context, int index) {
-                      return ItemWidget(dataList[index], this);
+                      if (index == dataList.length) {
+                        return _hasMoreData
+                            ? LoadMoreWidget()
+                            : NoMoreDataWidget();
+                      } else {
+                        return ItemWidget(dataList[index], this);
+                      }
                     },
                     itemCount: dataList.length,
                   ),
@@ -97,14 +108,18 @@ class PageState extends State<HelperList> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => NewHelper()))
+          Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => NewHelper()))
               .then((value) {
             if (value == "success") {
               _handleRefreshEvent();
             }
           });
         },
-        child: Icon(Icons.add,size: 36,),
+        child: Icon(
+          Icons.add,
+          size: 36,
+        ),
         backgroundColor: Colors.lightBlue,
       ),
     );
@@ -141,20 +156,22 @@ class ItemWidget extends StatelessWidget {
                           )),
                           SizedBox(width: 10),
                           Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(_helperEntity.user.nickName == null
-                                ? _helperEntity.user.realName
-                                : _helperEntity.user.nickName),
-                            Text(_helperEntity.user.major,style:TextStyle(color: Colors.black54, fontSize: 12)),    
-                          ],
-                        ),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(_helperEntity.user.nickName == null
+                                  ? _helperEntity.user.realName
+                                  : _helperEntity.user.nickName),
+                              Text(_helperEntity.user.major,
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 12)),
+                            ],
+                          ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 70,right:10),
+                      padding: EdgeInsets.only(left: 70, right: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
@@ -177,7 +194,7 @@ class ItemWidget extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        '￥ ${_helperEntity.price}',
+                        '￥ ${_helperEntity.price == null ? '0' : _helperEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -210,7 +227,7 @@ class ItemWidget extends StatelessWidget {
         });
   }
 
-void _showItemDelDialog(BuildContext context, HelperEntity helperEntity) {
+  void _showItemDelDialog(BuildContext context, HelperEntity helperEntity) {
     showDialog(
         context: context,
         child: new AlertDialog(
@@ -285,7 +302,9 @@ class _SwitchColor extends StatelessWidget {
       // case '其他':
       //   return ColorLabel('# ${where}', Color(0xFFFFC600));
       default:
-        return ColorLabel('# ${where}', Colors.black);
+        return ColorLabel(
+            where.length > 6 ? '# ${where.substring(0, 6)}...' : '${where}',
+            Colors.black);
     }
   }
 }
