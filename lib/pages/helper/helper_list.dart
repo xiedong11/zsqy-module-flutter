@@ -98,7 +98,7 @@ class PageState extends State<HelperList> {
                         return ItemWidget(dataList[index], this);
                       }
                     },
-                    itemCount: dataList.length,
+                    itemCount: dataList.length + 1,
                   ),
                   onRefresh: _handleRefreshEvent),
               decoration: BoxDecoration(color: Colors.white12),
