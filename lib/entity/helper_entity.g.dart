@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order_entity.dart';
+part of 'helper_entity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-OrderEntity _$OrderEntityFromJson(Map<String, dynamic> json) {
-  return OrderEntity()
+HelperEntity _$HelperEntityFromJson(Map<String, dynamic> json) {
+  return HelperEntity()
     ..createdAt = json['createdAt'] as String
     ..updatedAt = json['updatedAt'] as String
     ..objectId = json['objectId'] as String
@@ -15,16 +15,16 @@ OrderEntity _$OrderEntityFromJson(Map<String, dynamic> json) {
     ..title = json['title'] as String
     ..detail = json['detail'] as String
     ..price = json['price'] as String
-    ..type = json['type'] as String
-    ..from = json['from'] as String
-    ..destination = json['destination'] as String
+    ..where = json['where'] as String
     ..phoneNumber = json['phoneNumber'] as String
+    ..start = json['start'] as String
+    ..end = json['end'] as String
     ..user = json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>);
 }
 
-Map<String, dynamic> _$OrderEntityToJson(OrderEntity instance) =>
+Map<String, dynamic> _$HelperEntityToJson(HelperEntity instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
@@ -33,9 +33,9 @@ Map<String, dynamic> _$OrderEntityToJson(OrderEntity instance) =>
       'title': instance.title,
       'detail': instance.detail,
       'price': instance.price,
-      'type': instance.type,
-      'from': instance.from,
-      'destination': instance.destination,
+      'where': instance.where,
+      'start': instance.start,
       'phoneNumber': instance.phoneNumber,
+      'end': instance.end,
       'user': instance.user
     };

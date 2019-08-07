@@ -1,20 +1,20 @@
 import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:data_plugin/bmob/response/bmob_handled.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/entity/order_entity.dart';
-import 'package:flutter_app/pages/order/new_order.dart';
-import 'package:flutter_app/pages/order/order_item_detail.dart';
+import 'package:flutter_app/entity/helper_entity.dart';
+import 'package:flutter_app/pages/helper/new_helper.dart';
+import 'package:flutter_app/pages/helper/helper_item_detail.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 import 'package:flutter_app/widgets/color_label.dart';
 
-class OrderList extends StatefulWidget {
+class HelperList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageState();
 }
 
-class PageState extends State<OrderList> {
-  List<OrderEntity> dataList;
+class PageState extends State<HelperList> {
+  List<HelperEntity> dataList;
   var _loadItemCount = 6;
   var _itemTotalSize = 0;
   ScrollController _scrollController = ScrollController();
@@ -32,17 +32,17 @@ class PageState extends State<OrderList> {
     });
   }
 
-  initData() async {
+    initData() async {
     if (UserCache.user == null) {
       await UserCache.initAppConfigId();
     }
-    BmobQuery<OrderEntity> query = BmobQuery();
+    BmobQuery<HelperEntity> query = BmobQuery();
     query.setInclude("user");
     query.setOrder("-createdAt");
     query.setLimit(_loadItemCount);
     query.queryObjects().then((List<dynamic> data) {
       this.setState(() {
-        dataList = data.map((i) => OrderEntity.fromJson(i)).toList();
+        dataList = data.map((i) => HelperEntity.fromJson(i)).toList();
       });
     });
   }
@@ -59,14 +59,14 @@ class PageState extends State<OrderList> {
     if (!_isLoadData) {
       _isLoadData = true;
       _itemTotalSize += _loadItemCount;
-      BmobQuery<OrderEntity> query = BmobQuery();
+      BmobQuery<HelperEntity> query = BmobQuery();
       query.setInclude("user");
       query.setOrder("-createdAt");
       query.setSkip(_itemTotalSize);
       query.setLimit(_loadItemCount);
       query.queryObjects().then((List<dynamic> data) {
         _isLoadData = false;
-        var newList = data.map((i) => OrderEntity.fromJson(i)).toList();
+        var newList = data.map((i) => HelperEntity.fromJson(i)).toList();
         this.setState(() {
           dataList.addAll(newList);
         });
@@ -97,7 +97,7 @@ class PageState extends State<OrderList> {
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => NewOrder()))
+          Navigator.push(context, MaterialPageRoute(builder: (_) => NewHelper()))
               .then((value) {
             if (value == "success") {
               _handleRefreshEvent();
@@ -105,17 +105,17 @@ class PageState extends State<OrderList> {
           });
         },
         child: Icon(Icons.add,size: 36,),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.lightBlue,
       ),
     );
   }
 }
 
 class ItemWidget extends StatelessWidget {
-  OrderEntity _orderEntity;
+  HelperEntity _helperEntity;
   PageState _pageState;
 
-  ItemWidget(this._orderEntity, this._pageState);
+  ItemWidget(this._helperEntity, this._pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +135,7 @@ class ItemWidget extends StatelessWidget {
                         children: <Widget>[
                           ClipOval(
                               child: Image.network(
-                            _orderEntity.user.headImgUrl,
+                            _helperEntity.user.headImgUrl,
                             width: 50,
                             height: 50,
                           )),
@@ -144,10 +144,10 @@ class ItemWidget extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(_orderEntity.user.nickName == null
-                                ? _orderEntity.user.realName
-                                : _orderEntity.user.nickName),
-                            Text(_orderEntity.user.major,style:TextStyle(color: Colors.black54, fontSize: 12)),    
+                            Text(_helperEntity.user.nickName == null
+                                ? _helperEntity.user.realName
+                                : _helperEntity.user.nickName),
+                            Text(_helperEntity.user.major,style:TextStyle(color: Colors.black54, fontSize: 12)),    
                           ],
                         ),
                         ],
@@ -158,7 +158,7 @@ class ItemWidget extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(_orderEntity.title,
+                          Text(_helperEntity.title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style:
@@ -169,7 +169,7 @@ class ItemWidget extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  child: Text(_orderEntity.createdAt),
+                  child: Text(_helperEntity.createdAt),
                   right: 10,
                   top: 10,
                 ),
@@ -177,7 +177,7 @@ class ItemWidget extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        '￥ ${_orderEntity.price}',
+                        '￥ ${_helperEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -185,7 +185,7 @@ class ItemWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      _SwitchColor(_orderEntity.type),
+                      _SwitchColor(_helperEntity.where),
                       SizedBox(width: 10),
                     ],
                   ),
@@ -202,15 +202,15 @@ class ItemWidget extends StatelessWidget {
         ),
         //长按删除任务
         onLongPress: () {
-          _showItemDelDialog(context, _orderEntity);
+          _showItemDelDialog(context, _helperEntity);
         },
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
+              builder: (_) => HelperItemDetail(helperEntity: _helperEntity)));
         });
   }
 
-void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
+void _showItemDelDialog(BuildContext context, HelperEntity helperEntity) {
     showDialog(
         context: context,
         child: new AlertDialog(
@@ -222,7 +222,7 @@ void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
           actions: <Widget>[
             FlatButton(
                 onPressed: () {
-                  _onDelItemEvent(context, orderEntity);
+                  _onDelItemEvent(context, helperEntity);
                   Navigator.of(context).pop();
                 },
                 child: Text("确定")),
@@ -235,7 +235,7 @@ void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
         ));
   }
 
-  void _onDelItemEvent(BuildContext context, OrderEntity orderEntity) async {
+  void _onDelItemEvent(BuildContext context, HelperEntity helperEntity) async {
     var currentUserId = UserCache.user.objectId;
 
     if (currentUserId == null) {
@@ -243,8 +243,8 @@ void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
           await PlatFormUtil.callNativeApp(PlatFormUtil.GET_USER_OBJECT_ID);
     }
 
-    if (orderEntity.user.objectId == currentUserId) {
-      orderEntity.delete().then((BmobHandled bmobHandled) {
+    if (helperEntity.user.objectId == currentUserId) {
+      helperEntity.delete().then((BmobHandled bmobHandled) {
         _pageState._handleRefreshEvent();
         Scaffold.of(context).showSnackBar(new SnackBar(
           content: new Text(
@@ -265,27 +265,27 @@ void _showItemDelDialog(BuildContext context, OrderEntity orderEntity) {
 }
 
 class _SwitchColor extends StatelessWidget {
-  String type;
+  String where;
 
-  _SwitchColor(this.type);
+  _SwitchColor(this.where);
 
   @override
   Widget build(BuildContext context) {
-    switch (type) {
-      case '取快递':
-        return ColorLabel('# ${type}', Colors.green);
-      case '送礼物':
-        return ColorLabel('# ${type}', Colors.pink);
-      case '陪聊天':
-        return ColorLabel('# ${type}', Colors.lightBlue);
-      case '替上课':
-        return ColorLabel('# ${type}', Colors.yellow[600]);
-      case '帮买饭':
-        return ColorLabel('# ${type}', Colors.orange);
-      case '其他':
-        return ColorLabel('# ${type}', Color(0xFFFFC600));
+    switch (where) {
+      // case '取快递':
+      //   return ColorLabel('# ${where}', Colors.green);
+      // case '送礼物':
+      //   return ColorLabel('# ${where}', Colors.pink);
+      // case '陪聊天':
+      //   return ColorLabel('# ${where}', Colors.lightBlue);
+      // case '替上课':
+      //   return ColorLabel('# ${where}', Colors.yellow[600]);
+      // case '帮买饭':
+      //   return ColorLabel('# ${where}', Colors.orange);
+      // case '其他':
+      //   return ColorLabel('# ${where}', Color(0xFFFFC600));
       default:
-        return ColorLabel('# ${type}', Colors.black);
+        return ColorLabel('# ${where}', Colors.black);
     }
   }
 }

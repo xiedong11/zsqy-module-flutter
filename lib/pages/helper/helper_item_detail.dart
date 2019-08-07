@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/entity/order_entity.dart';
+import 'package:flutter_app/entity/helper_entity.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/widgets/color_label.dart';
 
-class OrderItemDetail extends StatefulWidget {
-  OrderEntity orderEntity;
+class HelperItemDetail extends StatefulWidget {
+  HelperEntity helperEntity;
 
-  OrderItemDetail({this.orderEntity});
+  HelperItemDetail({this.helperEntity});
 
   @override
-  State<StatefulWidget> createState() => PageState(this.orderEntity);
+  State<StatefulWidget> createState() => PageState(this.helperEntity);
 }
 
-class PageState extends State<OrderItemDetail> {
-  OrderEntity _orderEntity;
+class PageState extends State<HelperItemDetail> {
+  HelperEntity _helperEntity;
 
-  PageState(this._orderEntity);
+  PageState(this._helperEntity);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class PageState extends State<OrderItemDetail> {
                         children: <Widget>[
                           ClipOval(
                               child: Image.network(
-                            _orderEntity.user.headImgUrl,
+                            _helperEntity.user.headImgUrl,
                             width: 50,
                             height: 50,
                           )),
@@ -49,10 +49,10 @@ class PageState extends State<OrderItemDetail> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(_orderEntity.user.nickName == null
-                                  ? _orderEntity.user.realName
-                                  : _orderEntity.user.nickName),
-                              Text(_orderEntity.user.major,
+                              Text(_helperEntity.user.nickName == null
+                                  ? _helperEntity.user.realName
+                                  : _helperEntity.user.nickName),
+                              Text(_helperEntity.user.major,
                                   style: TextStyle(
                                       color: Colors.black54, fontSize: 12)),
                             ],
@@ -66,7 +66,7 @@ class PageState extends State<OrderItemDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(_orderEntity.title,
+                          Text(_helperEntity.title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style:
@@ -78,7 +78,7 @@ class PageState extends State<OrderItemDetail> {
                 ),
                 //时间
                 Positioned(
-                  child: Text(_orderEntity.createdAt),
+                  child: Text(_helperEntity.createdAt),
                   right: 10,
                   top: 10,
                 ),
@@ -86,16 +86,16 @@ class PageState extends State<OrderItemDetail> {
                 Positioned(
                   child: Row(
                     children: <Widget>[
+                      ColorLabel('# ${_helperEntity.where}', Color(0xFFFFC600)),
+                      SizedBox(width: 10),
                       Text(
-                        '￥ ${_orderEntity.price}',
+                        '￥ ${_helperEntity.price}',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
                         ),
                       ),
-                      SizedBox(width: 10),
-                      ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
                       SizedBox(width: 10),
                     ],
                   ),
@@ -148,9 +148,9 @@ class PageState extends State<OrderItemDetail> {
                   SizedBox(width: 20),
                   Container(
                     width: 260.0,
-                    child: Text(_orderEntity.from ==''
+                    child: Text(_helperEntity.start ==''
                                       ? '无'
-                                      : '起：'+_orderEntity.from,
+                                      : '起：'+_helperEntity.start,
                         style: TextStyle(fontSize: 16)),
                   )
                 ]),
@@ -168,9 +168,9 @@ class PageState extends State<OrderItemDetail> {
                   SizedBox(width: 20),
                   Container(
                     width: 260.0,
-                    child: Text(_orderEntity.destination ==''
+                    child: Text(_helperEntity.end ==''
                                       ? '无'
-                                      : '止：'+_orderEntity.destination,
+                                      : '止：'+_helperEntity.end,
                         style: TextStyle(fontSize: 16)),
                   )
                 ]),
@@ -206,9 +206,9 @@ class PageState extends State<OrderItemDetail> {
                   SizedBox(width: 20),
                   Container(
                     width: 260.0,
-                    child: Text(_orderEntity.phoneNumber ==''
+                    child: Text(_helperEntity.phoneNumber ==''
                                       ? '无'
-                                      : _orderEntity.phoneNumber,
+                                      : _helperEntity.phoneNumber,
                         style: TextStyle(fontSize: 16)),
                   )
                 ]),
@@ -228,9 +228,9 @@ class PageState extends State<OrderItemDetail> {
                       SizedBox(width: 20),
                       Container(
                         width: 260.0,
-                        child: Text(_orderEntity.detail ==''
+                        child: Text(_helperEntity.detail ==''
                                       ? '无'
-                                      : _orderEntity.detail,
+                                      : _helperEntity.detail,
                         style: TextStyle(fontSize: 16)),
                       )
                     ]),
@@ -238,14 +238,14 @@ class PageState extends State<OrderItemDetail> {
             ],
           ))
         ]),
-        bottomNavigationBar: _BottomToolBar(_orderEntity));
+        bottomNavigationBar: _BottomToolBar(_helperEntity));
   }
 }
 
 class _BottomToolBar extends StatelessWidget {
-  OrderEntity _orderEntity;
+  HelperEntity _helperEntity;
 
-  _BottomToolBar(this._orderEntity);
+  _BottomToolBar(this._helperEntity);
 
   @override
   Widget build(BuildContext context) {
@@ -259,7 +259,7 @@ class _BottomToolBar extends StatelessWidget {
             onTap: () {
               PlatFormUtil.callNativeAppWithParams(
                   PlatFormUtil.VIEW_USER_INFO, {
-                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+                PlatFormUtil.KEY_RELREASE_USER_ID: _helperEntity.user.objectId
               });
             },
             child: Center(
@@ -274,13 +274,13 @@ class _BottomToolBar extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               PlatFormUtil.callNativeAppWithParams(PlatFormUtil.OPEN_CHAT, {
-                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+                PlatFormUtil.KEY_RELREASE_USER_ID: _helperEntity.user.objectId
               });
             },
             child: Container(
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.orangeAccent,
+                color: Colors.lightBlue,
               ),
               child: Center(
                 child: Text(
