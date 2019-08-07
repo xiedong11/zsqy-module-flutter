@@ -11,14 +11,15 @@ class Home extends StatefulWidget {
 }
 
 class PageState extends State<Home> {
-  static int FIND_HELPER = 1, MARK_ORDER = 2;
+  static int FIND_HELPER = 0, MARK_ORDER = 1;
+  PageController _pageController = PageController();
   var titleStyleSelected =
       TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold);
 
   var titleStyleNormal = TextStyle(
       color: Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
 
-  var currentIndex = MARK_ORDER;
+  var currentIndex = FIND_HELPER;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class PageState extends State<Home> {
                 onTap: () {
                   this.setState(() {
                     currentIndex = FIND_HELPER;
+                    _pageController.jumpToPage(currentIndex);
                   });
                 },
               ),
@@ -54,6 +56,7 @@ class PageState extends State<Home> {
                 onTap: () {
                   this.setState(() {
                     currentIndex = MARK_ORDER;
+                    _pageController.jumpToPage(currentIndex);
                   });
                 },
               ),
@@ -73,6 +76,16 @@ class PageState extends State<Home> {
             },
           ),
         ),
-        body: currentIndex == FIND_HELPER ? HelperList() : OrderList());
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          children: <Widget>[HelperList(), OrderList()],
+        ));
+  }
+
+  void _onPageChanged(int index) {
+    setState(() {
+      currentIndex = index;
+    });
   }
 }
