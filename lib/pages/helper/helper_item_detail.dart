@@ -21,7 +21,7 @@ class PageState extends State<HelperItemDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('任务详情'),
+          title: Text('详细信息'),
           centerTitle: true,
         ),
         body: Column(children: <Widget>[
@@ -129,14 +129,14 @@ class PageState extends State<HelperItemDetail> {
                       size: 20.0,
                     ),
                     SizedBox(width: 10.0),
-                    Text("联系地址",
+                    Text("空闲时间",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.orangeAccent)),
                   ]),
               SizedBox(height: 20,),
-              //出发地址
+              //开始时间
               Padding(
                 padding: EdgeInsets.all(2.0),
                 child: Row(children: <Widget>[
@@ -156,7 +156,7 @@ class PageState extends State<HelperItemDetail> {
                 ]),
               ),
               SizedBox(height: 10,),
-              //到达地址
+              //结束时间
               Padding(
                 padding: EdgeInsets.all(2.0),
                 child: Row(children: <Widget>[

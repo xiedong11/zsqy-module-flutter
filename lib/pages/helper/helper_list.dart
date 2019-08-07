@@ -235,7 +235,7 @@ class ItemWidget extends StatelessWidget {
             "确定要删除吗",
             style: TextStyle(color: Colors.red),
           ),
-          content: Text("任务删除后不可恢复，若任务已完成或不想再展示，请放心删除..."),
+          content: Text("消息删除后不可恢复，若任务已完成或不想再展示，请放心删除..."),
           actions: <Widget>[
             FlatButton(
                 onPressed: () {
@@ -273,7 +273,7 @@ class ItemWidget extends StatelessWidget {
     } else {
       Scaffold.of(context).showSnackBar(new SnackBar(
         content: new Text(
-          "无权删除其他用户的订单...",
+          "无权删除其他用户的信息...",
           style: TextStyle(color: Colors.redAccent),
         ),
       ));
@@ -303,8 +303,8 @@ class _SwitchColor extends StatelessWidget {
       //   return ColorLabel('# ${where}', Color(0xFFFFC600));
       default:
         return ColorLabel(
-            where.length > 6 ? '# ${where.substring(0, 6)}...' : '${where}',
-            Colors.black);
+            where.length > 6 ? '${where.substring(0, 6)}...' : '${where}',
+            Colors.lightBlue);
     }
   }
 }
