@@ -57,6 +57,10 @@ class PageState extends State<NewOrder> {
                         controller: _titleEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.pinkAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "请输入任务标题..."),
                         onChanged: (String str) {
@@ -136,6 +140,10 @@ class PageState extends State<NewOrder> {
                         controller: _fromEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.lightBlue, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "任务的起始位置..."),
                       ),
@@ -158,6 +166,10 @@ class PageState extends State<NewOrder> {
                         controller: _destinationEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "任务的终止位置..."),
                       ),
@@ -198,6 +210,10 @@ class PageState extends State<NewOrder> {
                         controller: _phoneNumberEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.lightBlue, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "你的手机号、QQ、微信..."),
                       ),
@@ -268,6 +284,10 @@ class PageState extends State<NewOrder> {
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
                           decoration: new InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.pinkAccent, width: 2)),
+                              labelStyle: TextStyle(color: Colors.grey),
                               contentPadding: const EdgeInsets.all(10.0),
                               icon: new Icon(
                                 Icons.payment,

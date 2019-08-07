@@ -19,7 +19,7 @@ class PageState extends State<NewHelper> {
   TextEditingController _destinationEditingController = TextEditingController();
   TextEditingController _whereEditingController = TextEditingController();
 
-  String _price='0';
+  String _price = '0';
 
   static List<TypeItemEntity> _typeList = [
     TypeItemEntity("取快递", 0),
@@ -58,6 +58,10 @@ class PageState extends State<NewHelper> {
                         controller: _titleEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.pinkAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "请输入你的标题..."),
                         onChanged: (String str) {
@@ -108,51 +112,52 @@ class PageState extends State<NewHelper> {
                 Padding(
                   padding: EdgeInsets.all(2.0),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                    Icon(
-                      Icons.location_on,
-                      color: Colors.black54,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 20),
-                    Container(
-                      width: 260.0,
-                      child: TextField(
-                        controller: _whereEditingController,
-                        keyboardType: TextInputType.text,
-                        decoration: new InputDecoration(
-                          border: OutlineInputBorder(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          color: Colors.black54,
+                          size: 20.0,
+                        ),
+                        SizedBox(width: 20),
+                        Container(
+                          width: 260.0,
+                          child: TextField(
+                            controller: _whereEditingController,
+                            keyboardType: TextInputType.text,
+                            decoration: new InputDecoration(
+                                border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Colors.blue,
                                   ),
                                 ),
-                            contentPadding: const EdgeInsets.all(10.0),
-                            labelText: "你的位置..."),
-                        onChanged: (String str) {
-                          if (str.length == 15) {
-                            showDialog(
-                                context: context,
-                                child: new AlertDialog(
-                                  title: Text(
-                                    "位置字数已达上限",
-                                    style: TextStyle(color: Colors.red),
-                                  ),
-                                  content: Text("请将位置字数控制在15字以内！",
-                                      style: TextStyle(color: Colors.black)),
-                                  actions: <Widget>[
-                                    FlatButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text("确定")),
-                                  ],
-                                ));
-                          }
-                        },
-                      ),
-                    )
-                  ]),
+                                contentPadding: const EdgeInsets.all(10.0),
+                                labelText: "你的位置..."),
+                            onChanged: (String str) {
+                              if (str.length == 15) {
+                                showDialog(
+                                    context: context,
+                                    child: new AlertDialog(
+                                      title: Text(
+                                        "位置字数已达上限",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      content: Text("请将位置字数控制在15字以内！",
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("确定")),
+                                      ],
+                                    ));
+                              }
+                            },
+                          ),
+                        )
+                      ]),
                 ),
                 SizedBox(height: 20),
                 //联系地址
@@ -189,6 +194,10 @@ class PageState extends State<NewHelper> {
                         controller: _fromEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.orangeAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "开始时间"),
                       ),
@@ -206,6 +215,10 @@ class PageState extends State<NewHelper> {
                         controller: _destinationEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.redAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "结束时间"),
                       ),
@@ -246,6 +259,10 @@ class PageState extends State<NewHelper> {
                         controller: _phoneNumberEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.pinkAccent, width: 2)),
+                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "你的手机号、QQ、微信..."),
                       ),
@@ -316,6 +333,10 @@ class PageState extends State<NewHelper> {
                           keyboardType:
                               TextInputType.numberWithOptions(decimal: true),
                           decoration: new InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.pinkAccent, width: 2)),
+                              labelStyle: TextStyle(color: Colors.grey),
                               contentPadding: const EdgeInsets.all(10.0),
                               icon: new Icon(
                                 Icons.payment,
@@ -328,9 +349,12 @@ class PageState extends State<NewHelper> {
                           FlatButton(
                               onPressed: () {
                                 setState(() {
-                                  _price = _priceEditingController.value.text.toString() ==''
+                                  _price = _priceEditingController.value.text
+                                              .toString() ==
+                                          ''
                                       ? '0'
-                                      : _priceEditingController.value.text.toString();
+                                      : _priceEditingController.value.text
+                                          .toString();
                                 });
                                 Navigator.of(context).pop();
                               },
@@ -379,7 +403,7 @@ class PageState extends State<NewHelper> {
       helperEntity.user = UserCache.user;
       String _helperType = _titleEditingController.value.text.toString();
       String _wheret = _whereEditingController.value.text.toString();
-      if (_helperType.length <= 0||_wheret.length <= 0) {
+      if (_helperType.length <= 0 || _wheret.length <= 0) {
         showDialog(
             context: context,
             child: new AlertDialog(
@@ -401,14 +425,13 @@ class PageState extends State<NewHelper> {
         helperEntity.title = _titleEditingController.value.text.toString();
         helperEntity.start = _fromEditingController.value.text.toString();
         helperEntity.detail = _detailEditingController.value.text.toString();
-        helperEntity.end =
-            _destinationEditingController.value.text.toString();
+        helperEntity.end = _destinationEditingController.value.text.toString();
         helperEntity.phoneNumber =
             _phoneNumberEditingController.value.text.toString();
         helperEntity.where = _whereEditingController.value.text.toString();
         helperEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
-            print(data.toString()+"-------------------------");
+            print(data.toString() + "-------------------------");
             Navigator.of(context).pop("success");
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),
