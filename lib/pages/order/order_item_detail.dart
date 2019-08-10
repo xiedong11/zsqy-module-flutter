@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
-import 'package:flutter_app/widgets/color_label.dart';
 
 class OrderItemDetail extends StatefulWidget {
   OrderEntity orderEntity;
-
   OrderItemDetail({this.orderEntity});
-
   @override
   State<StatefulWidget> createState() => PageState(this.orderEntity);
 }
 
 class PageState extends State<OrderItemDetail> {
   OrderEntity _orderEntity;
-
   PageState(this._orderEntity);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,9 +19,12 @@ class PageState extends State<OrderItemDetail> {
           title: Text('任务详情'),
           centerTitle: true,
         ),
-        body: Column(children: <Widget>[
+        body: ListView(children: <Widget>[
           //头部信息
           Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(bottom: 10, top: 5),
+            decoration: BoxDecoration(color: Colors.white),            
             child: Stack(
               children: <Widget>[
                 Column(
@@ -39,11 +37,14 @@ class PageState extends State<OrderItemDetail> {
                       child: Row(
                         children: <Widget>[
                           ClipOval(
-                              child: Image.network(
-                            _orderEntity.user.headImgUrl,
-                            width: 50,
-                            height: 50,
-                          )),
+                            child: SizedBox(
+                                width: 40.0,
+                                height: 40.0,
+                                child: new Image.network(
+                                  _orderEntity.user.headImgUrl,
+                                  fit: BoxFit.cover,
+                                )),
+                          ),
                           SizedBox(width: 10),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -51,7 +52,11 @@ class PageState extends State<OrderItemDetail> {
                             children: <Widget>[
                               Text(_orderEntity.user.nickName == null
                                   ? _orderEntity.user.realName
-                                  : _orderEntity.user.nickName),
+                                  : _orderEntity.user.nickName,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  )),
                               Text(_orderEntity.user.major,
                                   style: TextStyle(
                                       color: Colors.black54, fontSize: 12)),
@@ -62,15 +67,16 @@ class PageState extends State<OrderItemDetail> {
                     ),
                     //个人信息
                     Padding(
-                      padding: EdgeInsets.only(left: 70),
+                      padding: EdgeInsets.only(
+                          left: 25, right: 10, top: 15, bottom: 35),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(_orderEntity.title,
-                              maxLines: 2,
+                              maxLines: 5,
                               overflow: TextOverflow.ellipsis,
                               style:
-                                  TextStyle(color: Colors.black, fontSize: 16)),
+                                  TextStyle(color: Colors.black, fontSize: 14)),
                         ],
                       ),
                     ),
@@ -78,11 +84,30 @@ class PageState extends State<OrderItemDetail> {
                 ),
                 //时间
                 Positioned(
-                  child: Text(_orderEntity.createdAt),
+                  child: Text(_orderEntity.createdAt,style:
+                                  TextStyle(fontSize: 13)),
                   right: 10,
                   top: 10,
                 ),
                 //价格标签
+                Positioned(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.tag_faces,
+                          color: Colors.black45,
+                          size: 14,
+                        ),
+                        SizedBox(width: 2),
+                        Text(_orderEntity.type,
+                            style: TextStyle(
+                              fontSize: 12,
+                            )),
+                      ],
+                    ),
+                    bottom: 0,
+                    left: 20,
+                  ),
                 Positioned(
                   child: Row(
                     children: <Widget>[
@@ -95,8 +120,6 @@ class PageState extends State<OrderItemDetail> {
                         ),
                       ),
                       SizedBox(width: 10),
-                      ColorLabel('# ${_orderEntity.type}', Color(0xFFFFC600)),
-                      SizedBox(width: 10),
                     ],
                   ),
                   right: 10,
@@ -104,10 +127,6 @@ class PageState extends State<OrderItemDetail> {
                 )
               ],
             ),
-            width: double.infinity,
-            height: 150,
-            padding: EdgeInsets.only(bottom: 10, top: 5),
-            decoration: BoxDecoration(color: Colors.white),
           ),
           SizedBox(
             height: 20,
@@ -125,17 +144,13 @@ class PageState extends State<OrderItemDetail> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         SizedBox(width: 2.0),
-                        Icon(
-                          Icons.label,
-                          color: Colors.orangeAccent,
-                          size: 20.0,
-                        ),
-                        SizedBox(width: 10.0),
-                        Text("联系地址",
+                        Text("▌",
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
+                        SizedBox(width: 10.0),
+                        Text("联系地址",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -147,16 +162,16 @@ class PageState extends State<OrderItemDetail> {
                       Icon(
                         Icons.fiber_manual_record,
                         color: Colors.lightBlue,
-                        size: 20.0,
+                        size: 14.0,
                       ),
-                      SizedBox(width: 20),
+                      SizedBox(width: 10),
                       Container(
                         width: 260.0,
                         child: Text(
                             _orderEntity.from == ''
                                 ? '无'
                                 : '起：' + _orderEntity.from,
-                            style: TextStyle(fontSize: 16)),
+                            style: TextStyle(fontSize: 14)),
                       )
                     ]),
                   ),
@@ -170,16 +185,16 @@ class PageState extends State<OrderItemDetail> {
                       Icon(
                         Icons.fiber_manual_record,
                         color: Colors.redAccent,
-                        size: 20.0,
+                        size: 14.0,
                       ),
-                      SizedBox(width: 20),
+                      SizedBox(width: 10),
                       Container(
                         width: 260.0,
                         child: Text(
                             _orderEntity.destination == ''
                                 ? '无'
                                 : '止：' + _orderEntity.destination,
-                            style: TextStyle(fontSize: 16)),
+                            style: TextStyle(fontSize: 14)),
                       )
                     ]),
                   ),
@@ -188,18 +203,14 @@ class PageState extends State<OrderItemDetail> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(width: 2.0),
-                        Icon(
-                          Icons.label,
-                          color: Colors.orangeAccent,
-                          size: 20.0,
-                        ),
-                        SizedBox(width: 10.0),
-                        Text("联系方式",
+                         SizedBox(width: 2.0),
+                        Text("▌",
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
+                        SizedBox(width: 10.0),
+                        Text("联系方式",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -211,16 +222,16 @@ class PageState extends State<OrderItemDetail> {
                       Icon(
                         Icons.call,
                         color: Colors.blue,
-                        size: 20.0,
+                        size: 16.0,
                       ),
-                      SizedBox(width: 20),
+                      SizedBox(width: 10),
                       Container(
                         width: 260.0,
                         child: Text(
                             _orderEntity.phoneNumber == ''
                                 ? '无'
                                 : _orderEntity.phoneNumber,
-                            style: TextStyle(fontSize: 16)),
+                            style: TextStyle(fontSize: 14)),
                       )
                     ]),
                   ),
@@ -234,16 +245,17 @@ class PageState extends State<OrderItemDetail> {
                           Icon(
                             Icons.details,
                             color: Colors.green,
-                            size: 20.0,
+                            size: 16.0,
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 10),
+                          //TODO 文字换行自适应宽度
                           Container(
                             width: 260.0,
                             child: Text(
                                 _orderEntity.detail == ''
                                     ? '无'
                                     : _orderEntity.detail,
-                                style: TextStyle(fontSize: 16)),
+                                style: TextStyle(fontSize: 14)),
                           )
                         ]),
                   ),
