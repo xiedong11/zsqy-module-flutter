@@ -167,9 +167,10 @@ class ItemWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                  _orderEntity.user.nickName == null
-                                      ? _orderEntity.user.realName
-                                      : _orderEntity.user.nickName,
+                                  (_orderEntity.user.nickName != null &&
+                                          _orderEntity.user.nickName.length > 0)
+                                      ? _orderEntity.user.nickName
+                                      : _orderEntity.user.realName,
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
@@ -309,4 +310,3 @@ class ItemWidget extends StatelessWidget {
     }
   }
 }
-

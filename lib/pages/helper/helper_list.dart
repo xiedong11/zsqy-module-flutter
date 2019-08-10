@@ -167,9 +167,10 @@ class ItemWidget extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                    _helperEntity.user.nickName == null
-                                        ? _helperEntity.user.realName
-                                        : _helperEntity.user.nickName,
+                                    (_helperEntity.user.nickName != null &&
+                                        _helperEntity.user.nickName.length > 0)
+                                        ? _helperEntity.user.nickName
+                                        : _helperEntity.user.realName,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
