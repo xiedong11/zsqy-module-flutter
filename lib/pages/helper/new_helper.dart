@@ -15,20 +15,11 @@ class PageState extends State<NewHelper> {
   TextEditingController _phoneNumberEditingController = TextEditingController();
   TextEditingController _priceEditingController = TextEditingController();
   TextEditingController _detailEditingController = TextEditingController();
-  TextEditingController _fromEditingController = TextEditingController();
-  TextEditingController _destinationEditingController = TextEditingController();
   TextEditingController _whereEditingController = TextEditingController();
 
   String _price = '0';
-
-  static List<TypeItemEntity> _typeList = [
-    TypeItemEntity("取快递", 0),
-    TypeItemEntity("送礼物", 1),
-    TypeItemEntity("帮买饭", 2),
-    TypeItemEntity("替上课", 3),
-    TypeItemEntity("陪聊天", 4),
-    TypeItemEntity("其他", 5),
-  ];
+  String _start = '00:00AM';
+  String _end = '12:00PM';
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +52,12 @@ class PageState extends State<NewHelper> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.pinkAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
                             labelText: "请输入你的标题..."),
                         onChanged: (String str) {
-                          if (str.length == 35) {
+                          if (str.length >= 100) {
                             showDialog(
                                 context: context,
                                 child: new AlertDialog(
@@ -73,7 +65,7 @@ class PageState extends State<NewHelper> {
                                     "标题字数已达上限",
                                     style: TextStyle(color: Colors.red),
                                   ),
-                                  content: Text("建议任务标题控制在35字以内，超出部分首页将不再显示。",
+                                  content: Text("建议任务标题控制在100字以内，超出部分首页将不再显示。",
                                       style: TextStyle(color: Colors.black)),
                                   actions: <Widget>[
                                     FlatButton(
@@ -95,17 +87,15 @@ class PageState extends State<NewHelper> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.lightBlue,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("当前位置",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightBlue))
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
                 SizedBox(height: 20),
                 //当前位置
@@ -132,9 +122,11 @@ class PageState extends State<NewHelper> {
                                   ),
                                 ),
                                 contentPadding: const EdgeInsets.all(10.0),
+                                labelStyle:
+                                    TextStyle(color: Colors.grey, fontSize: 14),
                                 labelText: "你的位置..."),
                             onChanged: (String str) {
-                              if (str.length == 15) {
+                              if (str.length >= 15) {
                                 showDialog(
                                     context: context,
                                     child: new AlertDialog(
@@ -160,89 +152,90 @@ class PageState extends State<NewHelper> {
                       ]),
                 ),
                 SizedBox(height: 20),
-                //联系地址
+                //空闲时间
                 Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.lightBlue,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("空闲时间",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightBlue)),
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
-                //出发地址
+                //空闲时间
                 Padding(
                   padding: EdgeInsets.all(2.0),
-                  child: Row(children: <Widget>[
-                    SizedBox(width: 20),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      color: Colors.orangeAccent,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 15),
-                    Container(
-                      width: 95.0,
-                      child: TextField(
-                        controller: _fromEditingController,
-                        keyboardType: TextInputType.text,
-                        decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.orangeAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
-                            contentPadding: const EdgeInsets.all(10.0),
-                            labelText: "开始时间"),
-                      ),
-                    ),
-                    SizedBox(width: 15),
-                    Icon(
-                      Icons.fiber_manual_record,
-                      color: Colors.redAccent,
-                      size: 20.0,
-                    ),
-                    SizedBox(width: 15),
-                    Container(
-                      width: 95.0,
-                      child: TextField(
-                        controller: _destinationEditingController,
-                        keyboardType: TextInputType.text,
-                        decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.redAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
-                            contentPadding: const EdgeInsets.all(10.0),
-                            labelText: "结束时间"),
-                      ),
-                    )
-                  ]),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        SizedBox(width: 20),
+                        Icon(
+                          Icons.fiber_manual_record,
+                          color: Colors.blue,
+                          size: 16.0,
+                        ),
+                        SizedBox(width: 0),
+                        FlatButton(
+                          child: new Text(_start),
+                          onPressed: () {
+                            showTimePicker(
+                              context: context,
+                              initialTime: new TimeOfDay.now(),
+                            ).then((val) {
+                              setState(() {
+                                _start=val.format(context);
+                              });
+                            }).catchError((err) {
+                              print(err);
+                            });
+                          },
+                        ),
+                        SizedBox(width: 30),
+                        Icon(
+                          Icons.fiber_manual_record,
+                          color: Colors.redAccent,
+                          size: 16.0,
+                        ),
+                        SizedBox(width: 0),
+                        FlatButton(
+                          child: new Text(_end),
+                          onPressed: () {
+                            showTimePicker(
+                              context: context,
+                              initialTime: new TimeOfDay.now(),
+                            ).then((val) {
+                              setState(() {
+                                _end=val.format(context);
+                              });
+                            }).catchError((err) {
+                              print(err);
+                            });
+                          },
+                        ),
+                      ]),
                 ),
-                SizedBox(height: 20.0),
+                SizedBox(height: 5.0),
                 //联系方式
                 Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.lightBlue,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("联系方式",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.lightBlue)),
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
+                SizedBox(height: 10.0),
                 //联系方式
                 Padding(
                   padding: EdgeInsets.all(2.0),
@@ -262,7 +255,8 @@ class PageState extends State<NewHelper> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.pinkAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "你的手机号、QQ、微信..."),
                       ),
@@ -291,6 +285,8 @@ class PageState extends State<NewHelper> {
                             decoration: new InputDecoration(
                                 contentPadding: const EdgeInsets.all(10.0),
                                 hintText: '说点什么吧...',
+                                hintStyle:
+                                    TextStyle(color: Colors.grey, fontSize: 14),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Colors.blue,
@@ -422,10 +418,10 @@ class PageState extends State<NewHelper> {
             ));
       } else {
         helperEntity.price = _price;
+        helperEntity.start = _start;
+        helperEntity.end = _end;
         helperEntity.title = _titleEditingController.value.text.toString();
-        helperEntity.start = _fromEditingController.value.text.toString();
         helperEntity.detail = _detailEditingController.value.text.toString();
-        helperEntity.end = _destinationEditingController.value.text.toString();
         helperEntity.phoneNumber =
             _phoneNumberEditingController.value.text.toString();
         helperEntity.where = _whereEditingController.value.text.toString();
@@ -447,67 +443,5 @@ class PageState extends State<NewHelper> {
         ),
       ));
     }
-  }
-}
-
-class TypeItemEntity {
-  String title;
-  int index;
-
-  TypeItemEntity(this.title, this.index);
-}
-
-class TypeItemWidget extends StatefulWidget {
-  List<TypeItemEntity> _typeItemEntity;
-
-  TypeItemWidget(this._typeItemEntity);
-
-  @override
-  State<StatefulWidget> createState() {
-    return TypeItemWidgetState();
-  }
-}
-
-class TypeItemWidgetState extends State<TypeItemWidget> {
-  var _selectedStyle = BoxDecoration(
-      color: Colors.orangeAccent,
-      borderRadius: BorderRadius.all(Radius.circular(5.0)));
-  var _normalStyle = BoxDecoration(
-      color: Colors.black12,
-      borderRadius: BorderRadius.all(Radius.circular(5.0)));
-  var _currentIndex = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      padding: EdgeInsets.all(20.0),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        mainAxisSpacing: 10.0,
-        childAspectRatio: 2.0,
-        crossAxisSpacing: 10.0,
-      ),
-      itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          child: Container(
-            alignment: Alignment.center,
-            decoration: widget._typeItemEntity[index].index == _currentIndex
-                ? _selectedStyle
-                : _normalStyle,
-            child: GestureDetector(
-              child: Text(widget._typeItemEntity[index].title),
-            ),
-          ),
-          onTap: () {
-            this.setState(() {
-              _currentIndex = widget._typeItemEntity[index].index;
-              type = widget._typeItemEntity[index].index;
-            });
-          },
-        );
-      },
-      itemCount: widget._typeItemEntity.length,
-    );
   }
 }
