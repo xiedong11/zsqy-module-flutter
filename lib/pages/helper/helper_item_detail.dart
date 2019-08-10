@@ -90,31 +90,31 @@ class PageState extends State<HelperItemDetail> {
                 ),
                 //时间
                 Positioned(
-                  child: Text(_helperEntity.createdAt,style:
-                                  TextStyle(fontSize: 13)),
+                  child: Text(_helperEntity.createdAt,
+                      style: TextStyle(fontSize: 13)),
                   right: 10,
                   top: 10,
                 ),
                 Positioned(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.location_on,
-                          color: Colors.black45,
-                          size: 14,
-                        ),
-                        Text(
-                            _helperEntity.where.length > 6
-                                ? '${_helperEntity.where.substring(0, 6)}...'
-                                : _helperEntity.where,
-                            style: TextStyle(
-                              fontSize: 12,
-                            )),
-                      ],
-                    ),
-                    bottom: 0,
-                    left: 20,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.location_on,
+                        color: Colors.black45,
+                        size: 14,
+                      ),
+                      Text(
+                          _helperEntity.where.length > 6
+                              ? '${_helperEntity.where.substring(0, 6)}...'
+                              : _helperEntity.where,
+                          style: TextStyle(
+                            fontSize: 12,
+                          )),
+                    ],
                   ),
+                  bottom: 0,
+                  left: 20,
+                ),
                 //价格标签
                 Positioned(
                   child: Row(
@@ -157,7 +157,9 @@ class PageState extends State<HelperItemDetail> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
                         SizedBox(width: 10.0),
-                        Text("空闲时间",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
+                        Text("空闲时间",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 13)),
                       ]),
                   SizedBox(height: 20),
                   //开始时间
@@ -215,7 +217,9 @@ class PageState extends State<HelperItemDetail> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
                         SizedBox(width: 10.0),
-                        Text("联系方式",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
+                        Text("联系方式",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 13)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -253,14 +257,13 @@ class PageState extends State<HelperItemDetail> {
                             size: 16.0,
                           ),
                           SizedBox(width: 10),
-                          //TODO 文字换行自适应宽度
                           Container(
-                            width: 290.0,
-                            child: Text(
-                                _helperEntity.detail == ''
-                                    ? '无'
-                                    : _helperEntity.detail,
-                                style: TextStyle(fontSize: 14)),
+                            child: Expanded(
+                                child: Text(
+                                    _helperEntity.detail == ''
+                                        ? '无'
+                                        : _helperEntity.detail,
+                                    style: TextStyle(fontSize: 14))),
                           )
                         ]),
                   ),

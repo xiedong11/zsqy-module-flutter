@@ -4,14 +4,18 @@ import 'package:flutter_app/utils/plat_form_util.dart';
 
 class OrderItemDetail extends StatefulWidget {
   OrderEntity orderEntity;
+
   OrderItemDetail({this.orderEntity});
+
   @override
   State<StatefulWidget> createState() => PageState(this.orderEntity);
 }
 
 class PageState extends State<OrderItemDetail> {
   OrderEntity _orderEntity;
+
   PageState(this._orderEntity);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +28,7 @@ class PageState extends State<OrderItemDetail> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.only(bottom: 10, top: 5),
-            decoration: BoxDecoration(color: Colors.white),            
+            decoration: BoxDecoration(color: Colors.white),
             child: Stack(
               children: <Widget>[
                 Column(
@@ -50,9 +54,10 @@ class PageState extends State<OrderItemDetail> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(_orderEntity.user.nickName == null
-                                  ? _orderEntity.user.realName
-                                  : _orderEntity.user.nickName,
+                              Text(
+                                  _orderEntity.user.nickName == null
+                                      ? _orderEntity.user.realName
+                                      : _orderEntity.user.nickName,
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.bold,
@@ -84,30 +89,30 @@ class PageState extends State<OrderItemDetail> {
                 ),
                 //时间
                 Positioned(
-                  child: Text(_orderEntity.createdAt,style:
-                                  TextStyle(fontSize: 13)),
+                  child: Text(_orderEntity.createdAt,
+                      style: TextStyle(fontSize: 13)),
                   right: 10,
                   top: 10,
                 ),
                 //价格标签
                 Positioned(
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.tag_faces,
-                          color: Colors.black45,
-                          size: 14,
-                        ),
-                        SizedBox(width: 2),
-                        Text(_orderEntity.type,
-                            style: TextStyle(
-                              fontSize: 12,
-                            )),
-                      ],
-                    ),
-                    bottom: 0,
-                    left: 20,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.tag_faces,
+                        color: Colors.black45,
+                        size: 14,
+                      ),
+                      SizedBox(width: 2),
+                      Text(_orderEntity.type,
+                          style: TextStyle(
+                            fontSize: 12,
+                          )),
+                    ],
                   ),
+                  bottom: 0,
+                  left: 20,
+                ),
                 Positioned(
                   child: Row(
                     children: <Widget>[
@@ -150,7 +155,9 @@ class PageState extends State<OrderItemDetail> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
                         SizedBox(width: 10.0),
-                        Text("联系地址",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
+                        Text("联系地址",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 13)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -203,14 +210,16 @@ class PageState extends State<OrderItemDetail> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-                         SizedBox(width: 2.0),
+                        SizedBox(width: 2.0),
                         Text("▌",
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.orangeAccent)),
                         SizedBox(width: 10.0),
-                        Text("联系方式",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13)),
+                        Text("联系方式",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 13)),
                       ]),
                   SizedBox(
                     height: 20,
@@ -248,14 +257,13 @@ class PageState extends State<OrderItemDetail> {
                             size: 16.0,
                           ),
                           SizedBox(width: 10),
-                          //TODO 文字换行自适应宽度
                           Container(
-                            width: 260.0,
-                            child: Text(
-                                _orderEntity.detail == ''
-                                    ? '无'
-                                    : _orderEntity.detail,
-                                style: TextStyle(fontSize: 14)),
+                            child: Expanded(
+                                child: Text(
+                                    _orderEntity.detail == ''
+                                        ? '无'
+                                        : _orderEntity.detail,
+                                    style: TextStyle(fontSize: 14))),
                           )
                         ]),
                   ),
