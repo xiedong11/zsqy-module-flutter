@@ -18,7 +18,7 @@ class PageState extends State<NewOrder> {
   TextEditingController _fromEditingController = TextEditingController();
   TextEditingController _destinationEditingController = TextEditingController();
 
-  String _price='0';
+  String _price = '0';
 
   static List<TypeItemEntity> _typeList = [
     TypeItemEntity("取快递", 0),
@@ -47,7 +47,7 @@ class PageState extends State<NewOrder> {
                   child: Row(children: <Widget>[
                     Icon(
                       Icons.flash_on,
-                      color: Colors.orangeAccent,
+                      color: Colors.black45,
                       size: 20.0,
                     ),
                     SizedBox(width: 20),
@@ -60,11 +60,12 @@ class PageState extends State<NewOrder> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.pinkAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
                             contentPadding: const EdgeInsets.all(10.0),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
                             labelText: "请输入任务标题..."),
                         onChanged: (String str) {
-                          if (str.length == 35) {
+                          if (str.length >= 100) {
                             showDialog(
                                 context: context,
                                 child: new AlertDialog(
@@ -72,7 +73,7 @@ class PageState extends State<NewOrder> {
                                     "标题字数已达上限",
                                     style: TextStyle(color: Colors.red),
                                   ),
-                                  content: Text("建议任务标题控制在35字以内，超出部分首页将不再显示。",
+                                  content: Text("建议任务标题控制在100字以内，超出部分首页将不再显示。",
                                       style: TextStyle(color: Colors.black)),
                                   actions: <Widget>[
                                     FlatButton(
@@ -94,17 +95,15 @@ class PageState extends State<NewOrder> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.orangeAccent,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("任务类型",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orangeAccent))
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
                 TypeItemWidget(_typeList),
                 //联系地址
@@ -112,66 +111,124 @@ class PageState extends State<NewOrder> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.orangeAccent,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("联系地址",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orangeAccent)),
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
+                SizedBox(height: 20),
                 //出发地址
                 Padding(
                   padding: EdgeInsets.all(2.0),
                   child: Row(children: <Widget>[
+                    SizedBox(width: 10),
                     Icon(
                       Icons.fiber_manual_record,
                       color: Colors.lightBlue,
-                      size: 20.0,
+                      size: 16.0,
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 10),
                     Container(
                       width: 260.0,
                       child: TextField(
                         controller: _fromEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.lightBlue, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
                             contentPadding: const EdgeInsets.all(10.0),
-                            labelText: "任务的起始位置..."),
+                            focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  )),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            labelText: "任务开始位置..."),
+                        onChanged: (String str) {
+                          if (str.length >= 30) {
+                            showDialog(
+                                context: context,
+                                child: new AlertDialog(
+                                  title: Text(
+                                    "位置字数已达上限",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  content: Text("请将位置字数控制在30字以内！",
+                                      style: TextStyle(color: Colors.black)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("确定")),
+                                  ],
+                                ));
+                          }
+                        },
                       ),
                     )
                   ]),
                 ),
+                SizedBox(height: 20),
                 //到达地址
                 Padding(
                   padding: EdgeInsets.all(2.0),
                   child: Row(children: <Widget>[
+                    SizedBox(width: 10),
                     Icon(
                       Icons.fiber_manual_record,
                       color: Colors.redAccent,
-                      size: 20.0,
+                      size: 16.0,
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 10),
                     Container(
                       width: 260.0,
                       child: TextField(
                         controller: _destinationEditingController,
                         keyboardType: TextInputType.text,
                         decoration: new InputDecoration(
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.redAccent, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
                             contentPadding: const EdgeInsets.all(10.0),
-                            labelText: "任务的终止位置..."),
+                            focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.red,
+                                  )),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
+                            labelText: "任务结束位置..."),
+                        onChanged: (String str) {
+                          if (str.length >= 30) {
+                            showDialog(
+                                context: context,
+                                child: new AlertDialog(
+                                  title: Text(
+                                    "位置字数已达上限",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  content: Text("请将位置字数控制在30字以内！",
+                                      style: TextStyle(color: Colors.black)),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: Text("确定")),
+                                  ],
+                                ));
+                          }
+                        },
                       ),
                     )
                   ]),
@@ -182,28 +239,27 @@ class PageState extends State<NewOrder> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       SizedBox(width: 2.0),
-                      Icon(
-                        Icons.label,
-                        color: Colors.orangeAccent,
-                        size: 20.0,
-                      ),
+                      Text("▌",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orangeAccent)),
                       SizedBox(width: 10.0),
                       Text("联系方式",
                           style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orangeAccent)),
+                              fontWeight: FontWeight.bold, fontSize: 13)),
                     ]),
                 //联系方式
                 Padding(
                   padding: EdgeInsets.all(2.0),
                   child: Row(children: <Widget>[
+                    SizedBox(width: 10),
                     Icon(
                       Icons.call,
                       color: Colors.blue,
-                      size: 20.0,
+                      size: 16.0,
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 10),
                     Container(
                       width: 260.0,
                       child: TextField(
@@ -213,7 +269,8 @@ class PageState extends State<NewOrder> {
                             focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
                                     color: Colors.lightBlue, width: 2)),
-                            labelStyle: TextStyle(color: Colors.grey),
+                            labelStyle:
+                                TextStyle(color: Colors.grey, fontSize: 14),
                             contentPadding: const EdgeInsets.all(10.0),
                             labelText: "你的手机号、QQ、微信..."),
                       ),
@@ -227,12 +284,13 @@ class PageState extends State<NewOrder> {
                   child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        SizedBox(width: 10),
                         Icon(
                           Icons.details,
                           color: Colors.green,
-                          size: 20.0,
+                          size: 16.0,
                         ),
-                        SizedBox(width: 20),
+                        SizedBox(width: 10),
                         Container(
                           width: 260.0,
                           child: TextField(
@@ -242,6 +300,8 @@ class PageState extends State<NewOrder> {
                             decoration: new InputDecoration(
                                 contentPadding: const EdgeInsets.all(10.0),
                                 hintText: '备注：任务详细内容...',
+                                hintStyle:
+                                    TextStyle(color: Colors.grey, fontSize: 14),
                                 border: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: Colors.blue,
@@ -300,9 +360,12 @@ class PageState extends State<NewOrder> {
                           FlatButton(
                               onPressed: () {
                                 setState(() {
-                                  _price = _priceEditingController.value.text.toString() ==''
+                                  _price = _priceEditingController.value.text
+                                              .toString() ==
+                                          ''
                                       ? '0'
-                                      : _priceEditingController.value.text.toString();
+                                      : _priceEditingController.value.text
+                                          .toString();
                                 });
                                 Navigator.of(context).pop();
                               },
@@ -379,7 +442,7 @@ class PageState extends State<NewOrder> {
         orderEntity.type = _typeList[type].title;
         orderEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
-            print(data.toString()+"-------------------------");
+            print(data.toString() + "-------------------------");
             Navigator.of(context).pop("success");
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),

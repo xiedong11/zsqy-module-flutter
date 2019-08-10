@@ -101,7 +101,9 @@ class PageState extends State<OrderList> {
                     itemCount: dataList.length + 1,
                   ),
                   onRefresh: _handleRefreshEvent),
-              decoration: BoxDecoration(color: Colors.white12),
+              //背景颜色
+              decoration:
+                  BoxDecoration(color: Color.fromRGBO(244, 243, 243, 1)),
             )
           : Center(
               child: Text('数据加载中...'),
@@ -135,8 +137,11 @@ class ItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
         child: Padding(
-          padding: EdgeInsets.only(bottom: 4, left: 3, right: 3),
+          padding: EdgeInsets.only(bottom: 10),
           child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(bottom: 15, top: 10),
+            decoration: BoxDecoration(color: Colors.white),
             child: Stack(
               children: <Widget>[
                 Column(
@@ -144,24 +149,33 @@ class ItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 20, top: 10),
+                      padding: EdgeInsets.only(left: 20, top: 0),
                       child: Row(
                         children: <Widget>[
                           ClipOval(
-                              child: Image.network(
-                            _orderEntity.user.headImgUrl,
-                            width: 50,
-                            height: 50,
-                          )),
+                            child: SizedBox(
+                                width: 40.0,
+                                height: 40.0,
+                                child: new Image.network(
+                                  _orderEntity.user.headImgUrl,
+                                  fit: BoxFit.cover,
+                                )),
+                          ),
                           SizedBox(width: 10),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(_orderEntity.user.nickName == null
-                                  ? _orderEntity.user.realName
-                                  : _orderEntity.user.nickName),
-                              Text(_orderEntity.user.major,
+                              Text(
+                                  _orderEntity.user.nickName == null
+                                      ? _orderEntity.user.realName
+                                      : _orderEntity.user.nickName,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                              SizedBox(height: 4),
+                              Text(_orderEntity.createdAt,
                                   style: TextStyle(
                                       color: Colors.black54, fontSize: 12)),
                             ],
@@ -170,24 +184,46 @@ class ItemWidget extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 70, right: 10),
+                      padding: EdgeInsets.only(
+                          left: 25, right: 10, top: 15, bottom: 35),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(_orderEntity.title,
-                              maxLines: 2,
+                              maxLines: 5,
                               overflow: TextOverflow.ellipsis,
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16)),
+                              style: TextStyle(fontSize: 14)),
                         ],
                       ),
                     ),
                   ],
                 ),
                 Positioned(
-                  child: Text(_orderEntity.createdAt),
                   right: 10,
-                  top: 10,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(244, 243, 243, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Text(
+                              '#' + _orderEntity.type,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 Positioned(
                   child: Row(
@@ -201,8 +237,6 @@ class ItemWidget extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      _SwitchColor(_orderEntity.type),
-                      SizedBox(width: 10),
                     ],
                   ),
                   right: 10,
@@ -210,10 +244,6 @@ class ItemWidget extends StatelessWidget {
                 )
               ],
             ),
-            width: double.infinity,
-            height: 140,
-            padding: EdgeInsets.only(bottom: 5, top: 5),
-            decoration: BoxDecoration(color: Colors.white),
           ),
         ),
         //长按删除任务
@@ -231,10 +261,10 @@ class ItemWidget extends StatelessWidget {
         context: context,
         child: new AlertDialog(
           title: Text(
-            "确定要删除吗",
+            "确定要删除吗？",
             style: TextStyle(color: Colors.red),
           ),
-          content: Text("任务删除后不可恢复，若任务已完成或不想再展示，请放心删除..."),
+          content: Text("任务删除后不可恢复，若任务已完成或者不想再展示，请放心删除..."),
           actions: <Widget>[
             FlatButton(
                 onPressed: () {
@@ -280,28 +310,3 @@ class ItemWidget extends StatelessWidget {
   }
 }
 
-class _SwitchColor extends StatelessWidget {
-  String type;
-
-  _SwitchColor(this.type);
-
-  @override
-  Widget build(BuildContext context) {
-    switch (type) {
-      case '取快递':
-        return ColorLabel('# ${type}', Colors.green);
-      case '送礼物':
-        return ColorLabel('# ${type}', Colors.pink);
-      case '陪聊天':
-        return ColorLabel('# ${type}', Colors.lightBlue);
-      case '替上课':
-        return ColorLabel('# ${type}', Colors.yellow[600]);
-      case '帮买饭':
-        return ColorLabel('# ${type}', Colors.orange);
-      case '其他':
-        return ColorLabel('# ${type}', Color(0xFFFFC600));
-      default:
-        return ColorLabel('# ${type}', Colors.black);
-    }
-  }
-}
