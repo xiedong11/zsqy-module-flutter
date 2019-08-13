@@ -135,6 +135,10 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isOverdue = DateTime.now()
+            .difference(DateTime.parse(_helperEntity.createdAt))
+            .inHours >
+        24;
     return GestureDetector(
         child: Padding(
           padding: EdgeInsets.only(bottom: 10),
@@ -168,7 +172,8 @@ class ItemWidget extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                     (_helperEntity.user.nickName != null &&
-                                        _helperEntity.user.nickName.length > 0)
+                                            _helperEntity.user.nickName.length >
+                                                0)
                                         ? _helperEntity.user.nickName
                                         : _helperEntity.user.realName,
                                     style: TextStyle(
@@ -201,36 +206,33 @@ class ItemWidget extends StatelessWidget {
                   ),
                   Positioned(
                     right: 10,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(244, 243, 243, 1),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                              child: Text(
-                                (_helperEntity.start == ''
-                                        ? '未填写'
-                                        : _helperEntity.start) +
-                                    '-' +
-                                    (_helperEntity.end == ''
-                                        ? '未填写'
-                                        : _helperEntity.end),
-                                style: TextStyle(
-                                  fontSize: 12,
-                                ),
+                    child: isOverdue
+                        ? Image.asset(
+                            'lib/img/ic_overdue.png',
+                            scale: 5,
+                            color: Colors.brown,
+                          )
+                        : Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(244, 243, 243, 1),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                            ),
+                            child: Text(
+                              (_helperEntity.start == ''
+                                      ? '未填写'
+                                      : _helperEntity.start) +
+                                  '-' +
+                                  (_helperEntity.end == ''
+                                      ? '未填写'
+                                      : _helperEntity.end),
+                              style: TextStyle(
+                                fontSize: 12,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
                   ),
                   Positioned(
                     child: Row(
@@ -272,8 +274,16 @@ class ItemWidget extends StatelessWidget {
           _showItemDelDialog(context, _helperEntity);
         },
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (_) => HelperItemDetail(helperEntity: _helperEntity)));
+          if (isOverdue) {
+            Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text(
+              "当前任务已过期,不支持查看详情",
+              style: TextStyle(color: Colors.redAccent),
+            )));
+          } else {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => HelperItemDetail(helperEntity: _helperEntity)));
+          }
         });
   }
 
@@ -330,4 +340,3 @@ class ItemWidget extends StatelessWidget {
     }
   }
 }
-
