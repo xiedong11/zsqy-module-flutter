@@ -1,6 +1,7 @@
 import 'package:data_plugin/bmob/response/bmob_saved.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/order_entity.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 
 int type = 0;
@@ -146,9 +147,9 @@ class PageState extends State<NewOrder> {
                             ),
                             contentPadding: const EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.blue,
-                                  )),
+                                borderSide: BorderSide(
+                              color: Colors.blue,
+                            )),
                             labelStyle:
                                 TextStyle(color: Colors.grey, fontSize: 14),
                             labelText: "任务开始位置..."),
@@ -202,9 +203,9 @@ class PageState extends State<NewOrder> {
                             ),
                             contentPadding: const EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                  )),
+                                borderSide: BorderSide(
+                              color: Colors.red,
+                            )),
                             labelStyle:
                                 TextStyle(color: Colors.grey, fontSize: 14),
                             labelText: "任务结束位置..."),
@@ -408,8 +409,19 @@ class PageState extends State<NewOrder> {
         ));
   }
 
-  void _addNewOrder(BuildContext context) {
+  void _addNewOrder(BuildContext context) async {
     OrderEntity orderEntity = OrderEntity();
+
+    if (await PlatFormUtil.callNativeApp(PlatFormUtil.IS_VISITOR)) {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(
+          "尚未登陆...",
+          style: TextStyle(color: Colors.white),
+        ),
+      ));
+      return;
+    }
+
     if (UserCache.user != null) {
       orderEntity.user = UserCache.user;
       String _orderType = _titleEditingController.value.text.toString();

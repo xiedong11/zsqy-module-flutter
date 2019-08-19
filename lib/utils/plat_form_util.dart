@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 const platform = const MethodChannel("zhuandian.flutter");
@@ -7,6 +8,7 @@ class PlatFormUtil {
   static final String GET_USER_OBJECT_ID = "getUserObjectId";
   static final String OPEN_CHAT = "openChat";
   static final String VIEW_USER_INFO = "viewUserInfo";
+  static final String IS_VISITOR = "isVisitor";
 
   //msg key
   static final String KEY_RELREASE_USER_ID = "releaseUserId";
@@ -21,4 +23,5 @@ class PlatFormUtil {
       String method, Map<String, Object> map) {
     return platform.invokeMethod(method, map);
   }
+
 }

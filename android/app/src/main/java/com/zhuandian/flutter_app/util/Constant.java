@@ -14,6 +14,8 @@ public class Constant {
     public static final String GET_USER_OBJECT_ID = "getUserObjectId";
     public static final String OPEN_CHAT = "openChat";
     public static final String VIEW_USER_INFO = "viewUserInfo";
+    public static final String IS_VISITOR = "isVisitor";
+
 
     //msg key
     public static final String KEY_RELREASE_USER_ID = "releaseUserId";

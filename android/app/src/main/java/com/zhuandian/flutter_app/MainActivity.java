@@ -19,6 +19,7 @@ public class MainActivity extends FlutterActivity {
     private static final String MESSAGE_CHANNEL = "zhuandian.flutter";
 
     private String userObjectId;
+    private boolean isVisitor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class MainActivity extends FlutterActivity {
         GeneratedPluginRegistrant.registerWith(this);
 
 //        userObjectId = getIntent().getStringExtra("userObjectId");
+        isVisitor = getIntent().getBooleanExtra("isVisitor", false);
         userObjectId = "NXPhgdOZ";
 
         initMessageChannl();
@@ -68,6 +70,9 @@ public class MainActivity extends FlutterActivity {
                             intent.putExtra(Constant.KEY_RELREASE_USER_ID, releaseUserId);
                             startActivity(intent);
                         }
+                        break;
+                    case Constant.IS_VISITOR:
+                        result.success(isVisitor);
                         break;
                     default:
                         result.notImplemented();

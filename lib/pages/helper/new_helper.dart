@@ -1,6 +1,7 @@
 import 'package:data_plugin/bmob/response/bmob_saved.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/helper_entity.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
 
 int type = 0;
@@ -188,7 +189,7 @@ class PageState extends State<NewHelper> {
                               initialTime: new TimeOfDay.now(),
                             ).then((val) {
                               setState(() {
-                                _start=val.format(context);
+                                _start = val.format(context);
                               });
                             }).catchError((err) {
                               print(err);
@@ -210,7 +211,7 @@ class PageState extends State<NewHelper> {
                               initialTime: new TimeOfDay.now(),
                             ).then((val) {
                               setState(() {
-                                _end=val.format(context);
+                                _end = val.format(context);
                               });
                             }).catchError((err) {
                               print(err);
@@ -393,8 +394,17 @@ class PageState extends State<NewHelper> {
         ));
   }
 
-  void _addNewHelper(BuildContext context) {
+  void _addNewHelper(BuildContext context) async {
     HelperEntity helperEntity = HelperEntity();
+    if (await PlatFormUtil.callNativeApp(PlatFormUtil.IS_VISITOR)) {
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text(
+          "尚未登陆...",
+          style: TextStyle(color: Colors.white),
+        ),
+      ));
+      return;
+    }
     if (UserCache.user != null) {
       helperEntity.user = UserCache.user;
       String _helperType = _titleEditingController.value.text.toString();
@@ -427,7 +437,6 @@ class PageState extends State<NewHelper> {
         helperEntity.where = _whereEditingController.value.text.toString();
         helperEntity.save().then((BmobSaved data) {
           if (data.objectId != null) {
-            print(data.toString() + "-------------------------");
             Navigator.of(context).pop("success");
             Scaffold.of(context).showSnackBar(new SnackBar(
               content: new Text("发布成功... "),
