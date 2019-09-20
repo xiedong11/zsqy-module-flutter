@@ -252,16 +252,8 @@ class ItemWidget extends StatelessWidget {
           _showItemDelDialog(context, _orderEntity);
         },
         onTap: () {
-          if (isOverdue) {
-            Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text(
-              "当前任务已过期,不支持查看详情",
-              style: TextStyle(color: Colors.redAccent),
-            )));
-          } else {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
-          }
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => OrderItemDetail(orderEntity: _orderEntity)));
         });
   }
 

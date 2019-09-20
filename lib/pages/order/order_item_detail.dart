@@ -282,6 +282,10 @@ class _BottomToolBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isOverdue = DateTime.now()
+            .difference(DateTime.parse(_orderEntity.createdAt))
+            .inHours >
+        24;
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       height: 50,
@@ -290,10 +294,18 @@ class _BottomToolBar extends StatelessWidget {
           flex: 2,
           child: GestureDetector(
             onTap: () {
-              PlatFormUtil.callNativeAppWithParams(
-                  PlatFormUtil.VIEW_USER_INFO, {
-                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
-              });
+              if (isOverdue) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                  "当前任务已过期,不能看TA资料",
+                  style: TextStyle(color: Colors.redAccent),
+                )));
+              } else {
+                PlatFormUtil.callNativeAppWithParams(
+                    PlatFormUtil.VIEW_USER_INFO, {
+                  PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+                });
+              }
             },
             child: Center(
               child: Text(
@@ -306,9 +318,17 @@ class _BottomToolBar extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              PlatFormUtil.callNativeAppWithParams(PlatFormUtil.OPEN_CHAT, {
-                PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
-              });
+              if (isOverdue) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                  "当前任务已过期,不能与TA私聊",
+                  style: TextStyle(color: Colors.redAccent),
+                )));
+              } else {
+                PlatFormUtil.callNativeAppWithParams(PlatFormUtil.OPEN_CHAT, {
+                  PlatFormUtil.KEY_RELREASE_USER_ID: _orderEntity.user.objectId
+                });
+              }
             },
             child: Container(
               height: 50,
