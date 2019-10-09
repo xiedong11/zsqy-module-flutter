@@ -15,6 +15,7 @@ public class Constant {
     public static final String OPEN_CHAT = "openChat";
     public static final String VIEW_USER_INFO = "viewUserInfo";
     public static final String IS_VISITOR = "isVisitor";
+    public static final String FLUTTER_PAGE_ROUTE = "flutterPageRoute";
 
 
     //msg key

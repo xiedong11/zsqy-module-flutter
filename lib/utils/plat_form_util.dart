@@ -9,6 +9,7 @@ class PlatFormUtil {
   static final String OPEN_CHAT = "openChat";
   static final String VIEW_USER_INFO = "viewUserInfo";
   static final String IS_VISITOR = "isVisitor";
+  static final String FLUTTER_PAGE_ROUTE = "flutterPageRoute";
 
   //msg key
   static final String KEY_RELREASE_USER_ID = "releaseUserId";
@@ -23,5 +24,4 @@ class PlatFormUtil {
       String method, Map<String, Object> map) {
     return platform.invokeMethod(method, map);
   }
-
 }

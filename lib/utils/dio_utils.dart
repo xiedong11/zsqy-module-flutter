@@ -4,7 +4,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
 class DioUtils {
-  static final String BASE_URL = ""; //base url
+  //http://zhjw.qfnu.edu.cn/app.do?method=authUser&xh=0000000&pwd=000000
+  static final String BASE_URL = "http://zhjw.qfnu.edu.cn"; //base url
   static DioUtils _instance;
   Dio _dio;
   BaseOptions _baseOptions;
@@ -57,12 +58,12 @@ class DioUtils {
    * get请求
    */
 
-  get(url, {data, options}) async {
-    print('get request path ------${url}-------请求参数${data}');
-    print('------------');
+  get( {data, options}) async {
+//    print('get request path ------${url}-------请求参数${data}');
+//    print('------------');
     Response response;
     try {
-      response = await _dio.get(url, queryParameters: data, options: options);
+      response = await _dio.get("/app.do", queryParameters: data, options: options);
       debugPrint('get result ---${response.data}');
     } on DioError catch (e) {
       print('请求失败---错误类型${e.type}--错误信息${e.message}');

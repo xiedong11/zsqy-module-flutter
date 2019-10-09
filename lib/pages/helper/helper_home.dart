@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/helper/helper_list.dart';
-import 'package:flutter_app/pages/order/order_list.dart';
+import 'package:flutter_app/pages/helper/helper/helper_list.dart';
+import 'package:flutter_app/pages/helper/order/order_list.dart';
+import 'package:flutter_app/utils/dio_utils.dart';
 
-class Home extends StatefulWidget {
+/**
+ * 帮跑业务首页
+ */
+class HelperHome extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return PageState();
   }
 }
 
-class PageState extends State<Home> {
+class PageState extends State<HelperHome> {
   static int FIND_HELPER = 0, MARK_ORDER = 1;
   PageController _pageController = PageController();
   var titleStyleSelected =
@@ -20,11 +24,6 @@ class PageState extends State<Home> {
       color: Colors.black54, fontSize: 15, fontWeight: FontWeight.bold);
 
   var currentIndex = FIND_HELPER;
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

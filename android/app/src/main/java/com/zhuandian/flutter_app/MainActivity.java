@@ -3,9 +3,9 @@ package com.zhuandian.flutter_app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.zhuandian.flutter_app.util.Constant;
+import com.zhuandian.flutter_app.util.PageRouteUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class MainActivity extends FlutterActivity {
 
     private String userObjectId;
     private boolean isVisitor;
+    private int routeIndex = PageRouteUtils.FLUTTER_ROUTE_HEPLIER;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +28,13 @@ public class MainActivity extends FlutterActivity {
         GeneratedPluginRegistrant.registerWith(this);
 
 //        userObjectId = getIntent().getStringExtra("userObjectId");
+//        isVisitor = getIntent().getBooleanExtra("isVisitor", false);
+//        routeIndex = getIntent().getIntExtra("flutterPageRoute", PageRouteUtils.FLUTTER_ROUTE_HEPLIER);
+
+        //测试数据
         isVisitor = getIntent().getBooleanExtra("isVisitor", false);
         userObjectId = "NXPhgdOZ";
+        routeIndex = 2;
 
         initMessageChannl();
     }
@@ -74,6 +80,8 @@ public class MainActivity extends FlutterActivity {
                     case Constant.IS_VISITOR:
                         result.success(isVisitor);
                         break;
+                    case Constant.FLUTTER_PAGE_ROUTE:
+                        result.success(routeIndex);
                     default:
                         result.notImplemented();
                 }

@@ -1,14 +1,11 @@
-import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/helper/new_helper.dart';
-import 'package:flutter_app/pages/home.dart';
-import 'package:flutter_app/pages/order/new_order.dart';
-import 'package:flutter_app/pages/order/order_list.dart';
+import 'package:flutter_app/pages/education/empty_class_room.dart';
+import 'package:flutter_app/pages/helper/helper_home.dart';
+import 'package:flutter_app/utils/page_route_for_native.dart';
+import 'package:flutter_app/utils/plat_form_util.dart';
 import 'package:flutter_app/utils/user_cache.dart';
+import 'package:flutter_app/widgets/empty_view.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
-import 'package:data_plugin/bmob/bmob.dart';
-import 'entity/user_entity.dart';
 
 void main() async {
   runApp(MaterialApp(
@@ -23,7 +20,26 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserCache.initAppConfigId();
-    return Home();
+    return FutureBuilder(
+        future: getPageIndex(),
+        builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+            case ConnectionState.active:
+              return EmptyView();
+            case ConnectionState.done:
+              switch (snapshot.data) {
+                case PageRoute4Native.FLUTTER_ROUTE_HEPLIER:
+                  return HelperHome();
+                case PageRoute4Native.FLUTTER_ROUTE_EMPTY_CLASS_ROOM:
+                  return EmptyClassRoom();
+              }
+          }
+        });
+  }
+
+  getPageIndex() {
+    return platform.invokeMethod<int>(PlatFormUtil.FLUTTER_PAGE_ROUTE);
   }
 }
- 
