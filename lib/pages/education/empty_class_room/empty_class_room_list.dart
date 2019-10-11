@@ -17,6 +17,7 @@ class EmptyClassRoomList extends StatefulWidget {
 
 class PageState extends State<EmptyClassRoomList> {
   EmptyClassRoomEntity _mptyClassRoomEntity;
+  RequestOptions _requestOptions;
 
   @override
   void initState() {
@@ -29,14 +30,21 @@ class PageState extends State<EmptyClassRoomList> {
     var result = await DioUtils.getInstance().get(data: params);
     QfnuUserEntity qfnuUserEntity = QfnuUserEntity.fromJson(result);
 
-    var emptyClassRoomParams = {"method": "getKxJscx"};
-    RequestOptions requestOptions =
-        RequestOptions(headers: {"token": qfnuUserEntity.token});
-    var emptyClassRoomResult = await DioUtils.getInstance()
-        .get(data: emptyClassRoomParams, options: requestOptions);
-    this.setState(() {
+    _requestOptions = RequestOptions(headers: {"token": qfnuUserEntity.token});
+    getListData("allday");
+  }
 
-      EmptyClassRoomEntity temp=EmptyClassRoomEntity.fromJson(emptyClassRoomResult);
+  /**
+   * allday,am,pm,night四种取值
+   */
+  getListData(String time) async {
+    this.setState((){
+      _mptyClassRoomEntity= null;
+    });
+    var emptyClassRoomParams = {"method": "getKxJscx", "idleTime": time};
+    var emptyClassRoomResult = await DioUtils.getInstance()
+        .get(data: emptyClassRoomParams, options: _requestOptions);
+    this.setState(() {
       _mptyClassRoomEntity =
           EmptyClassRoomEntity.fromJson(emptyClassRoomResult);
     });
@@ -55,16 +63,30 @@ class PageState extends State<EmptyClassRoomList> {
           },
         ),
       ),
-      body: Center(
-        child: _mptyClassRoomEntity == null
-            ? Text("加载中...")
-            : ListView.builder(
-                itemCount: _mptyClassRoomEntity.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ItemEmptyClassRoomWidget(
-                      _mptyClassRoomEntity.data[index]);
-                },
-              ),
+      body: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(child: InkWell(onTap: () {getListData("allday");}, child: Tab(text: "全天",))),
+              Expanded(child: InkWell(onTap: () {getListData("am");}, child: Tab(text: "上午"))),
+              Expanded(child: InkWell(onTap: () {getListData("pm");}, child: Tab(text: "下午"))),
+              Expanded(child: InkWell(onTap: () {getListData("night");}, child: Tab(text: "晚上"))),
+            ],
+          ),
+          Flexible(
+              child: Center(
+            child: _mptyClassRoomEntity == null
+                ? Text("加载中...")
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _mptyClassRoomEntity.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ItemEmptyClassRoomWidget(
+                          _mptyClassRoomEntity.data[index]);
+                    },
+                  ),
+          ))
+        ],
       ),
     );
   }
@@ -81,7 +103,8 @@ class ItemEmptyClassRoomWidget extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (_)=>EmptyClassRoomDetail(_emptyClassRoomData)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => EmptyClassRoomDetail(_emptyClassRoomData)));
         },
         child: Container(
           height: 100,
