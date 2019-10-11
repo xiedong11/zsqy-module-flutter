@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/pages/education/empty_class_room.dart';
+import 'package:flutter_app/pages/education/empty_class_room/empty_class_room_list.dart';
 import 'package:flutter_app/pages/helper/helper_home.dart';
 import 'package:flutter_app/utils/page_route_for_native.dart';
 import 'package:flutter_app/utils/plat_form_util.dart';
@@ -33,7 +33,7 @@ class MainPage extends StatelessWidget {
                 case PageRoute4Native.FLUTTER_ROUTE_HEPLIER:
                   return HelperHome();
                 case PageRoute4Native.FLUTTER_ROUTE_EMPTY_CLASS_ROOM:
-                  return EmptyClassRoom();
+                  return EmptyClassRoomList();
               }
           }
         });
