@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/pages/helper/helper/helper_list.dart';
-import 'package:flutter_app/pages/helper/order/order_list.dart';
+import 'package:flutter_app/pages/social/helper/helper/helper_list.dart';
+import 'package:flutter_app/pages/social/helper/order/order_list.dart';
+
 import 'package:flutter_app/utils/dio_utils.dart';
 
 /**

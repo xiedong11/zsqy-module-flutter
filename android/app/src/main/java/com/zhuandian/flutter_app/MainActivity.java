@@ -29,12 +29,12 @@ public class MainActivity extends FlutterActivity {
 
 //        userObjectId = getIntent().getStringExtra("userObjectId");
 //        isVisitor = getIntent().getBooleanExtra("isVisitor", false);
-//        routeIndex = getIntent().getIntExtra("flutterPageRoute", PageRouteUtils.FLUTTER_ROUTE_HEPLIER);
+//        routeIndex = getIntent().getIntExtra("flutterPageRoute", PageRouteUtils.FLUTTER_ROUTE_MAIN);
 
         //测试数据
         isVisitor = getIntent().getBooleanExtra("isVisitor", false);
         userObjectId = "NXPhgdOZ";
-        routeIndex = 2;
+        routeIndex = PageRouteUtils.FLUTTER_ROUTE_MAIN;
 
         initMessageChannl();
     }
