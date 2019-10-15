@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-class HomePage extends StatefulWidget {
+class SocialPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => PageState();
 }
 
-class PageState extends State<HomePage> {
+class PageState extends State<SocialPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Text("dfas"),
-        color: Colors.white,
+      body: Center(
+        child: Text('社区'),
       ),
     );
   }

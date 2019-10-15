@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/qfnu_user_entity.dart';
-import 'package:flutter_app/pages/social/home_page.dart';
+import 'package:flutter_app/pages/home/home_page.dart';
 import 'package:flutter_app/utils/dio_utils.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
