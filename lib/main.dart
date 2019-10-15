@@ -11,7 +11,9 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 void main() async {
   runApp(MaterialApp(
     home: MainPage(),
-    theme: ThemeData(primaryColor: Colors.white),
+    theme: ThemeData(primaryColor: Colors.white,
+    brightness: Brightness.light,
+    ),
     debugShowCheckedModeBanner: false,
   ));
   FlutterStatusbarcolor.setStatusBarColor(Colors.white);
