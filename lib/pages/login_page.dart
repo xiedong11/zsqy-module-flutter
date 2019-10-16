@@ -83,7 +83,7 @@ class PageState extends State<LoginPage> {
                     ),
                     isShowProssgress
                         ? SizedBox(
-                            height: 2,
+                            height: 3,
                             child: LinearProgressIndicator(
                               valueColor:
                                   AlwaysStoppedAnimation(Colors.deepOrange),
