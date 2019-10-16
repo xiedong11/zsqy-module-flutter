@@ -6,6 +6,7 @@ import 'package:flutter_app/pages/common_web_page.dart';
 import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/utils/dio_utils.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SingleDayPage extends StatefulWidget {
@@ -15,10 +16,14 @@ class SingleDayPage extends StatefulWidget {
 
 class PageState extends State<SingleDayPage> {
   List<HomeConfigBanner> _bannerList = [];
+  String _weekDay = "周*";
 
   @override
   void initState() {
     super.initState();
+    this.setState(() {
+      _weekDay = Utils.getTodayWeekDay();
+    });
     getBannerEntity();
   }
 
@@ -34,37 +39,90 @@ class PageState extends State<SingleDayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: <Widget>[
-          SizedBox(height: 10),
-          Container(
-            color: Colors.white,
-            width: double.infinity,
-            height: 150,
-            child: Swiper(
-              itemCount: _bannerList.length > 0 ? _bannerList.length : 0,
-              scale: 0.9,
-              viewportFraction: 0.8,
-              autoplay: true,
-              duration: 2000,
-              pagination: new SwiperPagination(
-                  builder: DotSwiperPaginationBuilder(
-                color: Colors.white,
-                activeColor: Colors.teal,
-              )),
-              controller: new SwiperController(),
-              itemBuilder: (BuildContext context, int index) {
-                return Image.network(
-                  _bannerList.length > 0 ? _bannerList[index].bannerImgUrl : "",
-                  fit: BoxFit.cover,
-                );
-              },
-              onTap: (index){
-               Navigator.of(context).push(MaterialPageRoute(builder: (_)=>CommonWebPage(url:_bannerList[index].bannerContentUrl,title:"")));
-              },
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: 10, left: 15, bottom: 10),
+              child: Text(
+                _weekDay,
+                style: TextStyle(color: Colors.black, fontSize: 23),
+              ),
             ),
-          )
-        ],
+            Container(
+              color: Colors.white,
+              width: double.infinity,
+              height: 150,
+              child: Swiper(
+                itemCount: _bannerList.length > 0 ? _bannerList.length : 0,
+                scale: 0.9,
+                viewportFraction: 0.8,
+                autoplay: true,
+                duration: 2000,
+                pagination: new SwiperPagination(
+                    builder: DotSwiperPaginationBuilder(
+                  color: Colors.white,
+                  activeColor: Colors.teal,
+                )),
+                controller: new SwiperController(),
+                itemBuilder: (BuildContext context, int index) {
+                  return Image.network(
+                    _bannerList.length > 0
+                        ? _bannerList[index].bannerImgUrl
+                        : "",
+                    fit: BoxFit.cover,
+                  );
+                },
+                onTap: (index) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => CommonWebPage(
+                          url: _bannerList[index].bannerContentUrl,
+                          title: "")));
+                },
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10, left: 15, bottom: 10),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                    width: 5,
+                    child: Container(
+                      color: Colors.teal,
+                    ),
+                  ),
+                  SizedBox(width: 5,),
+                  Text(
+                    "校园新鲜事",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )
+                ],
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: 10, left: 15, bottom: 10),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20,
+                    width: 5,
+                    child: Container(
+                      color: Colors.deepOrangeAccent,
+                    ),
+                  ),
+                  SizedBox(width: 5,),
+                  Text(
+                    "今日课表",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
