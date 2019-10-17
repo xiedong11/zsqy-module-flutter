@@ -9,6 +9,10 @@ import 'package:flutter_app/utils/dio_utils.dart';
  * 帮跑业务首页
  */
 class HelperHome extends StatefulWidget {
+  bool isForNative = false;
+
+  HelperHome({this.isForNative});
+
   @override
   State<StatefulWidget> createState() {
     return PageState();
@@ -72,7 +76,12 @@ class PageState extends State<HelperHome> {
           leading: GestureDetector(
             child: Icon(Icons.arrow_back),
             onTap: () {
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              if(widget.isForNative){ //嵌入原生，返回需要直接关闭
+                SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+              }else{ //在纯flutter中，点击反应仅当前页面出栈
+                Navigator.of(context).pop();
+              }
+
             },
           ),
         ),
