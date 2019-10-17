@@ -53,7 +53,141 @@ class PageState extends State<SocialPage> {
                   return ModuleItemWidget(_moduleList[index]);
                 },
                 itemCount: 5,
-              )
+//                physics: NeverScrollableScrollPhysics(),//禁用滑动事件,
+              ),
+//              Flexible(
+//                child: Text('dd'),
+//              ),
+              Container(color: Color(0xffeeeeee), height: 10),
+              Container(
+                  height: 200,
+                  width: double.infinity,
+                  child: Stack(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                              padding: EdgeInsets.only(left: 15, top: 10),
+                              child: Text("好物推荐",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.black87))),
+                          Padding(
+                              padding: EdgeInsets.only(
+                                left: 15,
+                              ),
+                              child: Text("精选好物推荐",
+                                  style: TextStyle(
+                                      fontSize: 13, color: Colors.black54))),
+                          Padding(
+                            padding: EdgeInsets.only(left: 25, top: 10),
+                            child: SizedBox(
+                              height: 130,
+                              width: 130,
+                              child: Image.network(
+                                "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
+                                fit: BoxFit.cover,
+                                scale: 0.8,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Align(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: Container(color: Color(0xffeeeeee), width:1),
+                        ),
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Text("周边游",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black87))),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 15,
+                                    ),
+                                    child: Text("精选好物推荐",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black54))),
+                              ],
+
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 25, top: 10),
+                              child: SizedBox(
+                                height: 60,
+                                width: 60,
+                                child: Image.network(
+                                  "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
+                                  fit: BoxFit.cover,
+                                  scale: 0.8,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 10,
+                        right: 10,
+                        child: Row(
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                    padding: EdgeInsets.only(left: 15, top: 10),
+                                    child: Text("新闻资讯",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.black87))),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                      left: 15,
+                                    ),
+                                    child: Text("精选好物推荐",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black54))),
+                              ],
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 25, top: 10),
+                              child: SizedBox(
+                                height: 60,
+                                width: 60,
+                                child: Image.network(
+                                  "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
+                                  fit: BoxFit.cover,
+                                  scale: 0.8,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 100,
+                        right: 20,
+                        child: Container(
+                          height: 1,
+                          width: 180,
+                          color: Color(0xffeeeeee),
+                        ),
+                      ),
+                    ],
+                  )),
             ],
           ),
         ));
