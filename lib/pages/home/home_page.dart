@@ -12,40 +12,29 @@ class HomePage extends StatefulWidget {
 
 class PageState extends State<HomePage> {
   int _currentBottomIndex = 0; //底部tab索引
-  static const int PAGE_HOME = 0;
-  static const int PAGE_SYLLABUS = 1;
-  static const int PAGE_SOCIAL = 2;
-  static const int PAGE_EDUCATION = 3;
-  static const int PAGE_MINE = 4;
-  Widget _widget = SingleDayPage();
 
+  var _body;
+  var pages;
+
+  @override
+  void initState() {
+    super.initState();
+    pages = <Widget>[SingleDayPage(),SyllabusPage(),SocialPage(),EducationPage(),MinePage()];
+  }
   void _onBottomTabChange(int index) {
     setState(() {
       _currentBottomIndex = index;
-      switch (index) {
-        case PAGE_HOME:
-          _widget = SingleDayPage();
-          break;
-        case PAGE_SYLLABUS:
-          _widget = SyllabusPage();
-          break;
-        case PAGE_SOCIAL:
-          _widget = SocialPage();
-          break;
-        case PAGE_EDUCATION:
-          _widget = EducationPage();
-          break;
-        case PAGE_MINE:
-          _widget = MinePage();
-          break;
-      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _body = IndexedStack(
+      children: pages,
+      index: _currentBottomIndex,
+    );
     return Scaffold(
-      body: _widget,
+      body: _body,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentBottomIndex,
         type: BottomNavigationBarType.fixed,
