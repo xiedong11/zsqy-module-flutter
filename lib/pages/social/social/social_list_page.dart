@@ -48,7 +48,9 @@ class PageState extends State<SocialListPage> {
 
       BmobQuery<HeartShare> query = BmobQuery();
       query.setInclude("author");
-      query.setOrder("-updatedAt");
+      query.setOrder("-updatedAt"
+          ""
+          "");
       query.setLimit(_loadItemCount);
       query.setSkip(_loadItemCount);
       query.queryObjects().then((List<dynamic> data) {
