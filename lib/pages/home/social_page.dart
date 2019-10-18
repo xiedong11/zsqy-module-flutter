@@ -1,8 +1,11 @@
+import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/entity/heart_share_entity.dart';
 import 'package:flutter_app/pages/social/flea_market/flea_market_page.dart';
 import 'package:flutter_app/pages/social/helper/helper_home.dart';
 import 'package:flutter_app/pages/social/lost_and_found/lost_and_found_page.dart';
 import 'package:flutter_app/pages/social/picture/picture_list_page.dart';
+import 'package:flutter_app/pages/social/social/social_list_item.dart';
 import 'package:flutter_app/pages/social/social/social_list_page.dart';
 
 class SocialPage extends StatefulWidget {
@@ -11,6 +14,7 @@ class SocialPage extends StatefulWidget {
 }
 
 class PageState extends State<SocialPage> {
+  List<HeartShare> dataList;
   List<ModuleItemEntity> _moduleList = [
     ModuleItemEntity("校友圈", 'lib/img/ic_school_social.png', SocialListPage()),
     ModuleItemEntity(
@@ -22,6 +26,24 @@ class PageState extends State<SocialPage> {
     ModuleItemEntity(
         "一闪", 'lib/img/ic_social_lost_and_found.png', PictureListPage())
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _initData();
+  }
+
+  _initData() {
+    BmobQuery<HeartShare> query = BmobQuery();
+    query.setInclude("author");
+    query.setOrder("-updatedAt");
+    query.setLimit(5);
+    query.queryObjects().then((List<dynamic> data) {
+      this.setState(() {
+        dataList = data.map((item) => HeartShare.fromJson(item)).toList();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +82,7 @@ class PageState extends State<SocialPage> {
 //              ),
               Container(color: Color(0xffeeeeee), height: 10),
               Container(
-                  height: 200,
+                  height: 210,
                   width: double.infinity,
                   child: Stack(
                     children: <Widget>[
@@ -96,7 +118,7 @@ class PageState extends State<SocialPage> {
                       Align(
                         child: Padding(
                           padding: EdgeInsets.only(top: 20, bottom: 10),
-                          child: Container(color: Color(0xffeeeeee), width:1),
+                          child: Container(color: Color(0xffeeeeee), width: 1),
                         ),
                       ),
                       Positioned(
@@ -122,7 +144,6 @@ class PageState extends State<SocialPage> {
                                             fontSize: 13,
                                             color: Colors.black54))),
                               ],
-
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 25, top: 10),
@@ -188,6 +209,17 @@ class PageState extends State<SocialPage> {
                       ),
                     ],
                   )),
+
+
+              dataList == null
+                  ? Center(child: Text("数据加载中..."))
+                  : ListView.builder(
+                      shrinkWrap: true,
+                      physics: new NeverScrollableScrollPhysics(),
+                      itemCount: dataList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return SocialListItem(dataList[index]);
+                      })
             ],
           ),
         ));
