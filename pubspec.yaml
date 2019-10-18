@@ -62,6 +62,8 @@ flutter:
     - lib/img/ic_social_employ.png
     - lib/img/ic_school_social.png
     - lib/img/ic_social_lost_and_found.png
+    - lib/img/share_likes.png
+    - lib/img/share_reply.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
