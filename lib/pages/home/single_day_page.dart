@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/home_config_entity.dart';
 import 'package:flutter_app/pages/common_web_page.dart';
@@ -36,7 +37,6 @@ class PageState extends State<SingleDayPage> {
     HomeConfigEntity homeConfigEntity =
         HomeConfigEntity.fromJson(jsonDecode(result.data));
     this.setState(() {
-      print('-----------'+_bannerList[0].bannerContentUrl);
       _bannerList = homeConfigEntity.banner;
     });
   }
@@ -47,14 +47,15 @@ class PageState extends State<SingleDayPage> {
       appBar: AppBar(
         title: Text(
           _weekDay,
-          style: TextStyle(color: Colors.black, fontSize: 23),
+          style: TextStyle(
+              color: Colors.black, fontSize: 26, fontWeight: FontWeight.bold),
         ),
         elevation: 0,
       ),
       body: Container(
         color: Colors.white,
         child: RefreshIndicator(
-          displacement: 40,
+            displacement: 30,
             child: ListView(
               children: <Widget>[
                 Container(
@@ -108,6 +109,77 @@ class PageState extends State<SingleDayPage> {
                         style: TextStyle(color: Colors.black, fontSize: 18),
                       )
                     ],
+                  ),
+                ),
+                SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SizedBox(width: 10),
+                          Card(
+                            elevation: 1,
+                            color: Colors.white,
+                            child: Container(
+                              width: 330,
+                              child: Stack(
+                                children: <Widget>[
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Container(
+                                        color: Colors.teal,
+                                        width: 80,
+                                        height: 25,
+                                        child: Center(
+                                            child: Text(
+                                          "社区动态",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.white),
+                                        )),
+                                      ),
+                                      Expanded(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              left: 25, top: 10, right: 60),
+                                          child: Text(
+                                            '发士撒地方撒多法撒旦法撒旦法撒旦法师的胜多负少大放送',
+                                            maxLines: 2,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xff333333)),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Positioned(
+                                    bottom: 0,
+                                    right: 0,
+                                    child: SizedBox(
+                                      child: Image.network(
+                                        'https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg',
+                                        fit: BoxFit.cover,
+                                      ),
+                                      width: 50,
+                                      height: 50,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
                   ),
                 ),
                 Padding(
