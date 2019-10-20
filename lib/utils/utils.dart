@@ -6,9 +6,6 @@ class Utils {
     String _weekDay = "周*";
     int today = DateTime.now().weekday;
     switch (today) {
-      case 0:
-        _weekDay = "周日";
-        break;
       case 1:
         _weekDay = "周一";
         break;
@@ -26,6 +23,9 @@ class Utils {
         break;
       case 6:
         _weekDay = "周六";
+        break;
+      case 7:
+        _weekDay = "周日";
         break;
     }
 
