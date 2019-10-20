@@ -13,26 +13,28 @@ class EducationPage extends StatefulWidget {
 class PageState extends State<EducationPage> {
   //教务功能模块
   List<ModuleItemEntity> _educationModuleList = [
-    ModuleItemEntity("成绩查询", "lib/img/ic_chengji.png", EmptyClassRoomList()),
-    ModuleItemEntity("教室课表", "lib/img/ic_kebiao.png", EmptyClassRoomList()),
-    ModuleItemEntity("选课管理", "lib/img/ic_xuanke.png", EmptyClassRoomList()),
-    ModuleItemEntity("考试安排", "lib/img/ic_kaoshi.png", EmptyClassRoomList()),
+    ModuleItemEntity("成绩查询", "lib/img/ic_chengji.png",
+        EmptyClassRoomList(isFromNative: false)),
+    ModuleItemEntity("教室课表", "lib/img/ic_kebiao.png", EmptyClassRoomList(isFromNative: false)),
+    ModuleItemEntity("选课管理", "lib/img/ic_xuanke.png", EmptyClassRoomList(isFromNative: false)),
+    ModuleItemEntity("考试安排", "lib/img/ic_kaoshi.png", EmptyClassRoomList(isFromNative: false)),
     ModuleItemEntity(
-        "学籍管理", "lib/img/ic_xueji_guanli.png", EmptyClassRoomList()),
-    ModuleItemEntity("校园卡", "lib/img/ic_school_card.png", EmptyClassRoomList()),
-    ModuleItemEntity("评教系统", "lib/img/ic_pingjiao.png", EmptyClassRoomList()),
+        "学籍管理", "lib/img/ic_xueji_guanli.png", EmptyClassRoomList(isFromNative: false)),
+    ModuleItemEntity("校园卡", "lib/img/ic_school_card.png", EmptyClassRoomList(isFromNative: false)),
+    ModuleItemEntity("评教系统", "lib/img/ic_pingjiao.png", EmptyClassRoomList(isFromNative: false)),
   ];
 
   //图书管理模块
   List<ModuleItemEntity> _bookLibraryList = [
-    ModuleItemEntity("借阅查询", "lib/img/ic_jieshu.png", EmptyClassRoomList()),
+    ModuleItemEntity("借阅查询", "lib/img/ic_jieshu.png", EmptyClassRoomList(isFromNative: false)),
     ModuleItemEntity(
-        "我的书架", "lib/img/ic_my_book_desk.png", EmptyClassRoomList()),
+        "我的书架", "lib/img/ic_my_book_desk.png", EmptyClassRoomList(isFromNative: false)),
   ];
 
   //生活服务
-  List<ModuleItemEntity> _otherModuleList=[
-    ModuleItemEntity("失物招领","lib/img/ic_lost_and_found.png",LostAndFoundPage())
+  List<ModuleItemEntity> _otherModuleList = [
+    ModuleItemEntity(
+        "失物招领", "lib/img/ic_lost_and_found.png", LostAndFoundPage())
   ];
 
   @override

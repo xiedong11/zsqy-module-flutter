@@ -11,6 +11,10 @@ import 'package:flutter_app/utils/dio_utils.dart';
  * 所有无课自习室列表
  */
 class EmptyClassRoomList extends StatefulWidget {
+  bool isFromNative;
+
+  EmptyClassRoomList({this.isFromNative});
+
   @override
   State<StatefulWidget> createState() => PageState();
 }
@@ -38,8 +42,8 @@ class PageState extends State<EmptyClassRoomList> {
    * allday,am,pm,night四种取值
    */
   getListData(String time) async {
-    this.setState((){
-      _mptyClassRoomEntity= null;
+    this.setState(() {
+      _mptyClassRoomEntity = null;
     });
     var emptyClassRoomParams = {"method": "getKxJscx", "idleTime": time};
     var emptyClassRoomResult = await DioUtils.getInstance()
@@ -59,7 +63,11 @@ class PageState extends State<EmptyClassRoomList> {
         leading: GestureDetector(
           child: Icon(Icons.arrow_back),
           onTap: () {
-            SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            if (widget.isFromNative) {
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            } else {
+              Navigator.of(context).pop();
+            }
           },
         ),
       ),
@@ -67,10 +75,32 @@ class PageState extends State<EmptyClassRoomList> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Expanded(child: InkWell(onTap: () {getListData("allday");}, child: Tab(text: "全天",))),
-              Expanded(child: InkWell(onTap: () {getListData("am");}, child: Tab(text: "上午"))),
-              Expanded(child: InkWell(onTap: () {getListData("pm");}, child: Tab(text: "下午"))),
-              Expanded(child: InkWell(onTap: () {getListData("night");}, child: Tab(text: "晚上"))),
+              Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        getListData("allday");
+                      },
+                      child: Tab(
+                        text: "全天",
+                      ))),
+              Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        getListData("am");
+                      },
+                      child: Tab(text: "上午"))),
+              Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        getListData("pm");
+                      },
+                      child: Tab(text: "下午"))),
+              Expanded(
+                  child: InkWell(
+                      onTap: () {
+                        getListData("night");
+                      },
+                      child: Tab(text: "晚上"))),
             ],
           ),
           Flexible(

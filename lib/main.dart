@@ -38,7 +38,7 @@ class MainPage extends StatelessWidget {
                 case PageRoute4Native.FLUTTER_ROUTE_HEPLIER:
                   return HelperHome(isForNative:true);
                 case PageRoute4Native.FLUTTER_ROUTE_EMPTY_CLASS_ROOM:
-                  return EmptyClassRoomList();
+                  return EmptyClassRoomList(isFromNative: true,);
               }
           }
         });
