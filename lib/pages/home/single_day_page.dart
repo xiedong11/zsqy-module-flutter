@@ -18,6 +18,18 @@ class SingleDayPage extends StatefulWidget {
 class PageState extends State<SingleDayPage> {
   HomeConfigEntity _homeConfigEntity;
   String _weekDay = "周*";
+  List<SyllabusItemEntity> _syllabusItemList = [
+    SyllabusItemEntity(
+        title: "", timeLabel: "8:00-10:00", batteryIndex: "ic_battery_100.png"),
+    SyllabusItemEntity(
+        title: "", timeLabel: "10:00-12:00", batteryIndex: "ic_battery_75.png"),
+    SyllabusItemEntity(
+        title: "", timeLabel: "14:00-16:00", batteryIndex: "ic_battery_50.png"),
+    SyllabusItemEntity(
+        title: "", timeLabel: "16:00-18:00", batteryIndex: "ic_battery_25.png"),
+    SyllabusItemEntity(
+        title: "", timeLabel: "19:00-21:00", batteryIndex: "ic_battery_0.png"),
+  ];
 
   @override
   void initState() {
@@ -231,9 +243,83 @@ class PageState extends State<SingleDayPage> {
                     ],
                   ),
                 ),
+                SizedBox(height: 15),
+                ListView.builder(
+                    itemCount: 5,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return SyllabusItemWidget(_syllabusItemList[index]);
+                    }),
               ],
             ),
             onRefresh: _onRefresh),
+      ),
+    );
+  }
+}
+
+class SyllabusItemEntity {
+  String title;
+  String batteryIndex;
+  String timeLabel;
+
+  SyllabusItemEntity({this.title, this.batteryIndex, this.timeLabel});
+}
+
+class SyllabusItemWidget extends StatelessWidget {
+  SyllabusItemEntity _syllabusItemEntity;
+
+  SyllabusItemWidget(this._syllabusItemEntity);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: 15),
+      child: Row(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: 5,
+                width: 5,
+                child: Container(
+                  color: Color(0xffcccccc),
+                ),
+              ),
+              Container(
+                color: Color(0xffdddddd),
+                width: 1,
+                height: 65,
+              ),
+              SizedBox(
+                height: 1,
+              )
+            ],
+          ),
+          SizedBox(
+            width: 15,
+          ),
+          Column(
+            children: <Widget>[
+              SizedBox(
+                width: 13,
+                height: 22,
+                child: Image.asset(
+                  "lib/img/${_syllabusItemEntity.batteryIndex}",
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                _syllabusItemEntity.timeLabel,
+                style: TextStyle(fontSize: 10, color: Color(0xff999999)),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

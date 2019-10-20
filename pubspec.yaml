@@ -67,6 +67,11 @@ flutter:
     - lib/img/social_write.png
     - lib/img/ic_share.png
     - lib/img/ic_lost_and_found_barrage_bg.png
+    - lib/img/ic_battery_100.png
+    - lib/img/ic_battery_75.png
+    - lib/img/ic_battery_50.png
+    - lib/img/ic_battery_25.png
+    - lib/img/ic_battery_0.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
