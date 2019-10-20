@@ -1,9 +1,11 @@
 class HomeConfigEntity {
 	List<HomeConfigBanner> banner;
+	String notificationLabel;
 
 	HomeConfigEntity({this.banner});
 
 	HomeConfigEntity.fromJson(Map<String, dynamic> json) {
+		notificationLabel = json['notificationLabel'];
 		if (json['banner'] != null) {
 			banner = new List<HomeConfigBanner>();(json['banner'] as List).forEach((v) { banner.add(new HomeConfigBanner.fromJson(v)); });
 		}
@@ -11,6 +13,7 @@ class HomeConfigEntity {
 
 	Map<String, dynamic> toJson() {
 		final Map<String, dynamic> data = new Map<String, dynamic>();
+		data['notificationLabel']=this.notificationLabel;
 		if (this.banner != null) {
       data['banner'] =  this.banner.map((v) => v.toJson()).toList();
     }

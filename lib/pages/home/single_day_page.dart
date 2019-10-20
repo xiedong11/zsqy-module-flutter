@@ -16,7 +16,7 @@ class SingleDayPage extends StatefulWidget {
 }
 
 class PageState extends State<SingleDayPage> {
-  List<HomeConfigBanner> _bannerList = [];
+  HomeConfigEntity _homeConfigEntity;
   String _weekDay = "周*";
 
   @override
@@ -37,7 +37,7 @@ class PageState extends State<SingleDayPage> {
     HomeConfigEntity homeConfigEntity =
         HomeConfigEntity.fromJson(jsonDecode(result.data));
     this.setState(() {
-      _bannerList = homeConfigEntity.banner;
+      _homeConfigEntity = homeConfigEntity;
     });
   }
 
@@ -63,7 +63,10 @@ class PageState extends State<SingleDayPage> {
                   width: double.infinity,
                   height: 150,
                   child: Swiper(
-                    itemCount: _bannerList.length > 0 ? _bannerList.length : 0,
+                    itemCount: _homeConfigEntity != null &&
+                            _homeConfigEntity.banner.length > 0
+                        ? _homeConfigEntity.banner.length
+                        : 0,
                     scale: 0.9,
                     viewportFraction: 0.8,
                     autoplay: true,
@@ -76,8 +79,8 @@ class PageState extends State<SingleDayPage> {
                     controller: new SwiperController(),
                     itemBuilder: (BuildContext context, int index) {
                       return Image.network(
-                        _bannerList.length > 0
-                            ? _bannerList[index].bannerImgUrl
+                        _homeConfigEntity.banner.length > 0
+                            ? _homeConfigEntity.banner[index].bannerImgUrl
                             : "",
                         fit: BoxFit.cover,
                       );
@@ -85,9 +88,34 @@ class PageState extends State<SingleDayPage> {
                     onTap: (index) {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => CommonWebPage(
-                              url: _bannerList[index].bannerContentUrl,
+                              url: _homeConfigEntity
+                                  .banner[index].bannerContentUrl,
                               title: "")));
                     },
+                  ),
+                ),
+                Container(
+                  height: 25,
+                  color: Color(0xffffebc7),
+                  child: Stack(
+                    children: <Widget>[
+                      Align(
+                        child: Text(
+                          _homeConfigEntity == null
+                              ? ""
+                              : _homeConfigEntity.notificationLabel,
+                          maxLines: 1,
+                          style:
+                              TextStyle(color: Color(0xff9fa0a0), fontSize: 12),
+                        ),
+                        alignment: FractionalOffset(0.0, 0.5),
+                      ),
+                      Positioned(
+                        right: 5,
+                        child:
+                            Icon(Icons.error_outline, color: Color(0xff9fa0a0)),
+                      )
+                    ],
                   ),
                 ),
                 Padding(
