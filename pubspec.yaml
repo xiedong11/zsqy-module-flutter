@@ -73,6 +73,15 @@ flutter:
     - lib/img/ic_battery_25.png
     - lib/img/ic_battery_0.png
     - lib/img/ic_setting_more.png
+    - lib/img/ic_chengji.png
+    - lib/img/ic_jieshu.png
+    - lib/img/ic_kebiao.png
+    - lib/img/ic_kaoshi.png
+    - lib/img/ic_lost_and_found.png
+    - lib/img/ic_my_book_desk.png
+    - lib/img/ic_pingjiao.png
+    - lib/img/ic_xuanke.png
+    - lib/img/ic_xueji_guanli.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -7,6 +7,8 @@ import 'package:flutter_app/pages/social/lost_and_found/lost_and_found_page.dart
 import 'package:flutter_app/pages/social/picture/picture_list_page.dart';
 import 'package:flutter_app/pages/social/social/social_list_item.dart';
 import 'package:flutter_app/pages/social/social/social_list_page.dart';
+import 'package:flutter_app/widgets/module_item/module_item_entity.dart';
+import 'package:flutter_app/widgets/module_item/module_item_widget.dart';
 
 class SocialPage extends StatefulWidget {
   @override
@@ -210,7 +212,6 @@ class PageState extends State<SocialPage> {
                     ],
                   )),
 
-
               dataList == null
                   ? Center(child: Text("数据加载中..."))
                   : ListView.builder(
@@ -223,41 +224,5 @@ class PageState extends State<SocialPage> {
             ],
           ),
         ));
-  }
-}
-
-class ModuleItemEntity {
-  String title;
-  String imgPath;
-  Widget _nextPage;
-
-  ModuleItemEntity(this.title, this.imgPath, this._nextPage);
-}
-
-class ModuleItemWidget extends StatelessWidget {
-  ModuleItemEntity _moduleItemEntity;
-
-  ModuleItemWidget(this._moduleItemEntity);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_) => _moduleItemEntity._nextPage));
-      },
-      child: Column(
-        children: <Widget>[
-          SizedBox(height: 5),
-          Image.asset(
-            _moduleItemEntity.imgPath,
-            width: 40,
-            height: 40,
-          ),
-          SizedBox(height: 5),
-          Text(_moduleItemEntity.title)
-        ],
-      ),
-    );
   }
 }
