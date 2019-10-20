@@ -72,6 +72,7 @@ flutter:
     - lib/img/ic_battery_50.png
     - lib/img/ic_battery_25.png
     - lib/img/ic_battery_0.png
+    - lib/img/ic_setting_more.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
