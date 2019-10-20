@@ -82,6 +82,7 @@ flutter:
     - lib/img/ic_pingjiao.png
     - lib/img/ic_xuanke.png
     - lib/img/ic_xueji_guanli.png
+    - lib/img/ic_school_card.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
