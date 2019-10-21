@@ -8,6 +8,7 @@ import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/utils/dio_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/utils/utils.dart';
+import 'package:flutter_app/widgets/marquee_text.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SingleDayPage extends StatefulWidget {
@@ -17,6 +18,7 @@ class SingleDayPage extends StatefulWidget {
 
 class PageState extends State<SingleDayPage> {
   HomeConfigEntity _homeConfigEntity;
+  bool _showNotificationLabel = false;
   String _weekDay = "周*";
   List<SyllabusItemEntity> _syllabusItemList = [
     SyllabusItemEntity(
@@ -50,6 +52,8 @@ class PageState extends State<SingleDayPage> {
         HomeConfigEntity.fromJson(jsonDecode(result.data));
     this.setState(() {
       _homeConfigEntity = homeConfigEntity;
+      _showNotificationLabel =
+          homeConfigEntity.notificationLabel.length > 2 ? true : false;
     });
   }
 
@@ -67,7 +71,7 @@ class PageState extends State<SingleDayPage> {
       body: Container(
         color: Colors.white,
         child: RefreshIndicator(
-            displacement: 30,
+            displacement: 20,
             child: ListView(
               children: <Widget>[
                 Container(
@@ -106,30 +110,53 @@ class PageState extends State<SingleDayPage> {
                     },
                   ),
                 ),
-                Container(
-                  height: 25,
-                  color: Color(0xffffebc7),
-                  child: Stack(
-                    children: <Widget>[
-                      Align(
-                        child: Text(
-                          _homeConfigEntity == null
-                              ? ""
-                              : _homeConfigEntity.notificationLabel,
-                          maxLines: 1,
-                          style:
-                              TextStyle(color: Color(0xff9fa0a0), fontSize: 12),
+                _showNotificationLabel == true
+                    ? Container(
+                        height: 25,
+                        color: Color(0xffffebc7),
+                        child: Stack(
+                          children: <Widget>[
+                            Padding(
+                                padding: EdgeInsets.only(left: 10, right: 26),
+                                child: Align(
+                                  child: MarqueeText(
+                                      child: Text(
+                                        _homeConfigEntity == null
+                                            ? ""
+                                            : _homeConfigEntity
+                                                .notificationLabel,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            color: Color(0xff9fa0a0),
+                                            fontSize: 12),
+                                      ),
+                                      paddingLeft: 200,
+                                      duration: Duration(seconds: 5),
+                                      stepOffset: 230),
+                                  alignment: FractionalOffset(0.0, 0.5),
+                                )),
+                            Positioned(
+                              right: 5,
+                              child: GestureDetector(
+                                onTap: () {
+                                  this.setState(() {
+                                    _showNotificationLabel = false;
+                                  });
+                                },
+                                child: SizedBox(
+                                  width: 25,
+                                  height: 25,
+                                  child: Image.asset(
+                                    "lib/img/ic_del.png",
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                        alignment: FractionalOffset(0.0, 0.5),
-                      ),
-                      Positioned(
-                        right: 5,
-                        child:
-                            Icon(Icons.error_outline, color: Color(0xff9fa0a0)),
                       )
-                    ],
-                  ),
-                ),
+                    : Text(""),
                 Padding(
                   padding: EdgeInsets.only(top: 10, left: 15, bottom: 10),
                   child: Row(
