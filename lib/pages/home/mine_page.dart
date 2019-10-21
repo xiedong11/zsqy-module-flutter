@@ -10,76 +10,91 @@ class PageState extends State<MinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Color(0xffF5F5F5),
-        child: ListView(
-          children: <Widget>[
-            Container(
-              height: 300,
-              decoration: new BoxDecoration(
-                  gradient: LinearGradient(
-                      colors: [Color(0xff59dbe0), Color(0xff009688)])),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    ClipOval(
-                      child: SizedBox(
-                        height: 75,
-                        width: 75,
-                        child: Image.network(
-                          "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
-                          fit: BoxFit.cover,
-                        ),
+      body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+//                title: Text("个人中心"),
+                expandedHeight: 300,
+                pinned: true,
+                floating: true,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+//                  title: Text("个人中心"),
+                  background: Container(
+                    height: 300,
+                    decoration: new BoxDecoration(
+                        gradient: LinearGradient(
+                            colors: [Color(0xff59dbe0), Color(0xff009688)])),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          ClipOval(
+                            child: SizedBox(
+                              height: 75,
+                              width: 75,
+                              child: Image.network(
+                                "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            '姓名',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          SizedBox(height: 2),
+                          Text(
+                            '专业专业院系',
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      '姓名',
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                    SizedBox(height: 2),
-                    Text(
-                      '专业专业院系',
-                      style: TextStyle(fontSize: 15, color: Colors.white),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 15),
-            SettingItemWidget(leftText: "重置课表"),
-            SettingItemWidget(leftText: "课表时间位置"),
-            SettingItemWidget(leftText: "清空TA的课表"),
-            SettingItemWidget(leftText: "清空自定义课程"),
-            SizedBox(height: 25),
-            SettingItemWidget(leftText: "应用缓存", rightText: "4.25M"),
-            SettingItemWidget(leftText: "启动次数统计", rightText: "26次"),
-            SizedBox(height: 25),
-            SettingItemWidget(leftText: "建议反馈"),
-            SettingItemWidget(leftText: "关于软件"),
-            SettingItemWidget(leftText: "检查更新", rightText: "版本 3.5.3"),
-            SizedBox(height: 50),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: FlatButton(
-                onPressed: () {},
-                color: Color(0xffff0000),
-                child: Container(
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      "注销登录",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
-              ),
+              )
+            ];
+          },
+          body: Container(
+            color: Color(0xffF5F5F5),
+            child: ListView(
+              children: <Widget>[
+                SizedBox(height: 15),
+                SettingItemWidget(leftText: "重置课表"),
+                SettingItemWidget(leftText: "课表时间位置"),
+                SettingItemWidget(leftText: "清空TA的课表"),
+                SettingItemWidget(leftText: "清空自定义课程"),
+                SizedBox(height: 25),
+                SettingItemWidget(leftText: "应用缓存", rightText: "4.25M"),
+                SettingItemWidget(leftText: "启动次数统计", rightText: "26次"),
+                SizedBox(height: 25),
+                SettingItemWidget(leftText: "建议反馈"),
+                SettingItemWidget(leftText: "关于软件"),
+                SettingItemWidget(leftText: "检查更新", rightText: "版本 3.5.3"),
+                SizedBox(height: 50),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: FlatButton(
+                    onPressed: () {},
+                    color: Color(0xffff0000),
+                    child: Container(
+                      height: 50,
+                      child: Center(
+                        child: Text(
+                          "注销登录",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 50),
+              ],
             ),
-            SizedBox(height: 50),
-          ],
-        ),
-      ),
+          )),
     );
   }
 }
