@@ -12,7 +12,7 @@ class SocialListPage extends StatefulWidget {
 
 class PageState extends State<SocialListPage> {
   List<HeartShare> dataList;
-  var _loadItemCount = 6;
+  var _loadItemCount = 10;
   var _itemTotalSize = 0;
   ScrollController _scrollController = ScrollController();
   bool _isLoadData = false;

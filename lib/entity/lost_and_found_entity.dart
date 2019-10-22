@@ -18,9 +18,7 @@ class LostAndFoundEntity extends BmobObject{
 		userEntity = json['userEntity'] != null ? new User.fromJson(json['userEntity']) : null;
 		createdAt = json['createdAt'];
 		showName = json['showName'];
-		if (json['goodsUrl'] != null) {
-			goodsUrl = new List<String>();
-		}
+		goodsUrl = json['goodsUrl']?.cast<String>();
 		title = json['title'];
 		type = json['type'];
 		content = json['content'];
@@ -35,9 +33,7 @@ class LostAndFoundEntity extends BmobObject{
     }
 		data['createdAt'] = this.createdAt;
 		data['showName'] = this.showName;
-		if (this.goodsUrl != null) {
-      data['goodsUrl'] =  [];
-    }
+		data['goodsUrl'] = this.goodsUrl;
 		data['title'] = this.title;
 		data['type'] = this.type;
 		data['content'] = this.content;

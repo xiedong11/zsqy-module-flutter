@@ -13,6 +13,8 @@ class SocialListItem extends StatefulWidget {
 class SocialListItemState extends State<SocialListItem> {
   @override
   Widget build(BuildContext context) {
+    print(widget._heartShare.dynamicImgUrl.toString() +
+        "------------------------");
     return Column(
       children: <Widget>[
         Container(color: Color(0xffeeeeee), height: 10),
@@ -31,10 +33,14 @@ class SocialListItemState extends State<SocialListItem> {
                           child: SizedBox(
                             width: 50,
                             height: 50,
-                            child: Image.network(
-                              widget._heartShare.author.headImgUrl,
-                              fit: BoxFit.cover,
-                            ),
+                            child: widget._heartShare.author.headImgUrl == null
+                                ? Image.asset(
+                                    "lib/img/ic_default_header_img.png",
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(
+                                    widget._heartShare.author.headImgUrl,
+                                    fit: BoxFit.cover),
                           ),
                         ),
                         SizedBox(width: 10),
@@ -43,11 +49,13 @@ class SocialListItemState extends State<SocialListItem> {
                           children: <Widget>[
                             Text(
                               widget._heartShare.username,
-                              style: TextStyle(fontSize: 16, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
                             ),
                             Text(
                               "${widget._heartShare.createdAt} ${widget._heartShare.userFaculty}",
-                              style: TextStyle(fontSize: 12, color: Colors.black54),
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.black54),
                             )
                           ],
                         )
@@ -62,31 +70,35 @@ class SocialListItemState extends State<SocialListItem> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    (widget._heartShare.dynamicImgUrl.length == 0)
+                    widget._heartShare.dynamicImgUrl == null ||
+                            widget._heartShare.dynamicImgUrl.length == 0
                         ? Text("")
                         : Container(
-                      height: 120,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 10, top: 5, right: 10),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: widget._heartShare.dynamicImgUrl.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: SizedBox(
-                                  height: 110,
-                                  width: 140,
-                                  child: Image.network(
-                                    widget._heartShare.dynamicImgUrl[index],
-                                    fit: BoxFit.cover,
-                                  ),
-                                ));
-                          },
-                        ),
-                      ),
-                    ),
+                            height: 120,
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(left: 10, top: 5, right: 10),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount:
+                                    widget._heartShare.dynamicImgUrl.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                      padding: EdgeInsets.only(right: 10),
+                                      child: SizedBox(
+                                        height: 110,
+                                        width: 140,
+                                        child: Image.network(
+                                          widget
+                                              ._heartShare.dynamicImgUrl[index],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ));
+                                },
+                              ),
+                            ),
+                          ),
                     Padding(
                       padding: EdgeInsets.only(left: 20, top: 10),
                       child: Row(
@@ -129,9 +141,9 @@ class SocialListItemState extends State<SocialListItem> {
                     width: 80,
                     child: Center(
                         child: Text(
-                          "#${widget._heartShare.contentType}#",
-                          style: TextStyle(fontSize: 12, color: Colors.black87),
-                        )),
+                      "#${widget._heartShare.contentType}#",
+                      style: TextStyle(fontSize: 12, color: Colors.black87),
+                    )),
                     decoration: BoxDecoration(
                       color: Color(0xffeeeeee),
                       borderRadius: BorderRadius.circular(20),
