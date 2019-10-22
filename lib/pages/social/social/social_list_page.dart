@@ -1,7 +1,7 @@
 import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/heart_share_entity.dart';
-import 'package:flutter_app/pages/social/social/social_list_item.dart';
+import 'package:flutter_app/widgets/social_list_item.dart';
 import 'package:flutter_app/widgets/load_more_widget.dart';
 import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
@@ -49,11 +49,9 @@ class PageState extends State<SocialListPage> {
 
       BmobQuery<HeartShare> query = BmobQuery();
       query.setInclude("author");
-      query.setOrder("-updatedAt"
-          ""
-          "");
+      query.setOrder("-updatedAt");
       query.setLimit(_loadItemCount);
-      query.setSkip(_loadItemCount);
+      query.setSkip(_itemTotalSize);
       query.queryObjects().then((List<dynamic> data) {
         _isLoadData = false;
         var newList = data.map((item) => HeartShare.fromJson(item)).toList();

@@ -5,7 +5,7 @@ import 'package:flutter_app/pages/social/flea_market/flea_market_page.dart';
 import 'package:flutter_app/pages/social/helper/helper_home.dart';
 import 'package:flutter_app/pages/social/lost_and_found/lost_and_found_page.dart';
 import 'package:flutter_app/pages/social/picture/picture_list_page.dart';
-import 'package:flutter_app/pages/social/social/social_list_item.dart';
+import 'package:flutter_app/widgets/social_list_item.dart';
 import 'package:flutter_app/pages/social/social/social_list_page.dart';
 import 'package:flutter_app/widgets/module_item/module_item_entity.dart';
 import 'package:flutter_app/widgets/module_item/module_item_widget.dart';
