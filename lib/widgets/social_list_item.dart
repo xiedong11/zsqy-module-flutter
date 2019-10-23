@@ -13,8 +13,6 @@ class SocialListItem extends StatefulWidget {
 class SocialListItemState extends State<SocialListItem> {
   @override
   Widget build(BuildContext context) {
-    print(widget._heartShare.dynamicImgUrl.toString() +
-        "------------------------");
     return Column(
       children: <Widget>[
         Container(color: Color(0xffeeeeee), height: 10),
