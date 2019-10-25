@@ -1,5 +1,9 @@
+import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/entity/goods_entity.dart';
+import 'package:flutter_app/widgets/load_more_widget.dart';
+import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
 class FleaMarketPage extends StatefulWidget {
   @override
@@ -7,6 +11,67 @@ class FleaMarketPage extends StatefulWidget {
 }
 
 class PageState extends State<FleaMarketPage> {
+  List<GoodsEntity> dataList;
+  var _loadItemCount = 10;
+  var _itemTotalSize = 0;
+  ScrollController _scrollController = ScrollController();
+  bool _isLoadData = false;
+  bool _hasMoreData = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _initData();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _loadMoreData();
+      }
+    });
+  }
+
+  _initData() {
+    BmobQuery<GoodsEntity> query = BmobQuery();
+    query.setInclude("goodsOwner");
+    query.setOrder("-updatedAt");
+    query.setLimit(_loadItemCount);
+    query.queryObjects().then((List<dynamic> data) {
+      this.setState(() {
+        dataList = data.map((item) => GoodsEntity.fromJson(item)).toList();
+      });
+    });
+  }
+
+  Future<Null> _loadMoreData() async {
+    if (!_isLoadData) {
+      _isLoadData = true;
+      _itemTotalSize += _loadItemCount;
+
+      BmobQuery<GoodsEntity> query = BmobQuery();
+      query.setInclude("author");
+      query.setOrder("-updatedAt");
+      query.setLimit(_loadItemCount);
+      query.setSkip(_itemTotalSize);
+      query.queryObjects().then((List<dynamic> data) {
+        _isLoadData = false;
+        var newList = data.map((item) => GoodsEntity.fromJson(item)).toList();
+        this.setState(() {
+          _hasMoreData = newList.length > 0 ? true : false;
+          dataList.addAll(newList);
+        });
+      });
+    }
+  }
+
+  Future<Null> _handleRefreshEvent() async {
+    setState(() {
+      dataList.clear();
+      _hasMoreData = true;
+    });
+    _itemTotalSize = 0;
+    _initData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +96,39 @@ class PageState extends State<FleaMarketPage> {
           )
         ],
       ),
-      body: Center(
-        child: Stack(
+      body: dataList == null
+          ? Center(
+              child: Text("数据加载中..."),
+            )
+          : RefreshIndicator(
+              child: ListView.builder(
+                  itemCount: dataList.length + 1,
+                  controller: _scrollController,
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == dataList.length) {
+                      return _hasMoreData
+                          ? LoadMoreWidget()
+                          : NoMoreDataWidget();
+                    } else {
+                      return _goodsItemWidget(goodsEntity: dataList[index]);
+                    }
+                  }),
+              onRefresh: _handleRefreshEvent),
+    );
+  }
+}
+
+class _goodsItemWidget extends StatelessWidget {
+  GoodsEntity goodsEntity;
+
+  _goodsItemWidget({this.goodsEntity});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 8),
+        Stack(
           children: <Widget>[
             Container(
               color: Colors.white,
@@ -45,8 +141,13 @@ class PageState extends State<FleaMarketPage> {
                       child: SizedBox(
                         width: 40,
                         height: 40,
-                        child: Image.asset('lib/img/ic_default_header_img.png',
-                            fit: BoxFit.cover),
+                        child: goodsEntity.goodsOwner.headImgUrl == null
+                            ? Image.asset('lib/img/ic_default_header_img.png',
+                                fit: BoxFit.cover)
+                            : Image.network(
+                                goodsEntity.goodsOwner.headImgUrl,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     SizedBox(width: 10),
@@ -55,16 +156,17 @@ class PageState extends State<FleaMarketPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(height: 5),
-                          Text("姓名.地点",
+                          Text(
+                              "${goodsEntity.goodsOwner.realName == null ? "未知" : goodsEntity.goodsOwner.realName}.${goodsEntity.goodsOwnerLocal == null ? "未知" : goodsEntity.goodsOwnerLocal}",
                               style: TextStyle(
                                   fontSize: 14, color: Color(0xff999999))),
                           SizedBox(height: 5),
-                          Text("2019/12/12 09:55",
+                          Text(goodsEntity.createdAt,
                               style: TextStyle(
                                   fontSize: 12, color: Color(0xff999999))),
                           SizedBox(height: 10),
                           Text(
-                            '好就是大家发撒的尽快发货速度加咖啡和数据库的房价开始打防控建设大飞机可撒地方就开始打话费即可',
+                            goodsEntity.goodsContent,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -76,7 +178,7 @@ class PageState extends State<FleaMarketPage> {
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
-                                itemCount: 3,
+                                itemCount: goodsEntity.goodsUrl.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Row(
                                     crossAxisAlignment:
@@ -85,8 +187,8 @@ class PageState extends State<FleaMarketPage> {
                                       SizedBox(
                                         width: 140,
                                         height: 100,
-                                        child: Image.asset(
-                                            'lib/img/ic_lost_and_found_barrage_bg.png',
+                                        child: Image.network(
+                                            goodsEntity.goodsUrl[index],
                                             fit: BoxFit.cover),
                                       ),
                                       SizedBox(
@@ -97,7 +199,7 @@ class PageState extends State<FleaMarketPage> {
                                 }),
                           ),
                           SizedBox(height: 8),
-                          Text("￥400",
+                          Text("￥${goodsEntity.goodsPrice}",
                               style: TextStyle(fontSize: 18, color: Colors.red))
                         ],
                       ),
@@ -106,27 +208,29 @@ class PageState extends State<FleaMarketPage> {
                 ),
               ),
             ),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: Container(
-                height: 30,
-                width: 65,
-                decoration: BoxDecoration(
-                    color: Colors.teal,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        bottomRight: Radius.circular(15))),
-                child: Center(
-                    child: Text(
-                  '可议价',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                )),
-              ),
-            )
+            goodsEntity.tradeType == 1
+                ? Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      height: 30,
+                      width: 65,
+                      decoration: BoxDecoration(
+                          color: Colors.teal,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              bottomRight: Radius.circular(15))),
+                      child: Center(
+                          child: Text(
+                        '可议价',
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                      )),
+                    ),
+                  )
+                : Text("")
           ],
-        ),
-      ),
+        )
+      ],
     );
   }
 }
