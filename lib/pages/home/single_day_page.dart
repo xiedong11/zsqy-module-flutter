@@ -78,37 +78,49 @@ class PageState extends State<SingleDayPage> {
                   color: Colors.white,
                   width: double.infinity,
                   height: 150,
-                  child: Swiper(
-                    itemCount: _homeConfigEntity != null &&
-                            _homeConfigEntity.banner.length > 0
-                        ? _homeConfigEntity.banner.length
-                        : 0,
-                    scale: 0.9,
-                    viewportFraction: 0.8,
-                    autoplay: true,
-                    duration: 2000,
-                    pagination: new SwiperPagination(
-                        builder: DotSwiperPaginationBuilder(
-                      color: Colors.white,
-                      activeColor: Colors.teal,
-                    )),
-                    controller: new SwiperController(),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Image.network(
-                        _homeConfigEntity.banner.length > 0
-                            ? _homeConfigEntity.banner[index].bannerImgUrl
-                            : "",
-                        fit: BoxFit.cover,
-                      );
-                    },
-                    onTap: (index) {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => CommonWebPage(
-                              url: _homeConfigEntity
-                                  .banner[index].bannerContentUrl,
-                              title: "")));
-                    },
-                  ),
+                  child: _homeConfigEntity == null
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => CommonWebPage(
+                                    url: Constant.APP_INTRO, title: "掌上教务")));
+                          },
+                          child: Image.asset(
+                            'lib/img/ic_banner_1.png',
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : Swiper(
+                          itemCount: _homeConfigEntity != null &&
+                                  _homeConfigEntity.banner.length > 0
+                              ? _homeConfigEntity.banner.length
+                              : 0,
+                          scale: 0.9,
+                          viewportFraction: 0.8,
+                          autoplay: true,
+                          duration: 2000,
+                          pagination: new SwiperPagination(
+                              builder: DotSwiperPaginationBuilder(
+                            color: Colors.white,
+                            activeColor: Colors.teal,
+                          )),
+                          controller: new SwiperController(),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Image.network(
+                              _homeConfigEntity.banner.length > 0
+                                  ? _homeConfigEntity.banner[index].bannerImgUrl
+                                  : "",
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          onTap: (index) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => CommonWebPage(
+                                    url: _homeConfigEntity
+                                        .banner[index].bannerContentUrl,
+                                    title: "")));
+                          },
+                        ),
                 ),
                 _showNotificationLabel == true
                     ? Container(
