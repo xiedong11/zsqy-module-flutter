@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/qfnu_user_entity.dart';
 import 'package:flutter_app/pages/home/home_page.dart';
+import 'package:flutter_app/utils/SpUtils.dart';
 import 'package:flutter_app/utils/dio_utils.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
@@ -15,6 +16,25 @@ class PageState extends State<LoginPage> {
   TextEditingController _accountEditingController = TextEditingController();
   TextEditingController _passWordEditingController = TextEditingController();
   bool isShowProssgress = false;
+
+  @override
+  void initState() {
+    _initUserInfo();
+  }
+
+  _initUserInfo() async {
+    String userName = await SpUtils.getString(SpUtils.SP_KEY_USER_NAME);
+    String passWord = await SpUtils.getString(SpUtils.SP_KEY_PASS_WORD);
+    if (userName
+        .toString()
+        .isNotEmpty) {
+      _accountEditingController.value =
+          _accountEditingController.value.copyWith(text: userName);
+    }
+    if(passWord.isNotEmpty){
+      _passWordEditingController.value = _passWordEditingController.value.copyWith(text: passWord);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +60,27 @@ class PageState extends State<LoginPage> {
                   controller: _accountEditingController,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                      hintText: "请输入信息门户账号",
-                      hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Colors.deepOrangeAccent, width: 2)),
-
+                    hintText: "请输入信息门户账号",
+                    hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: Colors.deepOrangeAccent, width: 2)),
                   ),
                 ),
               ),
               SizedBox(height: 20),
               Flexible(
                   child: TextField(
-                controller: _passWordEditingController,
-                keyboardType: TextInputType.text,
-                obscureText: true,
-                decoration: InputDecoration(
-                    hintText: "请输入信息门户密码",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                    focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: Colors.deepOrangeAccent, width: 2))),
-              )),
+                    controller: _passWordEditingController,
+                    keyboardType: TextInputType.text,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        hintText: "请输入信息门户密码",
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.deepOrangeAccent, width: 2))),
+                  )),
               SizedBox(height: 50),
               Builder(builder: (BuildContext context) {
                 return Column(
@@ -83,13 +102,13 @@ class PageState extends State<LoginPage> {
                     ),
                     isShowProssgress
                         ? SizedBox(
-                            height: 3,
-                            child: LinearProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation(Colors.deepOrange),
-                              backgroundColor: Colors.lightBlue,
-                            ),
-                          )
+                      height: 3,
+                      child: LinearProgressIndicator(
+                        valueColor:
+                        AlwaysStoppedAnimation(Colors.deepOrange),
+                        backgroundColor: Colors.lightBlue,
+                      ),
+                    )
                         : Text("")
                   ],
                 );
@@ -110,9 +129,9 @@ class PageState extends State<LoginPage> {
     if (userAccount.length < 6 || userPassWrod.length < 6) {
       Scaffold.of(context).showSnackBar(SnackBar(
           content: Text(
-        '请输入正确的账号密码',
-        style: TextStyle(color: Colors.red),
-      )));
+            '请输入正确的账号密码',
+            style: TextStyle(color: Colors.red),
+          )));
       this.setState(() {
         isShowProssgress = false;
       });
@@ -128,7 +147,12 @@ class PageState extends State<LoginPage> {
         isShowProssgress = false;
       });
       if (qfnuUserEntity.success) {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>HomePage()));
+        SpUtils.saveString(SpUtils.SP_KEY_USER_NAME,
+            _accountEditingController.value.text.toString());
+        SpUtils.saveString(SpUtils.SP_KEY_PASS_WORD,
+            _passWordEditingController.value.text.toString());
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
       } else {
         showDialog(
             context: context,
