@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/goods_entity.dart';
 import 'package:flutter_app/pages/common_web_page.dart';
+import 'package:flutter_app/utils/SpUtils.dart';
 import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/widgets/load_more_widget.dart';
 import 'package:flutter_app/widgets/no_more_data_widget.dart';
@@ -40,6 +41,12 @@ class PageState extends State<FleaMarketPage> {
     query.queryObjects().then((List<dynamic> data) {
       this.setState(() {
         dataList = data.map((item) => GoodsEntity.fromJson(item)).toList();
+        if (dataList.isNotEmpty) {
+          SpUtils.saveString(
+              SpUtils.SOCIAL_HOME_GOODS_IMG_URL, dataList[0].goodsUrl[0]);
+          SpUtils.saveString(
+              SpUtils.SOCIAL_HOME_GOODS_DESC, dataList[0].goodsContent);
+        }
       });
     });
   }
@@ -129,7 +136,7 @@ class _goodsItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_){
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
             return CommonWebPage(
                 url: Constant.FLEA_MARKET + goodsEntity.objectId,
                 title: "跳蚤市场");

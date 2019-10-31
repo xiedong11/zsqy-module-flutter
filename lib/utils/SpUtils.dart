@@ -3,6 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SpUtils {
   static const SP_KEY_USER_NAME = "userName";
   static const SP_KEY_PASS_WORD = "passWord";
+  static const SOCIAL_HOME_GOODS_IMG_URL="socialHomeGoodsImgUrl";
+  static const SOCIAL_HOME_GOODS_DESC="socialHomeGoodsDesc";
 
   static Future saveString(String key, String value) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();

@@ -5,6 +5,7 @@ import 'package:flutter_app/pages/social/flea_market/flea_market_page.dart';
 import 'package:flutter_app/pages/social/helper/helper_home.dart';
 import 'package:flutter_app/pages/social/lost_and_found/lost_and_found_page.dart';
 import 'package:flutter_app/pages/social/picture/picture_list_page.dart';
+import 'package:flutter_app/utils/SpUtils.dart';
 import 'package:flutter_app/widgets/social_list_item.dart';
 import 'package:flutter_app/pages/social/social/social_list_page.dart';
 import 'package:flutter_app/widgets/module_item/module_item_entity.dart';
@@ -28,11 +29,24 @@ class PageState extends State<SocialPage> {
     ModuleItemEntity(
         "一闪", 'lib/img/ic_social_lost_and_found.png', PictureListPage())
   ];
+  String _recommentGoodsUrl = "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg";
+  String _recommentGoodsDesc = "精选好物推荐";
 
   @override
   void initState() {
     super.initState();
     _initData();
+    _initRecommentModuleInfo();
+  }
+
+  _initRecommentModuleInfo() async {
+    var goodsUrl = await SpUtils.getString(SpUtils.SOCIAL_HOME_GOODS_IMG_URL);
+    var goodsDesc = await SpUtils.getString(SpUtils.SOCIAL_HOME_GOODS_DESC);
+    this.setState(() {
+      _recommentGoodsDesc =
+          goodsDesc.length > 8 ? goodsDesc.substring(0, 8) + "..." : goodsDesc;
+      _recommentGoodsUrl = goodsUrl;
+    });
   }
 
   _initData() {
@@ -88,35 +102,44 @@ class PageState extends State<SocialPage> {
                   width: double.infinity,
                   child: Stack(
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                              padding: EdgeInsets.only(left: 15, top: 10),
-                              child: Text("好物推荐",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Colors.black87))),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                left: 15,
-                              ),
-                              child: Text("精选好物推荐",
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.black54))),
-                          Padding(
-                            padding: EdgeInsets.only(left: 25, top: 10),
-                            child: SizedBox(
-                              height: 130,
-                              width: 130,
-                              child: Image.network(
-                                "https://avatar.csdn.net/6/0/6/3_xieluoxixi.jpg",
-                                fit: BoxFit.cover,
-                                scale: 0.8,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return FleaMarketPage();
+                            }));
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Padding(
+                                  padding: EdgeInsets.only(left: 15, top: 10),
+                                  child: Text("好物推荐",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.black87))),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 15,
+                                  ),
+                                  child: Text(_recommentGoodsDesc,
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.black54))),
+                              Padding(
+                                padding: EdgeInsets.only(left: 25, top: 10),
+                                child: SizedBox(
+                                  height: 130,
+                                  width: 130,
+                                  child: Image.network(
+                                    _recommentGoodsUrl,
+                                    fit: BoxFit.cover,
+                                    scale: 0.8,
+                                  ),
+                                ),
+                              )
+                            ],
+                          )),
                       Align(
                         child: Padding(
                           padding: EdgeInsets.only(top: 20, bottom: 10),
