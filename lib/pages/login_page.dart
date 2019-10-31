@@ -151,6 +151,7 @@ class PageState extends State<LoginPage> {
             _accountEditingController.value.text.toString());
         SpUtils.saveString(SpUtils.SP_KEY_PASS_WORD,
             _passWordEditingController.value.text.toString());
+        SpUtils.saveString(SpUtils.USER_TOKEN, qfnuUserEntity.token);
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (_) => HomePage()));
       } else {

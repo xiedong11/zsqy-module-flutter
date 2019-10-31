@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/home_config_entity.dart';
 import 'package:flutter_app/pages/common_web_page.dart';
+import 'package:flutter_app/utils/SpUtils.dart';
 import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/utils/dio_utils.dart';
 import 'package:dio/dio.dart';
@@ -40,6 +41,17 @@ class PageState extends State<SingleDayPage> {
       _weekDay = Utils.getTodayWeekDay();
     });
     getBannerEntity();
+    getSyllabusData();
+  }
+
+  getSyllabusData() async {
+    var userAccount = await SpUtils.getString(SpUtils.SP_KEY_USER_NAME);
+    var userToken = await SpUtils.getString(SpUtils.USER_TOKEN);
+    var params = {"method": "getKbcxAzc", "xh": userAccount.trim(), "zc": 3};
+    var requestOptions = RequestOptions(headers: {"token": userToken});
+    String result =
+        await DioUtils.getInstance().get(data: params, options: requestOptions);
+    debugPrint(result+"------------------");
   }
 
   Future<void> _onRefresh() async {
@@ -290,6 +302,7 @@ class PageState extends State<SingleDayPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return SyllabusItemWidget(_syllabusItemList[index]);
                     }),
+                SizedBox(height: 50)
               ],
             ),
             onRefresh: _onRefresh),
@@ -302,8 +315,17 @@ class SyllabusItemEntity {
   String title;
   String batteryIndex;
   String timeLabel;
+  String courseName;
+  String couserLocation;
+  String teacherName;
 
-  SyllabusItemEntity({this.title, this.batteryIndex, this.timeLabel});
+  SyllabusItemEntity(
+      {this.title,
+      this.batteryIndex,
+      this.timeLabel,
+      this.courseName,
+      this.couserLocation,
+      this.teacherName});
 }
 
 class SyllabusItemWidget extends StatelessWidget {
@@ -329,7 +351,7 @@ class SyllabusItemWidget extends StatelessWidget {
               Container(
                 color: Color(0xffdddddd),
                 width: 1,
-                height: 65,
+                height: 68,
               ),
               SizedBox(
                 height: 1,
@@ -350,11 +372,38 @@ class SyllabusItemWidget extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 5,
+                height: 10,
               ),
               Text(
                 _syllabusItemEntity.timeLabel,
                 style: TextStyle(fontSize: 10, color: Color(0xff999999)),
+              )
+            ],
+          ),
+          SizedBox(width: 15),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                _syllabusItemEntity.courseName == null
+                    ? ""
+                    : _syllabusItemEntity.courseName,
+                style: TextStyle(fontSize: 22, color: Color(0xff333333)),
+              ),
+              RichText(
+                text: TextSpan(children: [
+                  TextSpan(
+                      text: _syllabusItemEntity.couserLocation == null
+                          ? ""
+                          : _syllabusItemEntity.couserLocation,
+                      style: TextStyle(color: Colors.green, fontSize: 13)),
+                  TextSpan(text: "   "),
+                  TextSpan(
+                      text: _syllabusItemEntity.teacherName == null
+                          ? ""
+                          : "${_syllabusItemEntity.teacherName}老师",
+                      style: TextStyle(color: Colors.black38, fontSize: 12))
+                ]),
               )
             ],
           )
