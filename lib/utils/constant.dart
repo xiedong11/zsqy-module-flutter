@@ -7,4 +7,12 @@ class Constant {
 
   //app介绍说明
   static final String APP_INTRO = "https://ydjw.github.io/jwc/#/common/appIntro";
+
+  //失物招领
+  static final String LOST_AND_FOUND ="https://ydjw.github.io/jwc/#/community/lostAndFound?objectId=";
+
+  //跳蚤市场
+  static final String FLEA_MARKET="https://ydjw.github.io/jwc/#/community/goodsItemDetail?objectId=";
+
+
 }

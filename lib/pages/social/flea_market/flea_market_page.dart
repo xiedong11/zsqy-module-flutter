@@ -2,6 +2,8 @@ import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/goods_entity.dart';
+import 'package:flutter_app/pages/common_web_page.dart';
+import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/widgets/load_more_widget.dart';
 import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
@@ -125,112 +127,123 @@ class _goodsItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(height: 8),
-        Stack(
+    return InkWell(
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_){
+            return CommonWebPage(
+                url: Constant.FLEA_MARKET + goodsEntity.objectId,
+                title: "跳蚤市场");
+          }));
+        },
+        child: Column(
           children: <Widget>[
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.all(12),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    ClipOval(
-                      child: SizedBox(
-                        width: 40,
-                        height: 40,
-                        child: goodsEntity.goodsOwner.headImgUrl == null
-                            ? Image.asset('lib/img/ic_default_header_img.png',
-                                fit: BoxFit.cover)
-                            : Image.network(
-                                goodsEntity.goodsOwner.headImgUrl,
-                                fit: BoxFit.cover,
+            SizedBox(height: 8),
+            Stack(
+              children: <Widget>[
+                Container(
+                  color: Colors.white,
+                  child: Padding(
+                    padding: EdgeInsets.all(12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ClipOval(
+                          child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: goodsEntity.goodsOwner.headImgUrl == null
+                                ? Image.asset(
+                                    'lib/img/ic_default_header_img.png',
+                                    fit: BoxFit.cover)
+                                : Image.network(
+                                    goodsEntity.goodsOwner.headImgUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(height: 5),
+                              Text(
+                                  "${goodsEntity.goodsOwner.realName == null ? "未知" : goodsEntity.goodsOwner.realName}.${goodsEntity.goodsOwnerLocal == null ? "未知" : goodsEntity.goodsOwnerLocal}",
+                                  style: TextStyle(
+                                      fontSize: 14, color: Color(0xff999999))),
+                              SizedBox(height: 5),
+                              Text(goodsEntity.createdAt,
+                                  style: TextStyle(
+                                      fontSize: 12, color: Color(0xff999999))),
+                              SizedBox(height: 10),
+                              Text(
+                                goodsEntity.goodsContent,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 16, color: Color(0xff333333)),
                               ),
-                      ),
+                              SizedBox(height: 3),
+                              SizedBox(
+                                height: 120,
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: goodsEntity.goodsUrl.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            width: 140,
+                                            height: 100,
+                                            child: Image.network(
+                                                goodsEntity.goodsUrl[index],
+                                                fit: BoxFit.cover),
+                                          ),
+                                          SizedBox(
+                                            width: 8,
+                                          )
+                                        ],
+                                      );
+                                    }),
+                              ),
+                              SizedBox(height: 8),
+                              Text("￥${goodsEntity.goodsPrice}",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Colors.red))
+                            ],
+                          ),
+                        )
+                      ],
                     ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(height: 5),
-                          Text(
-                              "${goodsEntity.goodsOwner.realName == null ? "未知" : goodsEntity.goodsOwner.realName}.${goodsEntity.goodsOwnerLocal == null ? "未知" : goodsEntity.goodsOwnerLocal}",
-                              style: TextStyle(
-                                  fontSize: 14, color: Color(0xff999999))),
-                          SizedBox(height: 5),
-                          Text(goodsEntity.createdAt,
-                              style: TextStyle(
-                                  fontSize: 12, color: Color(0xff999999))),
-                          SizedBox(height: 10),
-                          Text(
-                            goodsEntity.goodsContent,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 16, color: Color(0xff333333)),
-                          ),
-                          SizedBox(height: 3),
-                          SizedBox(
-                            height: 120,
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: goodsEntity.goodsUrl.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 140,
-                                        height: 100,
-                                        child: Image.network(
-                                            goodsEntity.goodsUrl[index],
-                                            fit: BoxFit.cover),
-                                      ),
-                                      SizedBox(
-                                        width: 8,
-                                      )
-                                    ],
-                                  );
-                                }),
-                          ),
-                          SizedBox(height: 8),
-                          Text("￥${goodsEntity.goodsPrice}",
-                              style: TextStyle(fontSize: 18, color: Colors.red))
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            goodsEntity.tradeType == 1
-                ? Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      height: 30,
-                      width: 65,
-                      decoration: BoxDecoration(
-                          color: Colors.teal,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(5),
-                              bottomRight: Radius.circular(15))),
-                      child: Center(
-                          child: Text(
-                        '可议价',
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      )),
-                    ),
-                  )
-                : Text("")
+                goodsEntity.tradeType == 1
+                    ? Positioned(
+                        right: 0,
+                        top: 0,
+                        child: Container(
+                          height: 30,
+                          width: 65,
+                          decoration: BoxDecoration(
+                              color: Colors.teal,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  bottomRight: Radius.circular(15))),
+                          child: Center(
+                              child: Text(
+                            '可议价',
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          )),
+                        ),
+                      )
+                    : Text("")
+              ],
+            )
           ],
-        )
-      ],
-    );
+        ));
   }
 }

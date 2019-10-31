@@ -2,6 +2,8 @@ import 'package:data_plugin/bmob/bmob_query.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/entity/lost_and_found_entity.dart';
+import 'package:flutter_app/pages/common_web_page.dart';
+import 'package:flutter_app/utils/constant.dart';
 import 'package:flutter_app/widgets/load_more_widget.dart';
 import 'package:flutter_app/widgets/no_more_data_widget.dart';
 
@@ -130,70 +132,79 @@ class _listItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-      child: Stack(
-        children: <Widget>[
-          Row(
+    return InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+            return CommonWebPage(
+                url: Constant.LOST_AND_FOUND + lostAndFoundEntity.objectId,
+                title: "失物招领");
+          }));
+        },
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          child: Stack(
             children: <Widget>[
-              ClipOval(
-                child: Container(
-                  height: 55,
-                  width: 55,
-                  color:
-                      lostAndFoundEntity.type == 1 ? Colors.grey : Colors.teal,
-                  child: Center(
-                    child: Text(
-                      lostAndFoundEntity.type == 1 ? "丢" : "捡",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+              Row(
+                children: <Widget>[
+                  ClipOval(
+                    child: Container(
+                      height: 55,
+                      width: 55,
+                      color: lostAndFoundEntity.type == 1
+                          ? Colors.grey
+                          : Colors.teal,
+                      child: Center(
+                        child: Text(
+                          lostAndFoundEntity.type == 1 ? "丢" : "捡",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(width: 25),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      lostAndFoundEntity.title,
-                      style: TextStyle(fontSize: 17, color: Colors.black87),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      lostAndFoundEntity.content,
-                      style: TextStyle(fontSize: 15, color: Colors.black54),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-              lostAndFoundEntity.goodsUrl != null &&
-                      lostAndFoundEntity.goodsUrl.isNotEmpty
-                  ? Padding(
-                      padding: EdgeInsets.only(top: 25, left: 10),
-                      child: SizedBox(
-                        child: Image.network(
-                          lostAndFoundEntity.goodsUrl[0],
-                          fit: BoxFit.cover,
+                  SizedBox(width: 25),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          lostAndFoundEntity.title,
+                          style: TextStyle(fontSize: 16, color: Colors.black),
                         ),
-                        width: 40,
-                        height: 40,
-                      ),
-                    )
-                  : Text("")
+                        SizedBox(height: 8),
+                        Text(
+                          lostAndFoundEntity.content,
+                          style: TextStyle(fontSize: 14, color: Colors.black45),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  lostAndFoundEntity.goodsUrl != null &&
+                          lostAndFoundEntity.goodsUrl.isNotEmpty
+                      ? Padding(
+                          padding: EdgeInsets.only(top: 25, left: 10),
+                          child: SizedBox(
+                            child: Image.network(
+                              lostAndFoundEntity.goodsUrl[0],
+                              fit: BoxFit.cover,
+                            ),
+                            width: 40,
+                            height: 40,
+                          ),
+                        )
+                      : Text("")
+                ],
+              ),
+              Positioned(
+                child: Text(
+                  lostAndFoundEntity.createdAt,
+                  style: TextStyle(fontSize: 13, color: Colors.black54),
+                ),
+                right: 10,
+              )
             ],
           ),
-          Positioned(
-            child: Text(
-              lostAndFoundEntity.createdAt,
-              style: TextStyle(fontSize: 13, color: Colors.black54),
-            ),
-            right: 10,
-          )
-        ],
-      ),
-    );
+        ));
   }
 }
