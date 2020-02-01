@@ -27,14 +27,18 @@ dependencies:
   json_annotation: ^2.0.0
 #  data_plugin: ^0.0.12
   flutter_swiper: ^1.0.6
-  flutter_webview_plugin: ^0.3.8
   shared_preferences: ^0.5.0
+  dio: 2.1.13 #选课用旧版本dio
+  cookie_jar: ^1.0.0 #管理选课cookie
 
 
 
 #bmob数据sdk 0.0.13(本地)
   data_plugin:
     path: plugins/data_plugin
+#flutter_webview_plugin v0.3.0+2（支持选课cookie注入 https://www.jianshu.com/p/25a515d4ec75）
+  flutter_webview_plugin:
+    path: plugins/flutter_webview_plugin
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +61,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - lib/img/blank.png
     - lib/img/ic_overdue.png
     - lib/img/ic_school_social.png
     - lib/img/ic_social_flea_market.png
