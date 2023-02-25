@@ -8,8 +8,15 @@
   在业务逻辑上做到与原生APP完全隔离，Flutter端开发者，可完全不用关注原生端的业务模块
   两端开发彼此业务隔离，缩小了对开发人员的业务能力要求，同时也可以上flutter端开发者
   快速上手到开发中去
-  
-  
+
+#### 效果预览图
+
+|1.|2. |3. |
+|----|---|---|
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/1.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/2.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/3.jpeg"/>|
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/4.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/5.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/6.jpeg"/>|
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/7.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/8.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/9.jpeg"/>|
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/10.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/11.jpeg"/>||
 ## Flutter端业务更新日志
 
 
