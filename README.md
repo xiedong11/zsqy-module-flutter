@@ -9,7 +9,7 @@
   两端开发彼此业务隔离，缩小了对开发人员的业务能力要求，同时也可以上flutter端开发者
   快速上手到开发中去
 
-#### 效果预览图
+### 效果预览图
 
 |1.|2. |3. |
 |----|---|---|
@@ -38,9 +38,9 @@
 - 引入fat-aar进项目，解决不能把三方依赖打进aar导致原生调用flutter端闪退问题
 
 
-#### 联系我们
+### 联系我们
 - 邮箱：xiedong11@aliyun.com
 - 开发者QQ：892102791
-- 官方交流群
+- 官方交流QQ群
 <img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/qq_group.png"/>
 
