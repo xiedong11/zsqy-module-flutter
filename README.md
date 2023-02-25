@@ -14,9 +14,8 @@
 |1.|2. |3. |
 |----|---|---|
 |<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/1.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/2.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/3.jpeg"/>|
-|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/4.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/5.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/6.jpeg"/>|
-|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/7.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/8.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/9.jpeg"/>|
-|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/10.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/11.jpeg"/>||
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/4.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/5.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/7.jpeg"/>|
+|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/9.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/10.jpeg"/>|<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/11.jpeg"/>|
 ## Flutter端业务更新日志
 
 
@@ -37,4 +36,11 @@
 - 初步完成原生宿主app与flutter的深度对接
 - flutter端可独立开发隔离原生的业务逻辑代码
 - 引入fat-aar进项目，解决不能把三方依赖打进aar导致原生调用flutter端闪退问题
- 
+
+
+#### 联系我们
+- 邮箱：xiedong11@aliyun.com
+- 开发者QQ：892102791
+- 官方交流群
+<img width="265" src="https://github.com/xiedong11/zsqy-module-flutter/blob/master/img/qq_group.png"/>
+
